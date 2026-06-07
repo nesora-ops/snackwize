@@ -1,9 +1,7 @@
 'use client'
 
 import Link from "next/link";
-
 import { useRouter } from "next/navigation";
-
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -12,7 +10,18 @@ import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/layout/Logo";
 import { setUser } from "@/lib/auth";
 
+const CART_KEY = "snackwize_cart";
 
+function hasCartItems(): boolean {
+  try {
+    const raw = localStorage.getItem(CART_KEY);
+    if (!raw) return false;
+    const items = JSON.parse(raw);
+    return Array.isArray(items) && items.length > 0;
+  } catch {
+    return false;
+  }
+}
 
 export default function Login() {
   const nav = useRouter();
@@ -25,8 +34,14 @@ export default function Login() {
     // TODO: Replace localStorage auth with Supabase Auth
     const name = finalEmail.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
     setUser({ name, email: finalEmail });
-    toast.success("Welcome back!");
-    nav.push("/menu");
+    toast.success(`Welcome back, ${name.split(" ")[0]}! 🧡`);
+
+    // If the user had items in their cart before logging in, go to cart
+    if (hasCartItems()) {
+      nav.push("/cart");
+    } else {
+      nav.push("/app/menu");
+    }
   };
 
   return (
@@ -40,7 +55,7 @@ export default function Login() {
           <form onSubmit={submit} className="mt-6 space-y-4">
             <div><Label htmlFor="email">Email</Label><Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} /></div>
             <div><Label htmlFor="password">Password</Label><Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} /></div>
-            <Button type="submit" className="w-full bg-primary hover:bg-primary-dark">Login</Button>
+            <Button type="submit" id="login-submit" className="w-full bg-primary hover:bg-primary-dark">Login</Button>
           </form>
 
           <button disabled className="mt-3 w-full rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground opacity-70">

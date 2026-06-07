@@ -21,10 +21,30 @@
       "static/chunks/main-app.js",
       "static/chunks/app/login/page.js"
     ],
-    "/signup/page": [
+    "/(portal)/app/menu/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/signup/page.js"
+      "static/chunks/app/(portal)/app/menu/page.js"
+    ],
+    "/(portal)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(portal)/layout.js"
+    ],
+    "/(portal)/app/new-drops/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(portal)/app/new-drops/page.js"
+    ],
+    "/(portal)/app/offers/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(portal)/app/offers/page.js"
+    ],
+    "/(portal)/app/track/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(portal)/app/track/page.js"
     ]
   }
 }

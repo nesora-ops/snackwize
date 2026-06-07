@@ -1,10 +1,9 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, DM_Sans } from 'next/font/google'
 import './globals.css'
 import { CartProvider } from '@/context/CartContext'
-import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
-import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
+import { ConditionalShell } from '@/components/layout/ConditionalShell'
+import { ServiceWorkerRegistrar } from '@/components/layout/ServiceWorkerRegistrar'
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'], 
@@ -21,17 +20,41 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: 'Snackwize — Guilt-Free Baked Snacks Delivered Pan India',
   description: 'Homemade healthy baked snacks delivered across India. No preservatives, made with love by Nupur.',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Snackwize',
+  },
+  icons: {
+    icon: '/favicon.png',
+    apple: '/apple-touch-icon.png',
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#F97316',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
+      <head>
+        <link rel="manifest" href="/manifest.webmanifest" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="mobile-web-app-capable" content="yes" />
+      </head>
       <body>
+        <ServiceWorkerRegistrar />
         <CartProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <WhatsAppFab />
+          <ConditionalShell>
+            {children}
+          </ConditionalShell>
         </CartProvider>
       </body>
     </html>

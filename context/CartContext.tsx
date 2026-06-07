@@ -9,6 +9,7 @@ type Ctx = {
   items: CartItem[];
   add: (p: Product) => void;
   remove: (id: string) => void;
+  updateQty: (id: string, delta: number) => void;
   clear: () => void;
   count: number;
   total: number;
@@ -37,13 +38,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (existing) return cur.map((i) => (i.id === p.id ? { ...i, qty: i.qty + 1 } : i));
       return [...cur, { ...p, qty: 1 }];
     });
+
   const remove = (id: string) => setItems((cur) => cur.filter((i) => i.id !== id));
+
+  const updateQty = (id: string, delta: number) =>
+    setItems((cur) =>
+      cur
+        .map((i) => (i.id === id ? { ...i, qty: i.qty + delta } : i))
+        .filter((i) => i.qty > 0)
+    );
+
   const clear = () => setItems([]);
   const count = items.reduce((a, i) => a + i.qty, 0);
   const total = items.reduce((a, i) => a + i.qty * i.price, 0);
 
   return (
-    <CartCtx.Provider value={{ items, add, remove, clear, count, total }}>
+    <CartCtx.Provider value={{ items, add, remove, updateQty, clear, count, total }}>
       {children}
     </CartCtx.Provider>
   );
