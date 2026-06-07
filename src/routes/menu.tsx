@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { ProductCard } from "@/components/sections/ProductCard";
-import { UserGuard } from "@/components/sections/RouteGuard";
 import { PRODUCTS, CATEGORIES, WHATSAPP } from "@/lib/data";
 import { useCart } from "@/context/CartContext";
 import { ShoppingBag, Trash2 } from "lucide-react";
@@ -16,7 +15,7 @@ export const Route = createFileRoute("/menu")({
       { property: "og:description", content: "Hand-baked, healthy snacks shipped Pan India." },
     ],
   }),
-  component: () => <UserGuard><MenuPage /></UserGuard>,
+  component: MenuPage,
 });
 
 function MenuPage() {
