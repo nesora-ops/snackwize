@@ -1,9 +1,11 @@
 'use client'
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { Minus, Plus, Star } from 'lucide-react';
-import { PRODUCTS, CATEGORIES, type Product } from '@/lib/data';
+import { CATEGORIES, type Product as BaseProduct } from '@/lib/data';
+
+type Product = BaseProduct & { in_stock: boolean; allow_backorder: boolean }
 import { useCart } from '@/context/CartContext';
 
 const CATEGORY_EMOJIS: Record<string, string> = {
@@ -127,28 +129,36 @@ function MobileProductCard({ product }: { product: Product }) {
             ₹{product.price}
           </span>
 
-          {qty === 0 ? (
+          {!product.in_stock && !product.allow_backorder ? (
+            <span style={{ fontSize: "11px", fontWeight: 700, color: "#9E9083", padding: "4px 10px", borderRadius: "999px", backgroundColor: "#F5F0EB" }}>
+              Sold Out
+            </span>
+          ) : qty === 0 ? (
             <button
               onClick={() => add(product)}
               id={`app-add-${product.id}`}
               style={{
-                width: "32px",
                 height: "32px",
-                borderRadius: "50%",
-                backgroundColor: "#F97316",
+                borderRadius: "999px",
+                backgroundColor: product.in_stock ? "#F97316" : "#D97706",
                 border: "none",
                 color: "#fff",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
-                boxShadow: "0 2px 8px rgba(249,115,22,0.4)",
+                padding: product.in_stock ? "0" : "0 10px",
+                width: product.in_stock ? "32px" : "auto",
+                gap: "4px",
+                fontSize: "11px",
+                fontWeight: 700,
+                boxShadow: product.in_stock ? "0 2px 8px rgba(249,115,22,0.4)" : "0 2px 8px rgba(217,119,6,0.4)",
                 transition: "transform 0.15s",
               }}
               onMouseDown={(e) => ((e.currentTarget.style.transform = "scale(0.9)"))}
               onMouseUp={(e) => ((e.currentTarget.style.transform = "scale(1)"))}
             >
-              <Plus size={16} strokeWidth={2.5} />
+              {product.in_stock ? <Plus size={16} strokeWidth={2.5} /> : <>Pre-order <Plus size={12} strokeWidth={2.5} /></>}
             </button>
           ) : (
             <div
@@ -209,11 +219,16 @@ function MobileProductCard({ product }: { product: Product }) {
 
 export default function AppMenuPage() {
   const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [products, setProducts] = useState<Product[]>([]);
   const { count, total } = useCart();
 
+  useEffect(() => {
+    fetch('/api/products').then(r => r.json()).then(setProducts)
+  }, []);
+
   const filtered = useMemo(
-    () => activeCategory === 'All' ? PRODUCTS : PRODUCTS.filter((p) => p.category === activeCategory),
-    [activeCategory]
+    () => activeCategory === 'All' ? products : products.filter((p) => p.category === activeCategory),
+    [activeCategory, products]
   );
 
   return (

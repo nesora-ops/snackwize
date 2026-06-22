@@ -11,22 +11,50 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/layout/Logo";
-import { setUser } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 
+const CART_KEY = "snackwize_cart";
 
+function hasCartItems(): boolean {
+  try {
+    const raw = localStorage.getItem(CART_KEY);
+    if (!raw) return false;
+    const items = JSON.parse(raw);
+    return Array.isArray(items) && items.length > 0;
+  } catch {
+    return false;
+  }
+}
 
 export default function Signup() {
   const nav = useRouter();
   const [f, setF] = useState({ name: "", email: "", phone: "", password: "", confirm: "" });
   const [agree, setAgree] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agree) return toast.error("Please accept the terms");
     if (f.password !== f.confirm) return toast.error("Passwords don't match");
-    setUser({ name: f.name, email: f.email, phone: f.phone });
-    toast.success("Account created!");
-    nav.push("/menu");
+
+    const { data, error } = await supabase.auth.signUp({
+      email: f.email,
+      password: f.password,
+      options: { data: { name: f.name, phone: f.phone } },
+    });
+
+    if (error) return toast.error(error.message);
+
+    if (data.session) {
+      await supabase.from('profiles').insert({ id: data.user!.id, name: f.name, phone: f.phone });
+      toast.success("Account created!");
+      if (hasCartItems()) {
+        nav.push("/cart");
+      } else {
+        nav.push("/app/menu");
+      }
+    } else {
+      toast.success("Check your email to confirm your account!");
+    }
   };
 
   return (

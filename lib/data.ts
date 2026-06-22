@@ -64,32 +64,9 @@ export type DemoOrder = {
   status: "Pending" | "Confirmed" | "Packed" | "Shipped" | "Delivered" | "Cancelled";
 };
 
-export const DEMO_ORDERS: DemoOrder[] = [
-  { id: "SW-1042", customer: "Aarti Shah", phone: "98201xxxxx", items: "Granola Bar x2, Trail Mix", amount: 520, date: "2026-06-05", status: "Pending" },
-  { id: "SW-1041", customer: "Rohan Mehta", phone: "98452xxxxx", items: "Oats Cookies x3", amount: 540, date: "2026-06-05", status: "Confirmed" },
-  { id: "SW-1040", customer: "Priya Kapoor", phone: "98112xxxxx", items: "Mango Granola, Ladoo", amount: 390, date: "2026-06-04", status: "Packed" },
-  { id: "SW-1039", customer: "Karan Desai", phone: "99001xxxxx", items: "PB Energy Bites x2", amount: 300, date: "2026-06-04", status: "Shipped" },
-  { id: "SW-1038", customer: "Sneha R.", phone: "94411xxxxx", items: "Baked Mathri x4", amount: 440, date: "2026-06-03", status: "Delivered" },
-  { id: "SW-1037", customer: "Ishaan P.", phone: "98201xxxxx", items: "Dry Fruit Mix", amount: 350, date: "2026-06-03", status: "Delivered" },
-  { id: "SW-1036", customer: "Meera T.", phone: "98842xxxxx", items: "Trail Mix, Cookies", amount: 460, date: "2026-06-02", status: "Delivered" },
-  { id: "SW-1035", customer: "Vikram A.", phone: "98712xxxxx", items: "Coconut Cookies x2", amount: 340, date: "2026-06-02", status: "Cancelled" },
-  { id: "SW-1034", customer: "Anita B.", phone: "98301xxxxx", items: "Date & Nut Bar x3", amount: 480, date: "2026-06-01", status: "Delivered" },
-  { id: "SW-1033", customer: "Ravi N.", phone: "98251xxxxx", items: "Almond Flax Ladoo", amount: 190, date: "2026-06-01", status: "Delivered" },
-  { id: "SW-1032", customer: "Tara J.", phone: "97291xxxxx", items: "Banana Muffins", amount: 220, date: "2026-05-31", status: "Delivered" },
-  { id: "SW-1031", customer: "Sahil G.", phone: "98201xxxxx", items: "Granola Bar x4", amount: 480, date: "2026-05-31", status: "Delivered" },
-  { id: "SW-1030", customer: "Neha V.", phone: "98678xxxxx", items: "Multigrain Crackers", amount: 130, date: "2026-05-30", status: "Delivered" },
-  { id: "SW-1029", customer: "Arjun L.", phone: "98990xxxxx", items: "Trail Mix Jar x2", amount: 560, date: "2026-05-30", status: "Pending" },
-  { id: "SW-1028", customer: "Divya M.", phone: "97411xxxxx", items: "Cookies Combo", amount: 350, date: "2026-05-29", status: "Pending" },
-];
+export const DEMO_ORDERS: DemoOrder[] = [];
 
-export const DEMO_CUSTOMERS = [
-  { name: "Aarti Shah", email: "aarti@example.com", phone: "98201xxxxx", orders: 6, spent: 2840, joined: "2025-12-10" },
-  { name: "Rohan Mehta", email: "rohan@example.com", phone: "98452xxxxx", orders: 4, spent: 1920, joined: "2026-01-15" },
-  { name: "Priya Kapoor", email: "priya@example.com", phone: "98112xxxxx", orders: 5, spent: 2210, joined: "2025-11-02" },
-  { name: "Karan Desai", email: "karan@example.com", phone: "99001xxxxx", orders: 3, spent: 900, joined: "2026-02-22" },
-  { name: "Sneha R.", email: "sneha@example.com", phone: "94411xxxxx", orders: 7, spent: 3120, joined: "2025-10-18" },
-  { name: "Ishaan P.", email: "ishaan@example.com", phone: "98201xxxxx", orders: 2, spent: 700, joined: "2026-03-11" },
-];
+export const DEMO_CUSTOMERS: any[] = [];
 
 export const WHATSAPP = "https://wa.me/919930600993";
 export const INSTAGRAM = "https://instagram.com/snackwize_";

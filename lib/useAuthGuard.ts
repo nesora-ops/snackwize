@@ -1,21 +1,23 @@
 'use client'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { supabase } from './supabase'
 
-// Customer guard: checks snackwize_user (set by setUser() in auth.ts)
 export function useAuthGuard(redirectTo = '/login') {
   const router = useRouter()
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('snackwize_user')
-    if (!isLoggedIn) router.push(redirectTo)
+    supabase.auth.getSession().then(({ data }) => {
+      if (!data.session) router.push(redirectTo)
+    })
   }, [router, redirectTo])
 }
 
-// Admin guard: checks snackwize_admin (set by setAdmin(true) in auth.ts)
 export function useAdminGuard() {
   const router = useRouter()
   useEffect(() => {
-    const isAdmin = localStorage.getItem('snackwize_admin')
-    if (isAdmin !== 'true') router.push('/admin/login')
+    supabase.auth.getSession().then(({ data }) => {
+      const role = data.session?.user?.user_metadata?.role
+      if (role !== 'admin') router.push('/admin/login')
+    })
   }, [router])
 }

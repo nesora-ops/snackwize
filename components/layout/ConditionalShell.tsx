@@ -13,9 +13,10 @@ import { WhatsAppFab } from "./WhatsAppFab";
 export function ConditionalShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isPortal = pathname.startsWith("/app/") || pathname === "/app";
+  const isAdmin = pathname.startsWith("/admin");
   const isMenuPage = pathname === "/menu";
 
-  if (isPortal) {
+  if (isPortal || isAdmin) {
     return <>{children}</>;
   }
 

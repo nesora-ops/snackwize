@@ -1,0 +1,249 @@
+Snackwize Pre-Phase 4 Audit Report
+Stack: Next.js 14 App Router · Supabase · Tailwind v4 · Vercel
+
+Summary Scorecard
+Area	Status	Phase 4 Ready?	Phase 5 Ready?
+Security	Critical gaps	No	No
+Data Integrity	Moderate gaps	No	No
+Cart & Checkout	Multiple gaps	No	No
+Authentication	Structural issue	Mostly	No
+Order Management	Incomplete	Partially	No
+Inventory	Functional but shallow	Yes	Partially
+API Layer	No validation	No	No
+Delivery Schema	Missing fields	N/A	No
+Frontend/UX	Several placeholders	Partially	Partially
+Scalability	Not addressed	Partially	No
+SEVERITY 1 — Fix Before Touching Phase 4
+1.1 Server-side price is never verified
+File: app/api/orders/route.ts
+
+The POST endpoint accepts subtotal, delivery_fee, and total directly from the client body and inserts them verbatim. Anyone with DevTools or curl can place a ₹1 order for ₹500 of product. For Razorpay, the payment amount is set from total — this means a tampered total flows straight into the payment amount.
+
+Fix required: Server must fetch current prices from the DB by item IDs, recompute subtotal/delivery_fee/total, and reject if they don't match what the client sent. Never trust client-computed money values.
+
+1.2 Admin role is in user_metadata — writable by the client
+File: lib/useAuthGuard.ts:19, app/api/admin/orders/route.ts:8
+
+Every admin check reads user?.user_metadata?.role === 'admin'. In Supabase, user_metadata is writable by the authenticated user via supabase.auth.updateUser({ data: { role: 'admin' } }). Any registered user can elevate themselves to admin.
+
+Fix required: Move role to app_metadata (server-only) or maintain a separate admin_users table checked server-side. app_metadata can only be set by the service role key.
+
+1.3 Order ID is client-generated with only 9,000 possible values
+File: app/checkout/page.tsx:67
+
+
+const [orderNumber] = useState(() => `SW-${Math.floor(1000 + Math.random() * 9000)}`)
+This is the primary key inserted as-is into the DB. Problems:
+
+At ~70 orders, birthday-paradox collision probability exceeds 25%
+Client controls the PK — trivially manipulable
+A collision causes a silent 500 error on checkout (the user is stuck on "placing")
+Fix required: Remove the client-generated ID entirely. Let Supabase auto-generate a UUID as id. Add a separate display_id column (e.g., SW- + row number via a sequence or trigger) for human-readable order reference.
+
+1.4 No input validation anywhere in the API
+Files: all routes in app/api/
+
+Every route calls req.json() and uses the result directly with no schema validation. Examples of what's currently accepted:
+
+POST /api/orders with { total: -1, items: "lol" } — inserts garbage
+PATCH /api/admin/orders/[id] with { status: "NotARealStatus" } — sets invalid enum value
+PATCH /api/admin/inventory/toggle with { productId: "'; DROP TABLE products;" } — SQLi (Supabase parameterizes, but still bad practice)
+Fix required: Add Zod validation at each route entry point. zod is already in package.json.
+
+1.5 No Razorpay order scaffolding exists
+The entire checkout flow creates the DB order and shows a confirmation in a single step. For Razorpay, the required flow is:
+
+
+1. Client clicks "Pay"
+2. Server: create order in DB (status: awaiting_payment)
+3. Server: create Razorpay Order → get razorpay_order_id
+4. Client: open Razorpay checkout modal
+5. Client: payment success callback → send razorpay_payment_id + signature to server
+6. Server: verify signature → update order to paid
+7. Server: webhook for fallback confirmation
+Currently: steps 3–7 don't exist. There's no payment_id column in orders, no razorpay_order_id column, no webhook endpoint, and no signature verification.
+
+Fix required (pre-Phase 4): Add payment_id TEXT, razorpay_order_id TEXT to orders table. Create app/api/webhooks/razorpay/route.ts. Scaffold the payment flow.
+
+SEVERITY 2 — High Priority Before Phase 4
+2.1 Track orders page uses hardcoded demo data
+File: app/(portal)/app/track/page.tsx:80
+
+
+const recentOrders = DEMO_ORDERS.slice(0, 5)
+Real customers placing real orders see fake demo orders on the track page. The search bar does nothing. This will confuse paying customers from day one.
+
+Fix required: Wire to GET /api/orders (already exists), fetch user's real orders, show real tracking status.
+
+2.2 Guest checkout collects no email
+File: app/checkout/page.tsx
+
+The Order type has guest_email: string | null and the DB has the column, but the checkout form never collects it. Razorpay requires an email for payment receipts. Post-order communication (WhatsApp is manual) has no fallback.
+
+Fix required: Add email field to checkout form for unauthenticated users. Make it required when no session exists.
+
+2.3 No state field in delivery address
+Files: lib/types.ts:2, app/checkout/page.tsx
+
+OrderAddress = { line1, city, pin }. Missing: state, landmark.
+
+Every courier API (Shiprocket, Delhivery, Shadowfax) requires state for rate calculation and serviceability checks. Pincode lookup APIs can infer state, but the data isn't stored.
+
+Fix required: Add state and landmark to OrderAddress. Update checkout form and the address JSONB. Migration needed.
+
+2.4 useAuthGuard has a blank-screen flash and no loading state
+File: lib/useAuthGuard.ts:8
+
+The auth check is async. Between page render and getSession() resolving, protected content renders for a frame — or users see a blank screen with no indicator. In practice, logged-out users on /dashboard will briefly see the page before redirect.
+
+Fix required: Return a loading boolean from the guard hook. Render a skeleton/spinner while auth resolves.
+
+2.5 profiles not created in email-confirmation signup flow
+File: app/signup/page.tsx:47-48
+
+
+if (data.session) {
+  await supabase.from('profiles').insert(...)
+}
+When email confirmation is required (the default Supabase setting), data.session is null — the user is redirected to "Check your email". The profile row is never created. When that user logs in later, the profiles join on orders returns null, the customer page shows "Unknown", and admin analytics is broken.
+
+Fix required: Create profile row on the auth.users → profiles trigger in Supabase (database function), not in client-side code. One-line SQL fix via MCP.
+
+2.6 Delivery fee logic is duplicated and hardcoded
+Files: app/cart/page.tsx:29, app/checkout/page.tsx:90
+
+
+// both files independently:
+const deliveryFee = total >= 500 ? 0 : 50
+Also duplicated in the server-side insert (client sends it). When you change the threshold (e.g., free delivery over ₹400), it breaks inconsistently.
+
+Fix required: Extract to a shared lib/pricing.ts. Server should also compute this independently (ties into gap 1.1).
+
+2.7 No idempotency on order creation
+File: app/api/orders/route.ts:26
+
+If a user double-taps "Place Order" before the placing state activates (e.g., on a slow connection), two POST requests fire. With the collision-prone client ID this sometimes fails; sometimes creates two orders for the same customer.
+
+Fix required: Add a unique constraint on id (already exists if it's PK), but more importantly, use DB-generated IDs so duplicate client calls can be deduplicated server-side with an idempotency key header.
+
+2.8 Analytics page uses entirely fabricated data
+File: app/admin/analytics/page.tsx:26-32
+
+Revenue chart data is hardcoded. "Top Products" multiplies static prices by arbitrary numbers. This makes the admin analytics meaningless and could lead to real business decisions based on fake data.
+
+Fix required: Compute revenue from real orders grouped by month. Top products from aggregating orders.items JSONB (can be done in SQL or TypeScript).
+
+SEVERITY 3 — Fix Before Phase 5 (Delivery Integration)
+3.1 Orders table missing courier fields
+The orders DB table (and lib/types.ts Order type) has no:
+
+courier_name TEXT (which partner: Shiprocket, Delhivery, etc.)
+awb_number TEXT (tracking number)
+tracking_url TEXT
+estimated_delivery DATE
+shipped_at TIMESTAMPTZ
+delivered_at TIMESTAMPTZ
+Fix required: DB migration to add these columns. Add to OrderStatus flow so Shipped status auto-populates AWB.
+
+3.2 Product weight is a string, not a number, and not in the DB
+File: lib/data.ts:6
+
+
+weight: "120g"  // string, not in DB
+Every courier API needs weight as a number in grams (or kg). This field doesn't exist in the Supabase products table, so there's no way to calculate shipping rates per order.
+
+Fix required: Add weight_grams INTEGER column to products table. Update lib/data.ts type. Seed values from existing weight strings.
+
+3.3 No pincode serviceability check
+Checkout accepts any 6-digit string as pincode with no validation. Before Phase 5:
+
+Shiprocket/Delhivery have serviceability APIs to check if a pincode is deliverable
+Non-serviceable pincodes accepted at checkout → manual cancellation → bad customer experience
+Fix required: Add a pincode validation API call on the delivery address step. Mark pincodes as serviceable/non-serviceable before allowing checkout.
+
+3.4 No pickup location stored
+Courier APIs require a registered pickup address. This isn't stored anywhere in the app or DB.
+
+Fix required: Add a settings table (or env config) for Nupur's pickup address. Needed for Shiprocket/Delhivery merchant registration.
+
+SEVERITY 4 — Scale & Production Quality
+4.1 No pagination on any list endpoint
+Files: app/api/admin/orders/route.ts:15, app/api/admin/customers/route.ts:15
+
+All endpoints return every row. At 1,000 orders (achievable within months of launch), the admin orders page will timeout at Vercel's 10-second limit.
+
+Fix required: Add ?page=&limit= query params with Supabase .range(from, to).
+
+4.2 Cart doesn't reconcile stale data
+File: context/CartContext.tsx:24-29
+
+On app load, the cart is hydrated directly from localStorage with no freshness check. If a product is removed, price changes, or goes out of stock after the user added it, the cart is silently wrong. Pre-order flag computed at checkout time could be wrong if the admin toggled stock between add-to-cart and checkout.
+
+Fix required: On cart hydration, fetch current product data from /api/products, reconcile prices and stock status, surface warnings to the user.
+
+4.3 /api/products uses the anon key and no caching
+File: app/api/products/route.ts:1-2
+
+
+import { supabase } from '@/lib/supabase'  // anon key
+Products are public data fetched by several pages. With no HTTP caching headers (Cache-Control) and the anon key, every page load re-queries the DB. At scale, products should be cached.
+
+Fix required: Use supabaseAdmin (bypasses RLS entirely for a public read). Add Cache-Control: public, s-maxage=60 header. Or convert to a Server Component with Next.js revalidate.
+
+4.4 Heavy unused dependencies loaded globally
+From package.json:
+
+framer-motion (~40KB gzip) — used on landing page animations
+gsap + @gsap/react (~120KB gzip) — unknown usage extent
+recharts (~80KB gzip) — only on admin analytics page
+All are in dependencies so they bundle into the main chunk unless explicitly code-split.
+
+Fix required: Dynamic imports for recharts on the analytics page. Audit GSAP usage — if it's only the homepage, lazy load it.
+
+4.5 Two menu pages exist with different data sources
+Files: app/menu/page.tsx, app/(portal)/app/menu/page.tsx
+
+The portal menu (/app/menu) correctly fetches from /api/products. The public menu (/menu) — check if it still pulls from static lib/data.ts. Two sources of truth for the same data.
+
+4.6 No stock quantity — only boolean in_stock
+DB column: in_stock BOOLEAN
+
+A homemade bakery doesn't have infinite stock once they flip the switch back on. There's no numeric stock count, so:
+
+Can't prevent overselling when multiple customers add the same low-stock item simultaneously
+Admin can't set "I have 20 granola bars" — only "I have stock / I don't"
+No production planning numbers
+Fix required (for Phase 5 scale): Add stock_quantity INTEGER to products. Decrement atomically on order creation using a Supabase RPC function.
+
+Missing Standard Features for a Food D2C Platform
+Feature	Status	Priority
+Order confirmation email	Not implemented	P1 — needed at launch
+Status change notifications (WhatsApp/email)	Not implemented	P1
+Coupon/promo code validation	Marketing copy exists, no backend	P1 (Phase 4 prereq)
+Product detail page	No route exists	P2
+Allergen / ingredient info	No fields	P2 (FSSAI compliance)
+Saved delivery addresses	Not implemented	P2
+"Notify when back in stock"	Not implemented	P2
+Order cancellation by customer	Not implemented	P2
+Profile edit (name, phone)	Read-only dashboard	P3
+Wishlist	Placeholder tab, zero logic	P3
+Product search	Category filter only	P3
+sitemap.xml + robots.txt	Missing	P3 (SEO)
+Dynamic OG tags per product	Not implemented	P3
+Gift packaging option	Not implemented	P4
+Recommended Fix Order Before Phase 4
+
+1. Fix admin role → app_metadata (security, 30 min)
+2. Server-side price recomputation (security, 2 hrs)
+3. DB-generated order ID (data integrity, 1 hr)
+4. Zod validation on all API routes (security, 2 hrs)
+5. Fix profiles not created on email-confirm signup (DB trigger, 20 min)
+6. Wire track page to real orders (UX, 1 hr)
+7. Add guest_email to checkout form (payment prereq, 30 min)
+8. Add state + landmark to address form (delivery prereq, 45 min)
+9. Add payment_id + razorpay_order_id columns to orders (Phase 4 schema, 20 min)
+10. Create /api/webhooks/razorpay scaffold (Phase 4 prereq, 1 hr)
+11. Add useAuthGuard loading state (UX, 30 min)
+12. Fix analytics to use real data (trustworthiness, 2 hrs)
+13. Add pagination to admin list endpoints (scale, 1 hr)
+Total estimated: ~12 hours of focused work before Phase 4 is safe to implement.

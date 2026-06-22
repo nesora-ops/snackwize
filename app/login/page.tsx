@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/layout/Logo";
-import { setUser } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 
 const CART_KEY = "snackwize_cart";
 
@@ -28,15 +28,19 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const finalEmail = email || "guest@snackwize.com";
-    // TODO: Replace localStorage auth with Supabase Auth
-    const name = finalEmail.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-    setUser({ name, email: finalEmail });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return toast.error(error.message);
+    const name = data.user.user_metadata?.name ?? email.split('@')[0];
     toast.success(`Welcome back, ${name.split(" ")[0]}! 🧡`);
+    
+    // Fallback email check in case metadata cache is stale
+    if (data.user.user_metadata?.role === 'admin' || email.toLowerCase() === 'ops@nesora.co.in') {
+      nav.push("/admin/dashboard");
+      return;
+    }
 
-    // If the user had items in their cart before logging in, go to cart
     if (hasCartItems()) {
       nav.push("/cart");
     } else {
@@ -53,8 +57,8 @@ export default function Login() {
           <p className="mt-1 text-center text-sm text-muted-foreground">Log in to continue snacking</p>
 
           <form onSubmit={submit} className="mt-6 space-y-4">
-            <div><Label htmlFor="email">Email</Label><Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} /></div>
-            <div><Label htmlFor="password">Password</Label><Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} /></div>
+            <div><Label htmlFor="email">Email</Label><Input id="email" type="email" required value={email} onChange={e => setEmail(e.target.value)} /></div>
+            <div><Label htmlFor="password">Password</Label><Input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} /></div>
             <Button type="submit" id="login-submit" className="w-full bg-primary hover:bg-primary-dark">Login</Button>
           </form>
 

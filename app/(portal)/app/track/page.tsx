@@ -1,8 +1,9 @@
 'use client'
 
 import { MapPin, Package, Truck, CheckCircle2, Clock, XCircle } from "lucide-react";
-import { useState } from "react";
-import { DEMO_ORDERS } from "@/lib/data";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import type { Order } from "@/lib/types";
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; Icon: React.ElementType; step: number }> = {
   Pending:    { label: "Pending",    color: "#92400E", bg: "#FEF3C7", Icon: Clock,          step: 1 },
@@ -76,8 +77,17 @@ function TrackingSteps({ status }: { status: string }) {
 
 export default function TrackPage() {
   const [expanded, setExpanded] = useState<string | null>(null);
-  // Show only last 5 orders for demo
-  const recentOrders = DEMO_ORDERS.slice(0, 5);
+  const [recentOrders, setRecentOrders] = useState<Order[]>([]);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!session) return;
+      const res = await fetch('/api/orders', {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      if (res.ok) setRecentOrders(await res.json());
+    });
+  }, []);
 
   return (
     <div style={{ minHeight: "100%", backgroundColor: "#FAFAF8" }}>
@@ -182,10 +192,10 @@ export default function TrackPage() {
                     </span>
                   </div>
                   <p style={{ fontSize: "11px", color: "#9E9083", margin: "0 0 2px" }}>
-                    {order.items}
+                    {order.items.map(i => `${i.name} x${i.qty}`).join(', ')}
                   </p>
                   <p style={{ fontSize: "11px", color: "#C4B8AE", margin: 0 }}>
-                    {new Date(order.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })} · ₹{order.amount}
+                    {new Date(order.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })} · ₹{order.total}
                   </p>
                 </div>
                 <span style={{ fontSize: "16px", color: "#C4B8AE", flexShrink: 0 }}>

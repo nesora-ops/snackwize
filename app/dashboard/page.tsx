@@ -2,20 +2,41 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { getUser, logout } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 import { Heart, ShoppingBag, LogOut } from "lucide-react";
-
 import { useAuthGuard } from "@/lib/useAuthGuard";
+import type { Order, OrderStatus } from "@/lib/types";
+
+const STATUS_COLOR: Record<OrderStatus, string> = {
+  Pending:   "bg-yellow-100 text-yellow-700",
+  Confirmed: "bg-blue-100 text-blue-700",
+  Packed:    "bg-orange-100 text-orange-700",
+  Shipped:   "bg-purple-100 text-purple-700",
+  Delivered: "bg-green-100 text-green-700",
+  Cancelled: "bg-red-100 text-red-700",
+};
 
 export default function Dashboard() {
   useAuthGuard();
   const nav = useRouter();
   const [user] = useState(() => getUser());
+  const [orders, setOrders] = useState<Order[]>([]);
   const handleLogout = () => { logout(); nav.push("/"); };
+
+  useEffect(() => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!session) return;
+      const res = await fetch('/api/orders', {
+        headers: { 'Authorization': `Bearer ${session.access_token}` },
+      });
+      if (res.ok) setOrders(await res.json());
+    });
+  }, []);
 
   return (
     <>
@@ -38,12 +59,35 @@ export default function Dashboard() {
           </TabsList>
 
           <TabsContent value="orders" className="mt-6">
-            <div className="grid place-items-center rounded-3xl border border-dashed border-border bg-card py-20 text-center">
-              <ShoppingBag className="h-10 w-10 text-muted-foreground" />
-              <p className="mt-4 font-display text-xl font-bold">No orders yet — start snacking!</p>
-              <p className="mt-1 text-sm text-muted-foreground">Your future snack history will live here.</p>
-              <Link href="/menu" className="mt-6 inline-flex rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary-dark">Browse Menu</Link>
-            </div>
+            {orders.length === 0 ? (
+              <div className="grid place-items-center rounded-3xl border border-dashed border-border bg-card py-20 text-center">
+                <ShoppingBag className="h-10 w-10 text-muted-foreground" />
+                <p className="mt-4 font-display text-xl font-bold">No orders yet — start snacking!</p>
+                <p className="mt-1 text-sm text-muted-foreground">Your future snack history will live here.</p>
+                <Link href="/menu" className="mt-6 inline-flex rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary-dark">Browse Menu</Link>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {orders.map(o => (
+                  <div key={o.id} className="rounded-2xl border border-border bg-card p-5">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-mono-accent text-xs uppercase tracking-wider text-muted-foreground">Order ID</p>
+                        <p className="font-bold text-primary">{o.id}</p>
+                      </div>
+                      <span className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_COLOR[o.status]}`}>{o.status}</span>
+                    </div>
+                    <div className="mt-3 text-sm text-muted-foreground">
+                      {o.items.map(i => `${i.name} x${i.qty}`).join(', ')}
+                    </div>
+                    <div className="mt-2 flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">{new Date(o.created_at).toLocaleDateString('en-IN')}</span>
+                      <span className="font-bold">₹{o.total}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="profile" className="mt-6">

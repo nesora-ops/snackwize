@@ -1,12 +1,10 @@
 'use client'
 
 import Image from "next/image";
-import { PRODUCTS } from "@/lib/data";
 import { useCart } from "@/context/CartContext";
 import { Plus, Sparkles } from "lucide-react";
-
-// "New Drops" = newest products (last 4 in the list, with a NEW badge)
-const NEW_DROPS = PRODUCTS.slice(-4);
+import { useEffect, useState } from "react";
+import type { Product } from "@/lib/data";
 
 const COMING_SOON = [
   { name: "Rose Pistachio Nankhatai", teaser: "A fragrant twist on the Indian classic. Coming this week.", emoji: "🌹" },
@@ -16,6 +14,13 @@ const COMING_SOON = [
 
 export default function NewDropsPage() {
   const { add } = useCart();
+  const [newDrops, setNewDrops] = useState<Product[]>([]);
+
+  useEffect(() => {
+    fetch('/api/products')
+      .then(r => r.json())
+      .then((data: Product[]) => setNewDrops(data.slice(-4)));
+  }, []);
 
   return (
     <div style={{ minHeight: "100%", backgroundColor: "#FAFAF8" }}>
@@ -34,7 +39,7 @@ export default function NewDropsPage() {
 
       {/* New arrivals */}
       <div style={{ padding: "8px 16px" }}>
-        {NEW_DROPS.map((product) => (
+        {newDrops.map((product) => (
           <div
             key={product.id}
             style={{

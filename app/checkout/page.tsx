@@ -6,10 +6,12 @@ import Image from 'next/image';
 import { CheckCircle2, ChevronRight, MapPin, CreditCard, PartyPopper, ArrowLeft, Truck } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { getUser, type MockUser } from '@/lib/auth';
+import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuthGuard } from '@/lib/useAuthGuard';
+import { toast } from 'sonner';
 
 type Step = 'address' | 'payment' | 'confirmation';
 
@@ -67,6 +69,7 @@ export default function CheckoutPage() {
   const [form, setForm] = useState({ name: '', phone: '', address: '', pincode: '', city: '' });
   // Payment
   const [payMethod, setPayMethod] = useState<string>('upi');
+  const [placing, setPlacing] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -246,7 +249,40 @@ export default function CheckoutPage() {
               <Button
                 id="checkout-place-order"
                 className="mt-6 w-full bg-primary hover:bg-primary-dark rounded-xl py-6 text-base font-semibold gap-2"
-                onClick={() => { clear(); setStep('confirmation'); }}
+                disabled={placing}
+                onClick={async () => {
+                  setPlacing(true);
+                  const { data: { session } } = await supabase.auth.getSession();
+                  const res = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      ...(session ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
+                    },
+                    body: JSON.stringify({
+                      id: orderNumber,
+                      guest_name: form.name,
+                      guest_phone: form.phone,
+                      items: await (async () => {
+                        const productList: { id: string; in_stock: boolean }[] = await fetch('/api/products').then(r => r.json()).catch(() => [])
+                        const stockMap = Object.fromEntries(productList.map(p => [p.id, p.in_stock]))
+                        return items.map(i => ({ id: i.id, name: i.name, qty: i.qty, price: i.price, is_preorder: stockMap[i.id] === false }))
+                      })(),
+                      subtotal: total,
+                      delivery_fee: deliveryFee,
+                      total: grandTotal,
+                      address: { line1: form.address, city: form.city, pin: form.pincode },
+                      payment_method: payMethod,
+                    }),
+                  });
+                  setPlacing(false);
+                  if (!res.ok) {
+                    const { error } = await res.json();
+                    return toast.error(error ?? 'Order failed. Please try again.');
+                  }
+                  clear();
+                  setStep('confirmation');
+                }}
               >
                 Place Order · ₹{grandTotal}
                 <ChevronRight className="h-4 w-4" />
