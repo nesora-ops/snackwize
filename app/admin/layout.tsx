@@ -20,7 +20,7 @@ const NAV = [
 ]
 
 function ProtectedShell({ children }: { children: React.ReactNode }) {
-  useAdminGuard()
+  const { loading } = useAdminGuard()
   const pathname = usePathname()
   const router = useRouter()
   const [soldOutCount, setSoldOutCount] = useState(0)
@@ -34,6 +34,14 @@ function ProtectedShell({ children }: { children: React.ReactNode }) {
   }, [])
 
   const logoutAdmin = () => { logout(); router.push('/admin/login') }
+
+  if (loading) {
+    return (
+      <div className="grid min-h-screen place-items-center bg-surface">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      </div>
+    )
+  }
 
   return (
     <div className="flex min-h-screen bg-surface">

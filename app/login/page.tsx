@@ -34,9 +34,8 @@ export default function Login() {
     if (error) return toast.error(error.message);
     const name = data.user.user_metadata?.name ?? email.split('@')[0];
     toast.success(`Welcome back, ${name.split(" ")[0]}! 🧡`);
-    
-    // Fallback email check in case metadata cache is stale
-    if (data.user.user_metadata?.role === 'admin' || email.toLowerCase() === 'ops@nesora.co.in') {
+
+    if (data.user.app_metadata?.role === 'admin') {
       nav.push("/admin/dashboard");
       return;
     }

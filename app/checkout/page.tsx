@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuthGuard } from '@/lib/useAuthGuard';
+import { deliveryFeeFor } from '@/lib/pricing';
 import { toast } from 'sonner';
 
 type Step = 'address' | 'payment' | 'confirmation';
@@ -57,16 +58,17 @@ function StepIndicator({ current }: { current: Step }) {
 }
 
 export default function CheckoutPage() {
-  useAuthGuard();
+  const { loading } = useAuthGuard();
 
   const { items, total, count, clear } = useCart();
   const [user, setUser] = useState<MockUser | null>(null);
   const [step, setStep] = useState<Step>('address');
   const [mounted, setMounted] = useState(false);
-  const [orderNumber] = useState(() => `SW-${Math.floor(1000 + Math.random() * 9000)}`);
+  // Order id is assigned by the server on placement, not the client.
+  const [orderNumber, setOrderNumber] = useState('');
 
   // Address form
-  const [form, setForm] = useState({ name: '', phone: '', address: '', pincode: '', city: '' });
+  const [form, setForm] = useState({ name: '', phone: '', email: '', address: '', landmark: '', pincode: '', city: '', state: '' });
   // Payment
   const [payMethod, setPayMethod] = useState<string>('upi');
   const [placing, setPlacing] = useState(false);
@@ -85,14 +87,16 @@ export default function CheckoutPage() {
     }
   }, [user, mounted]);
 
-  if (!mounted) return null;
+  if (!mounted || loading) return null;
 
-  const deliveryFee = total >= 500 ? 0 : 50;
+  const deliveryFee = deliveryFeeFor(total);
   const grandTotal = total + deliveryFee;
+  const validPin = /^\d{6}$/.test(form.pincode);
 
   // ─── STEP: ADDRESS ────────────────────────────────────────────────────────
   if (step === 'address') {
-    const valid = form.name && form.phone && form.address && form.pincode && form.city;
+    const valid = form.name && form.phone && form.address && form.city && form.state && validPin
+      && (user || form.email);
     return (
       <div className="min-h-screen bg-surface">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 py-8">
@@ -136,6 +140,19 @@ export default function CheckoutPage() {
                     />
                   </div>
                 </div>
+                {!user && (
+                  <div>
+                    <Label htmlFor="checkout-email">Email (for order updates &amp; receipt)</Label>
+                    <Input
+                      id="checkout-email"
+                      type="email"
+                      placeholder="you@example.com"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      className="mt-1"
+                    />
+                  </div>
+                )}
                 <div>
                   <Label htmlFor="checkout-address">Address (Flat, Building, Street)</Label>
                   <Input
@@ -146,7 +163,17 @@ export default function CheckoutPage() {
                     className="mt-1"
                   />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="checkout-landmark">Landmark (optional)</Label>
+                  <Input
+                    id="checkout-landmark"
+                    placeholder="Near City Mall"
+                    value={form.landmark}
+                    onChange={(e) => setForm({ ...form, landmark: e.target.value })}
+                    className="mt-1"
+                  />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <Label htmlFor="checkout-city">City</Label>
                     <Input
@@ -154,6 +181,16 @@ export default function CheckoutPage() {
                       placeholder="Mumbai"
                       value={form.city}
                       onChange={(e) => setForm({ ...form, city: e.target.value })}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="checkout-state">State</Label>
+                    <Input
+                      id="checkout-state"
+                      placeholder="Maharashtra"
+                      value={form.state}
+                      onChange={(e) => setForm({ ...form, state: e.target.value })}
                       className="mt-1"
                     />
                   </div>
@@ -253,6 +290,8 @@ export default function CheckoutPage() {
                 onClick={async () => {
                   setPlacing(true);
                   const { data: { session } } = await supabase.auth.getSession();
+                  // Send only item ids + quantities. The server looks up live
+                  // prices and computes subtotal/delivery/total authoritatively.
                   const res = await fetch('/api/orders', {
                     method: 'POST',
                     headers: {
@@ -260,26 +299,27 @@ export default function CheckoutPage() {
                       ...(session ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
                     },
                     body: JSON.stringify({
-                      id: orderNumber,
                       guest_name: form.name,
                       guest_phone: form.phone,
-                      items: await (async () => {
-                        const productList: { id: string; in_stock: boolean }[] = await fetch('/api/products').then(r => r.json()).catch(() => [])
-                        const stockMap = Object.fromEntries(productList.map(p => [p.id, p.in_stock]))
-                        return items.map(i => ({ id: i.id, name: i.name, qty: i.qty, price: i.price, is_preorder: stockMap[i.id] === false }))
-                      })(),
-                      subtotal: total,
-                      delivery_fee: deliveryFee,
-                      total: grandTotal,
-                      address: { line1: form.address, city: form.city, pin: form.pincode },
+                      guest_email: form.email || undefined,
+                      items: items.map(i => ({ id: i.id, qty: i.qty })),
+                      address: {
+                        line1: form.address,
+                        city: form.city,
+                        state: form.state,
+                        pin: form.pincode,
+                        landmark: form.landmark || undefined,
+                      },
                       payment_method: payMethod,
                     }),
                   });
                   setPlacing(false);
                   if (!res.ok) {
-                    const { error } = await res.json();
+                    const { error } = await res.json().catch(() => ({ error: null }));
                     return toast.error(error ?? 'Order failed. Please try again.');
                   }
+                  const { id } = await res.json();
+                  setOrderNumber(id);
                   clear();
                   setStep('confirmation');
                 }}

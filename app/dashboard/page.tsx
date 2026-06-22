@@ -22,7 +22,7 @@ const STATUS_COLOR: Record<OrderStatus, string> = {
 };
 
 export default function Dashboard() {
-  useAuthGuard();
+  const { loading } = useAuthGuard();
   const nav = useRouter();
   const [user] = useState(() => getUser());
   const [orders, setOrders] = useState<Order[]>([]);
@@ -37,6 +37,14 @@ export default function Dashboard() {
       if (res.ok) setOrders(await res.json());
     });
   }, []);
+
+  if (loading) {
+    return (
+      <div className="grid min-h-[70vh] place-items-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      </div>
+    );
+  }
 
   return (
     <>

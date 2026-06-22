@@ -7,9 +7,7 @@ import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Package, Lock } from 'luc
 import { useCart } from '@/context/CartContext';
 import { getUser, type MockUser } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
-
-const DELIVERY_THRESHOLD = 500;
-const DELIVERY_FEE = 50;
+import { FREE_DELIVERY_THRESHOLD, deliveryFeeFor } from '@/lib/pricing';
 
 export default function CartPage() {
   const { items, updateQty, remove, total, count } = useCart();
@@ -26,7 +24,7 @@ export default function CartPage() {
 
   if (!mounted) return null;
 
-  const deliveryFee = total >= DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
+  const deliveryFee = deliveryFeeFor(total);
   const grandTotal = total + deliveryFee;
 
   // ─── EMPTY CART ────────────────────────────────────────────────────────────
@@ -214,7 +212,7 @@ export default function CartPage() {
                 </div>
                 {deliveryFee > 0 && (
                   <p className="text-xs text-muted-foreground bg-surface rounded-lg px-3 py-2">
-                    Add ₹{DELIVERY_THRESHOLD - total} more for free delivery
+                    Add ₹{FREE_DELIVERY_THRESHOLD - total} more for free delivery
                   </p>
                 )}
                 <hr className="border-border" />

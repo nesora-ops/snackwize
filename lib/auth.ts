@@ -17,7 +17,7 @@ function toMockUser(u: User): MockUser {
 if (typeof window !== 'undefined') {
   supabase.auth.onAuthStateChange((_, session) => {
     _user = session?.user ? toMockUser(session.user) : null
-    _isAdmin = session?.user?.user_metadata?.role === 'admin'
+    _isAdmin = session?.user?.app_metadata?.role === 'admin'
     window.dispatchEvent(new Event('snackwize-auth'))
   })
 }

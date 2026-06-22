@@ -1,14 +1,54 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { supabase } from '@/lib/supabase'
-import type { Order, OrderStatus } from '@/lib/types'
+import type { Order } from '@/lib/types'
 import type { Product } from '@/lib/data'
-import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend,
-} from 'recharts'
 
-const COLORS = ['#F97316', '#16A34A', '#C2410C', '#3B82F6', '#A855F7', '#DC2626']
+// recharts is heavy (~80KB) and only needed here — code-split it out and skip
+// SSR (it relies on browser layout APIs).
+const AnalyticsCharts = dynamic(() => import('./AnalyticsCharts'), {
+  ssr: false,
+  loading: () => (
+    <div className="lg:col-span-2 grid h-64 place-items-center rounded-2xl border border-border bg-card text-sm text-muted-foreground">
+      Loading charts…
+    </div>
+  ),
+})
+
+function monthlyRevenue(orders: Order[]) {
+  const now = new Date()
+  const buckets = Array.from({ length: 6 }, (_, k) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - (5 - k), 1)
+    return { m: d.toLocaleString('en-IN', { month: 'short' }), r: 0, key: `${d.getFullYear()}-${d.getMonth()}` }
+  })
+  const idx = new Map(buckets.map((b, i) => [b.key, i]))
+  for (const o of orders) {
+    if (o.status === 'Cancelled') continue
+    const d = new Date(o.created_at)
+    const i = idx.get(`${d.getFullYear()}-${d.getMonth()}`)
+    if (i !== undefined) buckets[i].r += o.total
+  }
+  return buckets.map(({ m, r }) => ({ m, r }))
+}
+
+function topProducts(orders: Order[]) {
+  const agg = new Map<string, { name: string; revenue: number; units: number }>()
+  for (const o of orders) {
+    if (o.status === 'Cancelled') continue
+    for (const item of o.items ?? []) {
+      const cur = agg.get(item.id) ?? { name: item.name, revenue: 0, units: 0 }
+      cur.revenue += item.price * item.qty
+      cur.units += item.qty
+      agg.set(item.id, cur)
+    }
+  }
+  return [...agg.entries()]
+    .map(([id, v]) => ({ id, ...v }))
+    .sort((a, b) => b.revenue - a.revenue)
+    .slice(0, 5)
+}
 
 export default function AnalyticsPage() {
   const [orders, setOrders] = useState<Order[]>([])
@@ -23,18 +63,17 @@ export default function AnalyticsPage() {
       if (res.ok) setOrders(await res.json())
     })
 
-    fetch('/api/products')
-      .then(r => r.json())
-      .then(setProducts)
+    fetch('/api/products').then(r => r.json()).then(setProducts)
   }, [])
 
-  const revenue = [
-    { m: 'Jan', r: 18500 }, { m: 'Feb', r: 22100 }, { m: 'Mar', r: 27800 },
-    { m: 'Apr', r: 31200 }, { m: 'May', r: 38400 }, { m: 'Jun', r: 42800 },
-  ]
-  const statusData = Object.entries(
-    orders.reduce<Record<string, number>>((a, o) => ({ ...a, [o.status]: (a[o.status] ?? 0) + 1 }), {})
-  ).map(([name, value]) => ({ name, value }))
+  const revenue = useMemo(() => monthlyRevenue(orders), [orders])
+  const topSelling = useMemo(() => topProducts(orders), [orders])
+  const statusData = useMemo(
+    () => Object.entries(
+      orders.reduce<Record<string, number>>((a, o) => ({ ...a, [o.status]: (a[o.status] ?? 0) + 1 }), {})
+    ).map(([name, value]) => ({ name, value })),
+    [orders],
+  )
 
   return (
     <main className="flex-1 overflow-x-hidden">
@@ -44,43 +83,34 @@ export default function AnalyticsPage() {
       </header>
 
       <div className="p-6 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <h3 className="font-display text-lg font-bold">Monthly Revenue</h3>
-          <div className="mt-4 h-64">
-            <ResponsiveContainer>
-              <BarChart data={revenue}>
-                <XAxis dataKey="m" stroke="#78716C" />
-                <YAxis stroke="#78716C" />
-                <Tooltip />
-                <Bar dataKey="r" fill="#F97316" radius={8} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <h3 className="font-display text-lg font-bold">Order Status Mix</h3>
-          <div className="mt-4 h-64">
-            <ResponsiveContainer>
-              <PieChart>
-                <Pie data={statusData} dataKey="value" nameKey="name" outerRadius={90}>
-                  {statusData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
-                </Pie>
-                <Tooltip /><Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+        <AnalyticsCharts revenue={revenue} statusData={statusData} />
 
         <div className="rounded-2xl border border-border bg-card p-6 lg:col-span-2">
           <h3 className="font-display text-lg font-bold">Top Products</h3>
           <ul className="mt-4 space-y-2 text-sm">
-            {products.slice(0, 5).map((p, i) => (
-              <li key={p.id} className="flex items-center justify-between rounded-xl bg-surface px-4 py-3">
-                <span><span className="mr-3 font-mono-accent text-xs text-muted-foreground">#{i + 1}</span>{p.name}</span>
-                <span className="font-mono-accent font-bold text-primary-dark">₹{p.price * (50 - i * 6)}</span>
-              </li>
-            ))}
+            {topSelling.length > 0 ? (
+              topSelling.map((p, i) => (
+                <li key={p.id} className="flex items-center justify-between rounded-xl bg-surface px-4 py-3">
+                  <span>
+                    <span className="mr-3 font-mono-accent text-xs text-muted-foreground">#{i + 1}</span>
+                    {p.name}
+                    <span className="ml-2 font-mono-accent text-xs text-muted-foreground">{p.units} sold</span>
+                  </span>
+                  <span className="font-mono-accent font-bold text-primary-dark">₹{p.revenue.toLocaleString('en-IN')}</span>
+                </li>
+              ))
+            ) : (
+              // No sales yet — show the catalogue as a placeholder
+              products.slice(0, 5).map((p, i) => (
+                <li key={p.id} className="flex items-center justify-between rounded-xl bg-surface px-4 py-3">
+                  <span>
+                    <span className="mr-3 font-mono-accent text-xs text-muted-foreground">#{i + 1}</span>
+                    {p.name}
+                  </span>
+                  <span className="font-mono-accent text-xs text-muted-foreground">No sales yet</span>
+                </li>
+              ))
+            )}
           </ul>
         </div>
       </div>

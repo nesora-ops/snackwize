@@ -1,24 +1,22 @@
 import { supabaseAdmin } from '@/lib/supabase.server'
+import { getAdmin, unauthorized, serverError } from '@/lib/api'
 import { NextRequest, NextResponse } from 'next/server'
-
-async function getAdmin(req: NextRequest) {
-  const token = req.headers.get('authorization')?.split(' ')[1]
-  if (!token) return null
-  const { data: { user } } = await supabaseAdmin.auth.getUser(token)
-  if (user?.user_metadata?.role !== 'admin') return null
-  return user
-}
 
 export async function GET(req: NextRequest) {
   const admin = await getAdmin(req)
-  if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!admin) return unauthorized()
 
-  const { data, error } = await supabaseAdmin
+  const { searchParams } = new URL(req.url)
+  const limit = Math.min(Number(searchParams.get('limit')) || 100, 200)
+  const offset = Math.max(Number(searchParams.get('offset')) || 0, 0)
+
+  const { data, error, count } = await supabaseAdmin
     .from('profiles')
-    .select('*, orders(id, total, status, created_at)')
+    .select('*, orders(id, total, status, created_at)', { count: 'exact' })
     .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1)
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (error) return serverError(error, 'Failed to load customers')
 
   const customers = (data ?? []).map((p: any) => ({
     id: p.id,
@@ -31,5 +29,5 @@ export async function GET(req: NextRequest) {
     joined: new Date(p.created_at).toLocaleDateString('en-IN'),
   }))
 
-  return NextResponse.json(customers)
+  return NextResponse.json(customers, { headers: { 'X-Total-Count': String(count ?? 0) } })
 }

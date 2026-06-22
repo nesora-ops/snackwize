@@ -1,37 +1,33 @@
 import { supabaseAdmin } from '@/lib/supabase.server'
+import { getAdmin, unauthorized, badRequest, serverError } from '@/lib/api'
+import { toggleInventorySchema } from '@/lib/validation'
 import { NextRequest, NextResponse } from 'next/server'
-
-async function getAdmin(req: NextRequest) {
-  const token = req.headers.get('authorization')?.split(' ')[1]
-  if (!token) return null
-  const { data: { user } } = await supabaseAdmin.auth.getUser(token)
-  if (user?.user_metadata?.role !== 'admin') return null
-  return user
-}
 
 export async function PATCH(req: NextRequest) {
   const admin = await getAdmin(req)
-  if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!admin) return unauthorized()
 
-  const { productId, in_stock, allow_backorder, note } = await req.json()
-  if (!productId) {
-    return NextResponse.json({ error: 'productId required' }, { status: 400 })
+  let body: unknown
+  try {
+    body = await req.json()
+  } catch {
+    return badRequest('Malformed request body')
   }
+
+  const parsed = toggleInventorySchema.safeParse(body)
+  if (!parsed.success) return badRequest(parsed.error.issues[0]?.message ?? 'Invalid request')
+  const { productId, in_stock, allow_backorder, note } = parsed.data
 
   const update: Record<string, unknown> = {}
   if (typeof in_stock === 'boolean') update.in_stock = in_stock
   if (typeof allow_backorder === 'boolean') update.allow_backorder = allow_backorder
-
-  if (Object.keys(update).length === 0) {
-    return NextResponse.json({ error: 'Nothing to update' }, { status: 400 })
-  }
 
   const { error: updateError } = await supabaseAdmin
     .from('products')
     .update(update)
     .eq('id', productId)
 
-  if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 })
+  if (updateError) return serverError(updateError, 'Failed to update product')
 
   if (typeof in_stock === 'boolean') {
     await supabaseAdmin.from('inventory_logs').insert({

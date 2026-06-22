@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { toast } from "sonner";
 import type { Product } from "@/lib/data";
 
 export type CartItem = Product & { qty: number };
@@ -26,6 +27,37 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const raw = localStorage.getItem(KEY);
       if (raw) setItems(JSON.parse(raw));
     } catch {}
+  }, []);
+
+  // Reconcile the locally-stored cart against live product data: drop items
+  // that no longer exist and refresh prices/names so a stale localStorage cart
+  // can't show (or check out at) outdated prices.
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/products")
+      .then((r) => r.json())
+      .then((products: Product[]) => {
+        if (cancelled || !Array.isArray(products)) return;
+        const byId = new Map(products.map((p) => [p.id, p]));
+        setItems((cur) => {
+          if (cur.length === 0) return cur;
+          let changed = false;
+          const next = cur
+            .filter((i) => {
+              if (!byId.has(i.id)) { changed = true; return false; }
+              return true;
+            })
+            .map((i) => {
+              const p = byId.get(i.id)!;
+              if (p.price !== i.price || p.name !== i.name) changed = true;
+              return { ...i, ...p, qty: i.qty };
+            });
+          if (changed) toast("Your cart was updated to reflect the latest prices & availability.");
+          return changed ? next : cur;
+        });
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
