@@ -1,13 +1,14 @@
 import { supabase } from './supabase'
 import type { User } from '@supabase/supabase-js'
 
-export type MockUser = { name: string; email: string; phone?: string }
+export type MockUser = { id?: string; name: string; email: string; phone?: string }
 
 let _user: MockUser | null = null
 let _isAdmin = false
 
 function toMockUser(u: User): MockUser {
   return {
+    id: u.id,
     name: u.user_metadata?.name ?? u.email?.split('@')[0] ?? 'User',
     email: u.email ?? '',
     phone: u.user_metadata?.phone,

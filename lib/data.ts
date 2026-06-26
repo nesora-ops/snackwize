@@ -3,10 +3,19 @@ export type Product = {
   name: string;
   category: string;
   description: string;
-  weight: string;
   price: number;
   image: string;
   badge?: string;
+  // Legacy free-text weight (static marketing menu only).
+  weight?: string;
+  // New-drop product attributes (DB-backed products).
+  net_weight_grams?: number;
+  shelf_life?: string;
+  nutrition?: string;
+  delivery_type?: 'local' | 'hyperlocal';
+  // Availability flags (DB-backed products).
+  in_stock?: boolean;
+  allow_backorder?: boolean;
 };
 
 const img = (q: string, i = 1) =>

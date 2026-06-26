@@ -104,10 +104,6 @@ function MobileProductCard({ product }: { product: Product }) {
             color: "#9E9083",
             margin: "3px 0 4px",
             lineHeight: 1.4,
-            overflow: "hidden",
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical" as const,
           }}
         >
           {product.description}

@@ -49,16 +49,27 @@ export async function POST(req: NextRequest) {
 
   const byId = new Map((products ?? []).map(p => [p.id, p]))
   const lineItems = []
+  const consumed: { id: string; qty: number }[] = []
   for (const item of input.items) {
     const p = byId.get(item.id)
     if (!p) return badRequest('One or more items are no longer available')
+    // Manual hard-stop only: product explicitly hidden with backorders off.
     if (!p.in_stock && !p.allow_backorder) return badRequest(`Sold out: ${p.name}`)
+
+    // Consume today's stock; any shortfall is baked & shipped later (advisory —
+    // orders are never blocked on quantity).
+    const { data: shortfall } = await supabaseAdmin.rpc('consume_stock', { p_id: p.id, p_qty: item.qty })
+    const short = typeof shortfall === 'number' ? shortfall : 0
+    const fromStock = item.qty - short
+    if (fromStock > 0) consumed.push({ id: p.id, qty: fromStock })
+
     lineItems.push({
       id: p.id,
       name: p.name,
       qty: item.qty,
       price: p.price,
-      is_preorder: p.in_stock === false,
+      is_preorder: short > 0,
+      ...(short > 0 ? { preorder_qty: short } : {}),
     })
   }
 
@@ -86,5 +97,14 @@ export async function POST(req: NextRequest) {
     .single()
 
   if (error) return serverError(error, 'Failed to place order')
+
+  // Audit the stock consumed by this order (best-effort; the counter is already
+  // authoritative via consume_stock).
+  if (consumed.length > 0) {
+    await supabaseAdmin.from('stock_movements').insert(
+      consumed.map(c => ({ product_id: c.id, delta: -c.qty, reason: 'order', ref: created.id })),
+    )
+  }
+
   return NextResponse.json({ id: created.id, total: created.total })
 }

@@ -1,4 +1,4 @@
-export type OrderItem = { id: string; name: string; qty: number; price: number; is_preorder?: boolean }
+export type OrderItem = { id: string; name: string; qty: number; price: number; is_preorder?: boolean; preorder_qty?: number }
 export type OrderAddress = { line1: string; city: string; state: string; pin: string; landmark?: string }
 export type OrderStatus = 'Pending' | 'Confirmed' | 'Packed' | 'Shipped' | 'Delivered' | 'Cancelled'
 
@@ -18,5 +18,6 @@ export type Order = {
   status: OrderStatus
   created_at: string
   updated_at?: string
+  returned_at?: string | null
   profiles?: { name: string | null; phone: string | null } | null
 }

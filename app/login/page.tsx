@@ -61,6 +61,10 @@ export default function Login() {
             <Button type="submit" id="login-submit" className="w-full bg-primary hover:bg-primary-dark">Login</Button>
           </form>
 
+          <p className="mt-3 text-center text-sm">
+            <Link href="/forgot-password" className="text-muted-foreground hover:text-primary">Forgot password?</Link>
+          </p>
+
           <button disabled className="mt-3 w-full rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground opacity-70">
             Continue with Google · Coming Soon
           </button>

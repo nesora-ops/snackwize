@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "PowerShell(npx tsc --noEmit)",
-      "PowerShell(npm run build 2>&1)"
+      "PowerShell(npm run build 2>&1)",
+      "mcp__supabase__apply_migration",
+      "mcp__supabase__execute_sql"
     ]
   },
   "enableAllProjectMcpServers": true,

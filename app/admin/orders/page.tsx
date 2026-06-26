@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase'
 import type { Order, OrderStatus } from '@/lib/types'
 import { Eye, Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select'
@@ -32,16 +33,21 @@ export default function OrdersPage() {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('all')
   const [openOrder, setOpenOrder] = useState<Order | null>(null)
+  const [page, setPage] = useState(1)
+  const [totalCount, setTotalCount] = useState(0)
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) return
-      const res = await fetch('/api/admin/orders', {
+      const res = await fetch(`/api/admin/orders?limit=50&offset=${(page - 1) * 50}`, {
         headers: { Authorization: `Bearer ${session.access_token}` },
       })
-      if (res.ok) setOrders(await res.json())
+      if (res.ok) {
+        setOrders(await res.json())
+        setTotalCount(Number(res.headers.get('X-Total-Count')) || 0)
+      }
     })
-  }, [])
+  }, [page])
 
   const filtered = useMemo(() => orders.filter(o => {
     const name = orderCustomer(o)
@@ -60,6 +66,21 @@ export default function OrdersPage() {
     })
     setOrders(cur => cur.map(o => o.id === id ? { ...o, status } : o))
     toast.success(`${id} → ${status}`)
+  }
+
+  const returnToStock = async (o: Order) => {
+    const { data: { session } } = await supabase.auth.getSession()
+    const res = await fetch(`/api/admin/orders/${o.id}/return-to-stock`, {
+      method: 'POST', headers: { Authorization: `Bearer ${session!.access_token}` },
+    })
+    if (!res.ok) {
+      const { error } = await res.json().catch(() => ({ error: null }))
+      return toast.error(error ?? 'Failed to return to stock')
+    }
+    const now = new Date().toISOString()
+    setOrders(cur => cur.map(x => x.id === o.id ? { ...x, returned_at: now } : x))
+    setOpenOrder(p => p ? { ...p, returned_at: now } : p)
+    toast.success('Returned units added back to stock')
   }
 
   return (
@@ -123,6 +144,14 @@ export default function OrdersPage() {
             </tbody>
           </table>
         </div>
+        
+        <div className="flex items-center justify-between rounded-2xl border border-border bg-card p-4">
+          <p className="text-xs text-muted-foreground">Showing {orders.length} orders (Total: {totalCount})</p>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" disabled={page === 1} onClick={() => setPage(p => p - 1)}>Previous</Button>
+            <Button variant="outline" size="sm" disabled={page * 50 >= totalCount} onClick={() => setPage(p => p + 1)}>Next</Button>
+          </div>
+        </div>
       </div>
 
       <Dialog open={!!openOrder} onOpenChange={v => !v && setOpenOrder(null)}>
@@ -157,6 +186,18 @@ export default function OrdersPage() {
                     </SelectContent>
                   </Select>
                 </div>
+                {(openOrder.status === 'Delivered' || openOrder.status === 'Shipped') && (
+                  <div className="rounded-xl border border-border p-4">
+                    <p className="font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">Returns</p>
+                    {openOrder.returned_at ? (
+                      <p className="mt-1 text-xs text-muted-foreground">Already returned to stock.</p>
+                    ) : (
+                      <Button variant="outline" size="sm" className="mt-2" onClick={() => returnToStock(openOrder)}>
+                        Return items to stock
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
             </>
           )}

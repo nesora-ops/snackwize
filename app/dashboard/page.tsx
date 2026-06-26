@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 import { getUser, logout } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { Heart, ShoppingBag, LogOut } from "lucide-react";
@@ -24,9 +26,40 @@ const STATUS_COLOR: Record<OrderStatus, string> = {
 export default function Dashboard() {
   const { loading } = useAuthGuard();
   const nav = useRouter();
-  const [user] = useState(() => getUser());
+  const [user, setUser] = useState(() => getUser());
   const [orders, setOrders] = useState<Order[]>([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  
   const handleLogout = () => { logout(); nav.push("/"); };
+
+  const handleProfileSave = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSaving(true);
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const phone = formData.get("phone") as string;
+
+    try {
+      const res = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phone }),
+      });
+      if (!res.ok) throw new Error("Failed to update profile");
+      
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        setUser({ ...user, name, phone, email: user?.email ?? "", id: user?.id ?? "" });
+        toast.success("Profile updated!");
+        setIsEditing(false);
+      }
+    } catch (err) {
+      toast.error("Failed to update profile.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
@@ -62,35 +95,37 @@ export default function Dashboard() {
         <Tabs defaultValue="orders">
           <TabsList>
             <TabsTrigger value="orders">My Orders</TabsTrigger>
-            <TabsTrigger value="profile">My Profile</TabsTrigger>
-            <TabsTrigger value="wishlist">Wishlist</TabsTrigger>
+            <TabsTrigger value="profile">Profile</TabsTrigger>
           </TabsList>
-
+          
           <TabsContent value="orders" className="mt-6">
             {orders.length === 0 ? (
-              <div className="grid place-items-center rounded-3xl border border-dashed border-border bg-card py-20 text-center">
-                <ShoppingBag className="h-10 w-10 text-muted-foreground" />
-                <p className="mt-4 font-display text-xl font-bold">No orders yet — start snacking!</p>
-                <p className="mt-1 text-sm text-muted-foreground">Your future snack history will live here.</p>
-                <Link href="/menu" className="mt-6 inline-flex rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary-dark">Browse Menu</Link>
+              <div className="rounded-2xl border border-dashed border-border py-12 text-center text-muted-foreground">
+                <ShoppingBag className="mx-auto mb-3 h-8 w-8 opacity-20" />
+                <p>No orders yet.</p>
+                <Link href="/menu" className="mt-4 inline-block font-semibold text-primary hover:underline">
+                  Start shopping →
+                </Link>
               </div>
             ) : (
               <div className="space-y-4">
-                {orders.map(o => (
-                  <div key={o.id} className="rounded-2xl border border-border bg-card p-5">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-mono-accent text-xs uppercase tracking-wider text-muted-foreground">Order ID</p>
-                        <p className="font-bold text-primary">{o.id}</p>
+                {orders.map((o) => (
+                  <div key={o.id} className="flex flex-col justify-between gap-4 rounded-2xl border border-border bg-card p-5 sm:flex-row sm:items-center">
+                    <div>
+                      <div className="mb-2 flex items-center gap-3">
+                        <span className="font-mono-accent text-sm font-bold text-foreground">{o.id}</span>
+                        <span className={`rounded-full px-2.5 py-0.5 font-mono-accent text-[10px] uppercase tracking-wider ${STATUS_COLOR[o.status]}`}>
+                          {o.status}
+                        </span>
                       </div>
-                      <span className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_COLOR[o.status]}`}>{o.status}</span>
+                      <p className="text-sm text-muted-foreground">{o.items.map(i => `${i.name} x${i.qty}`).join(', ')}</p>
+                      <p className="mt-1 font-mono-accent text-xs text-muted-foreground">Placed on {new Date(o.created_at).toLocaleDateString("en-IN")}</p>
                     </div>
-                    <div className="mt-3 text-sm text-muted-foreground">
-                      {o.items.map(i => `${i.name} x${i.qty}`).join(', ')}
-                    </div>
-                    <div className="mt-2 flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">{new Date(o.created_at).toLocaleDateString('en-IN')}</span>
-                      <span className="font-bold">₹{o.total}</span>
+                    <div className="text-right sm:text-right">
+                      <p className="font-mono-accent text-lg font-bold text-primary-dark">₹{o.total}</p>
+                      <Link href="/app/track" className="mt-1 inline-block text-xs font-semibold text-primary hover:underline">
+                        Track order →
+                      </Link>
                     </div>
                   </div>
                 ))}
@@ -99,23 +134,45 @@ export default function Dashboard() {
           </TabsContent>
 
           <TabsContent value="profile" className="mt-6">
-            <div className="rounded-3xl border border-border bg-card p-8">
-              <h3 className="font-display text-xl font-bold">Profile</h3>
-              <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                <Field label="Name" value={user?.name ?? ""} />
-                <Field label="Email" value={user?.email ?? ""} />
-                <Field label="Phone" value={user?.phone ?? "—"} />
+            <div className="rounded-2xl border border-border bg-card p-6">
+              <div className="flex items-center justify-between">
+                <h3 className="font-display text-xl font-bold">Your Details</h3>
+                <Button variant="outline" size="sm" onClick={() => setIsEditing(!isEditing)}>
+                  {isEditing ? "Cancel" : "Edit Profile"}
+                </Button>
               </div>
+              
+              {isEditing ? (
+                <form onSubmit={handleProfileSave} className="mt-5 space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <p className="mb-1 font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">Name</p>
+                      <Input name="name" defaultValue={user?.name ?? ""} required />
+                    </div>
+                    <div>
+                      <p className="mb-1 font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">Phone</p>
+                      <Input name="phone" defaultValue={user?.phone ?? ""} required />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="mb-1 font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">Email</p>
+                    <Input disabled value={user?.email ?? ""} />
+                    <p className="mt-1 text-xs text-muted-foreground">Email cannot be changed.</p>
+                  </div>
+                  <Button type="submit" disabled={isSaving}>
+                    {isSaving ? "Saving..." : "Save Changes"}
+                  </Button>
+                </form>
+              ) : (
+                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                  <Field label="Name" value={user?.name ?? ""} />
+                  <Field label="Email" value={user?.email ?? ""} />
+                  <Field label="Phone" value={user?.phone ?? "—"} />
+                </div>
+              )}
             </div>
           </TabsContent>
 
-          <TabsContent value="wishlist" className="mt-6">
-            <div className="grid place-items-center rounded-3xl border border-dashed border-border bg-card py-20 text-center">
-              <Heart className="h-10 w-10 text-muted-foreground" />
-              <p className="mt-4 font-display text-xl font-bold">Your wishlist is empty</p>
-              <p className="mt-1 text-sm text-muted-foreground">Tap the heart on any product to save it for later.</p>
-            </div>
-          </TabsContent>
         </Tabs>
       </section>
     </>

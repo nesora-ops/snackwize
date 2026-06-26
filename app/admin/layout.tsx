@@ -7,12 +7,13 @@ import { Logo } from '@/components/layout/Logo'
 import { logout } from '@/lib/auth'
 import { useAdminGuard } from '@/lib/useAuthGuard'
 import {
-  LayoutDashboard, ShoppingCart, Package, Boxes, Users, BarChart3, LogOut,
+  LayoutDashboard, ShoppingCart, Package, Sparkles, Boxes, Users, BarChart3, LogOut,
 } from 'lucide-react'
 
 const NAV = [
   { label: 'Dashboard', icon: LayoutDashboard, href: '/admin/dashboard' },
   { label: 'Orders',    icon: ShoppingCart,    href: '/admin/orders' },
+  { label: 'New Drops', icon: Sparkles,        href: '/admin/new-drops' },
   { label: 'Products',  icon: Package,         href: '/admin/products' },
   { label: 'Inventory', icon: Boxes,           href: '/admin/inventory' },
   { label: 'Customers', icon: Users,           href: '/admin/customers' },

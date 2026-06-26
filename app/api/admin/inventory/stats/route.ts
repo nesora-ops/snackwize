@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
   for (const order of orders ?? []) {
     const items = Array.isArray(order.items) ? order.items : []
     for (const item of items) {
-      if (item.is_preorder) preordersPending += item.qty ?? 1
+      if (item.is_preorder) preordersPending += item.preorder_qty ?? item.qty ?? 1
     }
   }
 

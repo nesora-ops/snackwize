@@ -5,6 +5,8 @@ const nextConfig = {
       { protocol: 'https', hostname: 'picsum.photos' },
       { protocol: 'https', hostname: 'source.unsplash.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
+      // Supabase Storage (uploaded product photos)
+      { protocol: 'https', hostname: '**.supabase.co' },
     ],
   },
 }

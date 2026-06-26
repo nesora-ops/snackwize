@@ -44,8 +44,9 @@ export default function Signup() {
 
     if (error) return toast.error(error.message);
 
+    // The profile + email-subscriber rows are created by a DB trigger on
+    // auth.users, so no client-side insert is needed here.
     if (data.session) {
-      await supabase.from('profiles').insert({ id: data.user!.id, name: f.name, phone: f.phone });
       toast.success("Account created!");
       if (hasCartItems()) {
         nav.push("/cart");
