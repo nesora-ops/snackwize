@@ -5,6 +5,10 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const str = (v: FormDataEntryValue | null) => (typeof v === 'string' ? v : '')
 const num = (v: FormDataEntryValue | null) => (v === null || v === '' ? undefined : Number(v))
+const csv = (v: FormDataEntryValue | null) => {
+  const s = typeof v === 'string' ? v.trim() : ''
+  return s ? s.split(',').map(x => x.trim()).filter(Boolean) : []
+}
 
 async function uploadPhoto(file: File): Promise<{ url?: string; error?: string }> {
   const ext = (file.name.split('.').pop() || 'jpg').toLowerCase()
@@ -38,6 +42,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   if (form.has('delivery_type')) fields.delivery_type = str(form.get('delivery_type'))
   if (form.has('nutrition')) fields.nutrition = str(form.get('nutrition'))
   if (form.has('badge')) fields.badge = str(form.get('badge'))
+  if (form.has('flavours')) fields.flavours = csv(form.get('flavours'))
 
   const parsed = updateProductSchema.safeParse(fields)
   if (!parsed.success) return badRequest(parsed.error.issues[0]?.message ?? 'Invalid product')

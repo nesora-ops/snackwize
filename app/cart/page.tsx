@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Package, Lock } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
+import { useCart, lineKey } from '@/context/CartContext';
 import { getUser, type MockUser } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import { FREE_DELIVERY_THRESHOLD, deliveryFeeFor } from '@/lib/pricing';
@@ -78,13 +78,14 @@ export default function CartPage() {
             </div>
             <div className="divide-y divide-border">
               {items.map((item) => (
-                <div key={item.id} className="flex items-center gap-4 px-5 py-4">
+                <div key={lineKey(item)} className="flex items-center gap-4 px-5 py-4">
                   <div className="relative h-14 w-14 shrink-0 rounded-xl overflow-hidden bg-surface">
                     <Image src={item.image} alt={item.name} fill className="object-cover opacity-70" sizes="56px" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-foreground truncate">{item.name}</p>
-                    <p className="text-xs text-muted-foreground">{item.weight}</p>
+                    {item.flavour && <p className="text-xs font-medium text-primary">{item.flavour}</p>}
+                    <p className="text-xs text-muted-foreground">{item.net_weight_grams ? `${item.net_weight_grams}g` : item.weight}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-bold text-foreground">₹{item.price * item.qty}</p>
@@ -127,7 +128,7 @@ export default function CartPage() {
 
             <div className="divide-y divide-border">
               {items.map((item) => (
-                <div key={item.id} className="flex items-center gap-4 px-6 py-4 hover:bg-surface/50 transition-colors">
+                <div key={lineKey(item)} className="flex items-center gap-4 px-6 py-4 hover:bg-surface/50 transition-colors">
                   {/* Image */}
                   <div className="relative h-16 w-16 shrink-0 rounded-xl overflow-hidden bg-surface">
                     <Image
@@ -142,23 +143,22 @@ export default function CartPage() {
                   {/* Name + details */}
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-sm text-foreground">{item.name}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{item.weight}</p>
+                    {item.flavour && <p className="text-xs font-medium text-primary mt-0.5">{item.flavour}</p>}
+                    <p className="text-xs text-muted-foreground mt-0.5">{item.net_weight_grams ? `${item.net_weight_grams}g` : item.weight}</p>
                     <p className="text-xs text-primary font-semibold mt-0.5">₹{item.price} each</p>
                   </div>
 
                   {/* Qty Controls */}
                   <div className="flex items-center gap-0 rounded-full border-2 border-primary overflow-hidden shrink-0">
                     <button
-                      onClick={() => updateQty(item.id, -1)}
-                      id={`cart-dec-${item.id}`}
+                      onClick={() => updateQty(lineKey(item), -1)}
                       className="flex h-8 w-8 items-center justify-center bg-primary text-white hover:bg-primary-dark transition active:scale-95"
                     >
                       <Minus className="h-3.5 w-3.5" />
                     </button>
                     <span className="w-8 text-center text-sm font-bold text-primary">{item.qty}</span>
                     <button
-                      onClick={() => updateQty(item.id, +1)}
-                      id={`cart-inc-${item.id}`}
+                      onClick={() => updateQty(lineKey(item), +1)}
                       className="flex h-8 w-8 items-center justify-center bg-primary text-white hover:bg-primary-dark transition active:scale-95"
                     >
                       <Plus className="h-3.5 w-3.5" />
@@ -172,8 +172,7 @@ export default function CartPage() {
 
                   {/* Remove */}
                   <button
-                    onClick={() => remove(item.id)}
-                    id={`cart-remove-${item.id}`}
+                    onClick={() => remove(lineKey(item))}
                     className="ml-1 rounded-full p-1.5 text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition"
                     aria-label={`Remove ${item.name}`}
                   >

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CheckCircle2, ChevronRight, MapPin, CreditCard, PartyPopper, ArrowLeft, Truck } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
+import { useCart, lineKey } from '@/context/CartContext';
 import { getUser, type MockUser } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
@@ -23,10 +23,21 @@ const STEPS: { id: Step; label: string; icon: React.ReactNode }[] = [
 ];
 
 const PAYMENT_OPTIONS = [
-  { id: 'upi',  label: 'UPI',                description: 'Pay via any UPI app',    icon: '⚡' },
-  { id: 'cod',  label: 'Cash on Delivery',   description: 'Pay when order arrives', icon: '💵' },
-  { id: 'card', label: 'Credit / Debit Card', description: 'Visa, Mastercard, RuPay', icon: '💳' },
+  { id: 'upi',  label: 'UPI',                 description: 'Pay via any UPI app',      icon: '⚡' },
+  { id: 'card', label: 'Credit / Debit Card', description: 'Visa, Mastercard, RuPay',  icon: '💳' },
 ];
+
+// Loads the Razorpay checkout script once, on demand.
+function loadRazorpay(): Promise<boolean> {
+  return new Promise((resolve) => {
+    if ((window as any).Razorpay) return resolve(true);
+    const s = document.createElement('script');
+    s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    s.onload = () => resolve(true);
+    s.onerror = () => resolve(false);
+    document.body.appendChild(s);
+  });
+}
 
 function StepIndicator({ current }: { current: Step }) {
   const idx = STEPS.findIndex((s) => s.id === current);
@@ -279,8 +290,8 @@ export default function CheckoutPage() {
                 ))}
               </div>
 
-              <div className="mt-4 rounded-xl bg-amber-50 border border-amber-200 px-4 py-3 text-xs text-amber-800">
-                🔒 This is a demo checkout. No real payment will be processed.
+              <div className="mt-4 rounded-xl bg-green-50 border border-green-200 px-4 py-3 text-xs text-green-800">
+                🔒 Secure prepaid checkout powered by Razorpay — UPI, cards, netbanking &amp; wallets.
               </div>
 
               <Button
@@ -291,7 +302,7 @@ export default function CheckoutPage() {
                   setPlacing(true);
                   const { data: { session } } = await supabase.auth.getSession();
                   // Send only item ids + quantities. The server looks up live
-                  // prices and computes subtotal/delivery/total authoritatively.
+                  // prices and computes the authoritative total + Razorpay order.
                   const res = await fetch('/api/orders', {
                     method: 'POST',
                     headers: {
@@ -302,7 +313,7 @@ export default function CheckoutPage() {
                       guest_name: form.name,
                       guest_phone: form.phone,
                       guest_email: form.email || undefined,
-                      items: items.map(i => ({ id: i.id, qty: i.qty })),
+                      items: items.map(i => ({ id: i.id, qty: i.qty, flavour: i.flavour })),
                       address: {
                         line1: form.address,
                         city: form.city,
@@ -313,18 +324,49 @@ export default function CheckoutPage() {
                       payment_method: payMethod,
                     }),
                   });
-                  setPlacing(false);
                   if (!res.ok) {
+                    setPlacing(false);
                     const { error } = await res.json().catch(() => ({ error: null }));
                     return toast.error(error ?? 'Order failed. Please try again.');
                   }
-                  const { id } = await res.json();
-                  setOrderNumber(id);
-                  clear();
-                  setStep('confirmation');
+                  const data = await res.json();
+
+                  const ok = await loadRazorpay();
+                  if (!ok) { setPlacing(false); return toast.error('Could not load payment. Check your connection.'); }
+
+                  const rzp = new (window as any).Razorpay({
+                    key: data.razorpay.keyId,
+                    amount: data.razorpay.amount,
+                    currency: 'INR',
+                    order_id: data.razorpay.orderId,
+                    name: 'Snackwize',
+                    description: `Order ${data.id}`,
+                    image: '/favicon.png',
+                    prefill: { name: form.name, email: form.email || user?.email || '', contact: form.phone },
+                    theme: { color: '#F97316' },
+                    handler: async (resp: any) => {
+                      const v = await fetch('/api/payments/verify', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          orderId: data.id,
+                          razorpay_order_id: resp.razorpay_order_id,
+                          razorpay_payment_id: resp.razorpay_payment_id,
+                          razorpay_signature: resp.razorpay_signature,
+                        }),
+                      });
+                      setPlacing(false);
+                      if (!v.ok) return toast.error('Payment received but verification failed — please contact us.');
+                      setOrderNumber(data.id);
+                      clear();
+                      setStep('confirmation');
+                    },
+                    modal: { ondismiss: () => { setPlacing(false); toast('Payment cancelled'); } },
+                  });
+                  rzp.open();
                 }}
               >
-                Place Order · ₹{grandTotal}
+                Pay ₹{grandTotal} securely
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
@@ -407,12 +449,12 @@ function OrderSummaryCard({
       <h3 className="font-display font-bold text-base mb-4">Order Summary</h3>
       <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
         {items.map((item) => (
-          <div key={item.id} className="flex items-center gap-3">
+          <div key={lineKey(item)} className="flex items-center gap-3">
             <div className="relative h-10 w-10 shrink-0 rounded-lg overflow-hidden bg-surface">
               <Image src={item.image} alt={item.name} fill className="object-cover" sizes="40px" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium text-foreground truncate">{item.name}</p>
+              <p className="text-xs font-medium text-foreground truncate">{item.name}{item.flavour ? ` — ${item.flavour}` : ''}</p>
               <p className="text-xs text-muted-foreground">x{item.qty}</p>
             </div>
             <p className="text-xs font-semibold text-foreground shrink-0">₹{item.price * item.qty}</p>

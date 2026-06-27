@@ -61,6 +61,20 @@ export default function Dashboard() {
     }
   };
 
+  const cancelOrder = async (id: string) => {
+    if (!window.confirm('Cancel this order? Any payment is refunded.')) return;
+    const { data: { session } } = await supabase.auth.getSession();
+    const res = await fetch(`/api/orders/${id}/cancel`, {
+      method: 'POST', headers: { Authorization: `Bearer ${session!.access_token}` },
+    });
+    if (!res.ok) {
+      const { error } = await res.json().catch(() => ({ error: null }));
+      return toast.error(error ?? 'Could not cancel');
+    }
+    setOrders(cur => cur.map(o => o.id === id ? { ...o, status: 'Cancelled' } : o));
+    toast.success('Order cancelled — refund (if paid) is on its way');
+  };
+
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) return;
@@ -118,14 +132,22 @@ export default function Dashboard() {
                           {o.status}
                         </span>
                       </div>
-                      <p className="text-sm text-muted-foreground">{o.items.map(i => `${i.name} x${i.qty}`).join(', ')}</p>
+                      <p className="text-sm text-muted-foreground">{o.items.map(i => `${i.name}${i.flavour ? ` (${i.flavour})` : ''} x${i.qty}`).join(', ')}</p>
                       <p className="mt-1 font-mono-accent text-xs text-muted-foreground">Placed on {new Date(o.created_at).toLocaleDateString("en-IN")}</p>
                     </div>
                     <div className="text-right sm:text-right">
                       <p className="font-mono-accent text-lg font-bold text-primary-dark">₹{o.total}</p>
-                      <Link href="/app/track" className="mt-1 inline-block text-xs font-semibold text-primary hover:underline">
-                        Track order →
-                      </Link>
+                      <div className="mt-1 flex items-center justify-end gap-3">
+                        <Link href="/app/track" className="text-xs font-semibold text-primary hover:underline">
+                          Track order →
+                        </Link>
+                        {['Pending', 'Confirmed'].includes(o.status)
+                          && !o.items.some(i => i.delivery_type === 'hyperlocal') && (
+                          <button onClick={() => cancelOrder(o.id)} className="text-xs font-semibold text-destructive hover:underline">
+                            Cancel
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}

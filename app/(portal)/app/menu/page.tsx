@@ -6,16 +6,14 @@ import { Minus, Plus, Star } from 'lucide-react';
 import { CATEGORIES, type Product as BaseProduct } from '@/lib/data';
 
 type Product = BaseProduct & { in_stock: boolean; allow_backorder: boolean }
-import { useCart } from '@/context/CartContext';
+import { useCart, lineKey } from '@/context/CartContext';
 
 const CATEGORY_EMOJIS: Record<string, string> = {
   "All": "🍽️",
-  "Granola Bars": "🌾",
-  "Cookies": "🍪",
-  "Energy Bites": "⚡",
-  "Muffins": "🧁",
-  "Trail Mix": "🥜",
-  "Seasonal Specials": "🌸",
+  "Mathri": "🫓",
+  "Crispies": "🥨",
+  "Bhel & Mixes": "🥣",
+  "Bakes": "🧁",
 };
 
 const BADGE_COLORS: Record<string, { bg: string; color: string }> = {
@@ -27,8 +25,11 @@ const BADGE_COLORS: Record<string, { bg: string; color: string }> = {
 
 function MobileProductCard({ product }: { product: Product }) {
   const { items, add, updateQty } = useCart();
-  const cartItem = items.find((i) => i.id === product.id);
-  const qty = cartItem?.qty ?? 0;
+  const hasFlavours = (product.flavours?.length ?? 0) > 0;
+  const [selFlavour, setSelFlavour] = useState<string | undefined>(product.flavours?.[0]);
+  const line = items.find((i) => lineKey(i) === lineKey({ id: product.id }));
+  const qty = line?.qty ?? 0;
+  const totalForProduct = items.filter((i) => i.id === product.id).reduce((a, i) => a + i.qty, 0);
   const badge = product.badge ? BADGE_COLORS[product.badge] : null;
 
   return (
@@ -113,6 +114,28 @@ function MobileProductCard({ product }: { product: Product }) {
           <span style={{ fontSize: "11px", color: "#6B5E52", fontWeight: 600 }}>4.5</span>
           <span style={{ fontSize: "11px", color: "#C4B8AE" }}>· {product.category}</span>
         </div>
+        {hasFlavours && (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", marginBottom: "6px" }}>
+            {product.flavours!.map((f) => (
+              <button
+                key={f}
+                onClick={() => setSelFlavour(f)}
+                style={{
+                  fontSize: "10px",
+                  fontWeight: 600,
+                  padding: "3px 8px",
+                  borderRadius: "999px",
+                  border: selFlavour === f ? "1.5px solid #F97316" : "1px solid #E8E1DB",
+                  backgroundColor: selFlavour === f ? "#FFF3E9" : "#fff",
+                  color: selFlavour === f ? "#C2410C" : "#6B5E52",
+                  cursor: "pointer",
+                }}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+        )}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span
             style={{
@@ -123,12 +146,40 @@ function MobileProductCard({ product }: { product: Product }) {
             }}
           >
             ₹{product.price}
+            {totalForProduct > 0 && (
+              <span style={{ marginLeft: "6px", fontSize: "10px", fontWeight: 700, color: "#F97316" }}>
+                {totalForProduct} in bag
+              </span>
+            )}
           </span>
 
           {!product.in_stock && !product.allow_backorder ? (
             <span style={{ fontSize: "11px", fontWeight: 700, color: "#9E9083", padding: "4px 10px", borderRadius: "999px", backgroundColor: "#F5F0EB" }}>
               Sold Out
             </span>
+          ) : hasFlavours ? (
+            <button
+              onClick={() => add(product, selFlavour)}
+              id={`app-add-${product.id}`}
+              style={{
+                height: "32px",
+                borderRadius: "999px",
+                backgroundColor: product.in_stock ? "#F97316" : "#D97706",
+                border: "none",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                padding: "0 12px",
+                gap: "4px",
+                fontSize: "11px",
+                fontWeight: 700,
+                boxShadow: "0 2px 8px rgba(249,115,22,0.4)",
+              }}
+            >
+              {product.in_stock ? <>Add <Plus size={12} strokeWidth={2.5} /></> : <>Pre-order <Plus size={12} strokeWidth={2.5} /></>}
+            </button>
           ) : qty === 0 ? (
             <button
               onClick={() => add(product)}
@@ -169,7 +220,7 @@ function MobileProductCard({ product }: { product: Product }) {
               }}
             >
               <button
-                onClick={() => updateQty(product.id, -1)}
+                onClick={() => updateQty(lineKey({ id: product.id }), -1)}
                 style={{
                   width: "22px",
                   height: "22px",
@@ -189,7 +240,7 @@ function MobileProductCard({ product }: { product: Product }) {
                 {qty}
               </span>
               <button
-                onClick={() => updateQty(product.id, +1)}
+                onClick={() => updateQty(lineKey({ id: product.id }), +1)}
                 style={{
                   width: "22px",
                   height: "22px",

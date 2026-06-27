@@ -20,8 +20,8 @@ type ActiveCampaign = {
 } | null
 
 const BLANK = {
-  name: '', category: 'Cookies', description: '', price: '', net_weight_grams: '',
-  shelf_life: '', delivery_type: 'local', nutrition: '', badge: '',
+  name: '', category: 'Crispies', description: '', price: '', net_weight_grams: '',
+  shelf_life: '', delivery_type: 'local', nutrition: '', badge: '', flavours: '',
 }
 
 async function authHeaders(): Promise<Record<string, string>> {
@@ -87,6 +87,7 @@ export default function AdminNewDropsPage() {
     fd.set('delivery_type', f.delivery_type)
     if (f.nutrition) fd.set('nutrition', f.nutrition)
     if (f.badge) fd.set('badge', f.badge)
+    if (f.flavours) fd.set('flavours', f.flavours)
     fd.set('photo', photo)
 
     const res = await fetch('/api/admin/products', { method: 'POST', headers: await authHeaders(), body: fd })
@@ -207,6 +208,10 @@ export default function AdminNewDropsPage() {
             <div className="col-span-2">
               <Label htmlFor="nutri">Nutrition (optional)</Label>
               <Input id="nutri" placeholder="e.g. 450 cal, 40g protein" value={f.nutrition} onChange={e => setF({ ...f, nutrition: e.target.value })} className="mt-1" />
+            </div>
+            <div className="col-span-2">
+              <Label htmlFor="flavours">Flavours (optional, comma-separated)</Label>
+              <Input id="flavours" placeholder="e.g. Classic, Peri Peri, Schezwan" value={f.flavours} onChange={e => setF({ ...f, flavours: e.target.value })} className="mt-1" />
             </div>
           </div>
 

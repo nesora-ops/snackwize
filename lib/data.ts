@@ -16,6 +16,8 @@ export type Product = {
   // Availability flags (DB-backed products).
   in_stock?: boolean;
   allow_backorder?: boolean;
+  // Selectable flavours (empty for single-variant items).
+  flavours?: string[];
 };
 
 const img = (q: string, i = 1) =>
@@ -38,12 +40,10 @@ export const PRODUCTS: Product[] = [
 
 export const CATEGORIES = [
   "All",
-  "Granola Bars",
-  "Cookies",
-  "Energy Bites",
-  "Muffins",
-  "Trail Mix",
-  "Seasonal Specials",
+  "Mathri",
+  "Crispies",
+  "Bhel & Mixes",
+  "Bakes",
 ] as const;
 
 export type Testimonial = { name: string; city: string; rating: number; text: string };

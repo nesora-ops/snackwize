@@ -4,13 +4,17 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import { toast } from "sonner";
 import type { Product } from "@/lib/data";
 
-export type CartItem = Product & { qty: number };
+export type CartItem = Product & { qty: number; flavour?: string };
+
+// A cart line is identified by product + chosen flavour, so the same product in
+// two flavours are two separate lines.
+export const lineKey = (i: { id: string; flavour?: string }) => `${i.id}|${i.flavour ?? ""}`;
 
 type Ctx = {
   items: CartItem[];
-  add: (p: Product) => void;
-  remove: (id: string) => void;
-  updateQty: (id: string, delta: number) => void;
+  add: (p: Product, flavour?: string) => void;
+  remove: (key: string) => void;
+  updateQty: (key: string, delta: number) => void;
   clear: () => void;
   count: number;
   total: number;
@@ -31,7 +35,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   // Reconcile the locally-stored cart against live product data: drop items
   // that no longer exist and refresh prices/names so a stale localStorage cart
-  // can't show (or check out at) outdated prices.
+  // can't show (or check out at) outdated prices. Flavour + qty are preserved.
   useEffect(() => {
     let cancelled = false;
     fetch("/api/products")
@@ -50,7 +54,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             .map((i) => {
               const p = byId.get(i.id)!;
               if (p.price !== i.price || p.name !== i.name) changed = true;
-              return { ...i, ...p, qty: i.qty };
+              return { ...i, ...p, qty: i.qty, flavour: i.flavour };
             });
           if (changed) toast("Your cart was updated to reflect the latest prices & availability.");
           return changed ? next : cur;
@@ -64,19 +68,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
     try { localStorage.setItem(KEY, JSON.stringify(items)); } catch {}
   }, [items]);
 
-  const add = (p: Product) =>
+  const add = (p: Product, flavour?: string) =>
     setItems((cur) => {
-      const existing = cur.find((i) => i.id === p.id);
-      if (existing) return cur.map((i) => (i.id === p.id ? { ...i, qty: i.qty + 1 } : i));
-      return [...cur, { ...p, qty: 1 }];
+      const key = lineKey({ id: p.id, flavour });
+      const existing = cur.find((i) => lineKey(i) === key);
+      if (existing) return cur.map((i) => (lineKey(i) === key ? { ...i, qty: i.qty + 1 } : i));
+      return [...cur, { ...p, flavour, qty: 1 }];
     });
 
-  const remove = (id: string) => setItems((cur) => cur.filter((i) => i.id !== id));
+  const remove = (key: string) => setItems((cur) => cur.filter((i) => lineKey(i) !== key));
 
-  const updateQty = (id: string, delta: number) =>
+  const updateQty = (key: string, delta: number) =>
     setItems((cur) =>
       cur
-        .map((i) => (i.id === id ? { ...i, qty: i.qty + delta } : i))
+        .map((i) => (lineKey(i) === key ? { ...i, qty: i.qty + delta } : i))
         .filter((i) => i.qty > 0)
     );
 

@@ -192,7 +192,7 @@ export default function TrackPage() {
                     </span>
                   </div>
                   <p style={{ fontSize: "11px", color: "#9E9083", margin: "0 0 2px" }}>
-                    {order.items.map(i => `${i.name} x${i.qty}`).join(', ')}
+                    {order.items.map(i => `${i.name}${i.flavour ? ` (${i.flavour})` : ''} x${i.qty}`).join(', ')}
                   </p>
                   <p style={{ fontSize: "11px", color: "#C4B8AE", margin: 0 }}>
                     {new Date(order.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })} · ₹{order.total}

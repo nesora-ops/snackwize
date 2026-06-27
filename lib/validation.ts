@@ -4,6 +4,7 @@ import { z } from 'zod'
 export const orderItemInput = z.object({
   id: z.string().min(1),
   qty: z.number().int().positive().max(99),
+  flavour: z.string().max(60).optional(),
 })
 
 export const addressSchema = z.object({
@@ -20,7 +21,9 @@ export const createOrderSchema = z.object({
   guest_phone: z.string().max(20).optional(),
   guest_email: z.string().email().optional(),
   address: addressSchema,
-  payment_method: z.enum(['upi', 'cod', 'card']),
+  // Prepaid only — actual method is chosen inside the Razorpay modal. Reserved.
+  payment_method: z.enum(['upi', 'card']).optional(),
+  coupon_code: z.string().max(40).optional(), // reserved for the future coupon feature
 })
 
 // ── Order status ──────────────────────────────────────────────────────────
@@ -55,6 +58,7 @@ export const createProductSchema = z.object({
   delivery_type: z.enum(['local', 'hyperlocal']).default('local'),
   nutrition: z.string().max(280).optional(),
   badge: z.string().max(40).optional(),
+  flavours: z.array(z.string().max(60)).max(12).optional(),
 })
 
 export const updateProductSchema = createProductSchema.partial().extend({

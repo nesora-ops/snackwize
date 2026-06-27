@@ -5,6 +5,10 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const str = (v: FormDataEntryValue | null) => (typeof v === 'string' ? v : '')
 const num = (v: FormDataEntryValue | null) => (v === null || v === '' ? undefined : Number(v))
+const csv = (v: FormDataEntryValue | null) => {
+  const s = typeof v === 'string' ? v.trim() : ''
+  return s ? s.split(',').map(x => x.trim()).filter(Boolean) : undefined
+}
 
 // Upload a product photo to the public bucket; returns its public URL.
 async function uploadPhoto(file: File): Promise<{ url?: string; error?: string }> {
@@ -38,6 +42,7 @@ export async function POST(req: NextRequest) {
     delivery_type: str(form.get('delivery_type')) || 'local',
     nutrition: str(form.get('nutrition')) || undefined,
     badge: str(form.get('badge')) || undefined,
+    flavours: csv(form.get('flavours')),
   })
   if (!parsed.success) return badRequest(parsed.error.issues[0]?.message ?? 'Invalid product')
 

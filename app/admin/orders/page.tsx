@@ -25,7 +25,7 @@ const STATUS_COLOR: Record<OrderStatus, string> = {
 
 function orderCustomer(o: Order) { return o.profiles?.name ?? o.guest_name ?? 'Guest' }
 function orderPhone(o: Order) { return o.profiles?.phone ?? o.guest_phone ?? '—' }
-function orderItems(o: Order) { return o.items.map(i => `${i.name} x${i.qty}`).join(', ') }
+function orderItems(o: Order) { return o.items.map(i => `${i.name}${i.flavour ? ` (${i.flavour})` : ''} x${i.qty}`).join(', ') }
 function orderDate(o: Order) { return new Date(o.created_at).toLocaleDateString('en-IN') }
 
 export default function OrdersPage() {

@@ -80,7 +80,7 @@ export default function InventoryPage() {
             customerName: order.profiles?.name ?? order.guest_name ?? 'Guest',
             phone: order.profiles?.phone ?? order.guest_phone ?? '—',
             productId: item.id,
-            productName: item.name,
+            productName: item.name + (item.flavour ? ` (${item.flavour})` : ''),
             qty: item.preorder_qty ?? item.qty ?? 1,
             orderId: order.id,
             orderDate: new Date(order.created_at).toLocaleDateString('en-IN'),
