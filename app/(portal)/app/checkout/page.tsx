@@ -83,6 +83,9 @@ export default function CheckoutPage() {
   // Payment
   const [payMethod, setPayMethod] = useState<string>('upi');
   const [placing, setPlacing] = useState(false);
+  const [pinServiceable, setPinServiceable] = useState<boolean | null>(null);
+
+  const isHyperlocal = items.some((i) => i.delivery_type === 'hyperlocal');
 
   useEffect(() => {
     setMounted(true);
@@ -98,6 +101,17 @@ export default function CheckoutPage() {
     }
   }, [user, mounted]);
 
+  // Same-day (hyperlocal) carts only deliver to serviceable Mumbai pincodes.
+  useEffect(() => {
+    if (!isHyperlocal || !/^\d{6}$/.test(form.pincode)) { setPinServiceable(null); return; }
+    let cancelled = false;
+    fetch(`/api/serviceability?pin=${form.pincode}`)
+      .then((r) => r.json())
+      .then((d) => { if (!cancelled) setPinServiceable(!!d.serviceable); })
+      .catch(() => { if (!cancelled) setPinServiceable(null); });
+    return () => { cancelled = true; };
+  }, [isHyperlocal, form.pincode]);
+
   if (!mounted || loading) return null;
 
   const deliveryFee = deliveryFeeFor(total);
@@ -107,7 +121,8 @@ export default function CheckoutPage() {
   // ─── STEP: ADDRESS ────────────────────────────────────────────────────────
   if (step === 'address') {
     const valid = form.name && form.phone && form.address && form.city && form.state && validPin
-      && (user || form.email);
+      && (user || form.email)
+      && (!isHyperlocal || pinServiceable === true);
     return (
       <div className="min-h-screen bg-surface">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 py-8">
@@ -216,6 +231,11 @@ export default function CheckoutPage() {
                     />
                   </div>
                 </div>
+                {isHyperlocal && validPin && pinServiceable === false && (
+                  <p className="text-xs text-destructive">
+                    Your bag has same-day items, which we deliver within Mumbai only. This pincode isn’t serviceable.
+                  </p>
+                )}
               </div>
 
               <Button

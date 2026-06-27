@@ -180,8 +180,8 @@ export default function AdminNewDropsPage() {
               <Select value={f.delivery_type} onValueChange={v => setF({ ...f, delivery_type: v })}>
                 <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="local">Local (Shiprocket)</SelectItem>
-                  <SelectItem value="hyperlocal">Hyperlocal (Borzo)</SelectItem>
+                  <SelectItem value="local">Domestic (Shiprocket)</SelectItem>
+                  <SelectItem value="hyperlocal">Hyperlocal (Shiprocket Quick)</SelectItem>
                 </SelectContent>
               </Select>
             </div>

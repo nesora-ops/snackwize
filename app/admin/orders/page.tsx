@@ -83,6 +83,19 @@ export default function OrdersPage() {
     toast.success('Returned units added back to stock')
   }
 
+  const createShipment = async (o: Order) => {
+    const { data: { session } } = await supabase.auth.getSession()
+    const res = await fetch(`/api/admin/orders/${o.id}/ship`, {
+      method: 'POST', headers: { Authorization: `Bearer ${session!.access_token}` },
+    })
+    if (!res.ok) {
+      const { error } = await res.json().catch(() => ({ error: null }))
+      return toast.error(error ?? 'Failed to create shipment')
+    }
+    toast.success('Shipment created — reloading')
+    location.reload()
+  }
+
   return (
     <main className="flex-1 overflow-x-hidden">
       <header className="border-b border-border bg-background px-6 py-4">
@@ -177,6 +190,37 @@ export default function OrdersPage() {
                   <p className="font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">Address</p>
                   <p>{openOrder.address.line1}, {openOrder.address.city} — {openOrder.address.pin}</p>
                 </div>
+
+                <div className="rounded-xl bg-surface p-4">
+                  <div className="flex items-center justify-between">
+                    <p className="font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">
+                      Shipment · {openOrder.delivery_mode === 'hyperlocal' ? 'Same-day (Quick)' : 'Standard'}
+                    </p>
+                    {openOrder.payment_status === 'paid' && (!openOrder.shiprocket_order_id || openOrder.shipment_error) && (
+                      <Button size="sm" variant="outline" className="text-xs" onClick={() => createShipment(openOrder)}>
+                        {openOrder.shipment_error ? 'Retry shipment' : 'Create shipment'}
+                      </Button>
+                    )}
+                  </div>
+                  {openOrder.shiprocket_order_id ? (
+                    <div className="mt-1 text-sm">
+                      <p>{openOrder.courier_name ?? 'Courier'} {openOrder.awb ? `· AWB ${openOrder.awb}` : '· AWB pending'}</p>
+                      {openOrder.shipment_status && <p className="text-xs text-muted-foreground">{openOrder.shipment_status}</p>}
+                      {openOrder.tracking_url && (
+                        <a href={openOrder.tracking_url} target="_blank" rel="noreferrer" className="text-xs font-semibold text-primary hover:underline">
+                          Track shipment →
+                        </a>
+                      )}
+                    </div>
+                  ) : openOrder.shipment_error ? (
+                    <p className="mt-1 text-xs text-destructive">Booking failed: {openOrder.shipment_error}</p>
+                  ) : (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {openOrder.payment_status === 'paid' ? 'Not booked yet.' : 'Awaiting payment.'}
+                    </p>
+                  )}
+                </div>
+
                 <div>
                   <p className="mb-2 font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">Update Status</p>
                   <Select value={openOrder.status} onValueChange={v => { updateStatus(openOrder.id, v as OrderStatus); setOpenOrder({ ...openOrder, status: v as OrderStatus }) }}>

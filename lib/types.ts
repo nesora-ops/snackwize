@@ -1,4 +1,4 @@
-export type OrderItem = { id: string; name: string; qty: number; price: number; flavour?: string; is_preorder?: boolean; preorder_qty?: number; delivery_type?: 'local' | 'hyperlocal' }
+export type OrderItem = { id: string; name: string; qty: number; price: number; flavour?: string; net_weight_grams?: number; is_preorder?: boolean; preorder_qty?: number; delivery_type?: 'local' | 'hyperlocal' }
 export type OrderAddress = { line1: string; city: string; state: string; pin: string; landmark?: string }
 export type OrderStatus = 'Pending' | 'Confirmed' | 'Packed' | 'Shipped' | 'Delivered' | 'Cancelled'
 
@@ -26,5 +26,17 @@ export type Order = {
   created_at: string
   updated_at?: string
   returned_at?: string | null
+  // Fulfilment (Shiprocket / Shiprocket Quick)
+  delivery_mode?: 'local' | 'hyperlocal' | null
+  shiprocket_order_id?: string | null
+  shiprocket_shipment_id?: string | null
+  awb?: string | null
+  courier_name?: string | null
+  tracking_url?: string | null
+  label_url?: string | null
+  shipment_status?: string | null
+  shipped_at?: string | null
+  delivered_at?: string | null
+  shipment_error?: string | null
   profiles?: { name: string | null; phone: string | null } | null
 }

@@ -153,8 +153,8 @@ export default function ProductsPage() {
                   <Select value={editing.delivery_type} onValueChange={v => set({ delivery_type: v as 'local' | 'hyperlocal' })}>
                     <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="local">Local (Shiprocket)</SelectItem>
-                      <SelectItem value="hyperlocal">Hyperlocal (Borzo)</SelectItem>
+                      <SelectItem value="local">Domestic (Shiprocket)</SelectItem>
+                      <SelectItem value="hyperlocal">Hyperlocal (Shiprocket Quick)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

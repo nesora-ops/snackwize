@@ -1,6 +1,7 @@
 import { supabaseAdmin } from './supabase.server'
 import { razorpay } from './razorpay'
-import type { OrderItem } from './types'
+import type { OrderItem, Order } from './types'
+import { isShiprocketConfigured, createStandardShipment, createQuickShipment, cancelShipment } from './shiprocket'
 
 // Idempotently mark an online order paid and consume its stock. Safe to call
 // from both the /verify endpoint and the webhook — a conditional claim ensures
@@ -44,7 +45,43 @@ export async function confirmPaymentAndConsume(
       consumed.map(c => ({ product_id: c.id, delta: -c.qty, reason: 'order', ref: ourOrderId })),
     )
   }
+
+  // Book the courier shipment now that payment is captured (best-effort; a
+  // failure is saved as shipment_error for an admin retry, never thrown).
+  await createShipmentForOrder(ourOrderId)
+
   return { ok: true }
+}
+
+// Creates the courier shipment for a paid order (idempotent — no-op if already
+// created). Shared by the payment-success path and the admin retry button.
+export async function createShipmentForOrder(orderId: string): Promise<{ ok: boolean; error?: string }> {
+  if (!isShiprocketConfigured()) return { ok: false, error: 'Shiprocket not configured' }
+
+  const { data: full } = await supabaseAdmin.from('orders').select('*').eq('id', orderId).single()
+  if (!full) return { ok: false, error: 'Order not found' }
+  if (full.shiprocket_order_id) return { ok: true }
+
+  try {
+    const result = full.delivery_mode === 'hyperlocal'
+      ? await createQuickShipment(full as Order)
+      : await createStandardShipment(full as Order)
+    await supabaseAdmin.from('orders').update({
+      shiprocket_order_id: result.shiprocket_order_id,
+      shiprocket_shipment_id: result.shiprocket_shipment_id,
+      awb: result.awb,
+      courier_name: result.courier_name,
+      tracking_url: result.tracking_url,
+      label_url: result.label_url,
+      shipment_error: null,
+      status: 'Confirmed',
+    }).eq('id', orderId)
+    return { ok: true }
+  } catch (e) {
+    const error = e instanceof Error ? e.message : String(e)
+    await supabaseAdmin.from('orders').update({ shipment_error: error }).eq('id', orderId)
+    return { ok: false, error }
+  }
 }
 
 export type CancelResult =
@@ -92,6 +129,12 @@ export async function cancelOrder(orderId: string, opts?: { by?: string }): Prom
         })
       }
     }
+  }
+
+  // Cancel the courier booking for a local order not yet dispatched (hyperlocal
+  // is already blocked above, so this only ever runs for local orders).
+  if (order.shiprocket_order_id && !order.shipped_at) {
+    try { await cancelShipment(order.shiprocket_order_id) } catch { /* best-effort */ }
   }
 
   await supabaseAdmin.from('orders').update({ status: 'Cancelled' }).eq('id', orderId)

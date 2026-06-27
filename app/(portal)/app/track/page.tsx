@@ -207,6 +207,16 @@ export default function TrackPage() {
                 <div style={{ padding: "0 14px 14px" }}>
                   <div style={{ borderTop: "1px solid #F0ECE8", paddingTop: "12px" }}>
                     <TrackingSteps status={order.status} />
+                    {order.tracking_url && (
+                      <a
+                        href={order.tracking_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ marginTop: "12px", display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", fontWeight: 700, color: "#F97316", textDecoration: "none" }}
+                      >
+                        <Truck size={14} /> Track shipment{order.courier_name ? ` · ${order.courier_name}` : ""}{order.awb ? ` (${order.awb})` : ""} →
+                      </a>
+                    )}
                     {order.status === "Shipped" && (
                       <div
                         style={{

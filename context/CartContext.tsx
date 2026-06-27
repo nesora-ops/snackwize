@@ -70,6 +70,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const add = (p: Product, flavour?: string) =>
     setItems((cur) => {
+      // Disallow mixing same-day (hyperlocal) and standard (local) items — they ship differently.
+      const newMode = p.delivery_type === "hyperlocal" ? "hyperlocal" : "local";
+      const curMode = cur.some((i) => i.delivery_type === "hyperlocal") ? "hyperlocal" : "local";
+      if (cur.length > 0 && curMode !== newMode) {
+        toast(`Your bag has ${curMode === "hyperlocal" ? "same-day" : "standard"} items — check out or clear it first.`);
+        return cur;
+      }
       const key = lineKey({ id: p.id, flavour });
       const existing = cur.find((i) => lineKey(i) === key);
       if (existing) return cur.map((i) => (lineKey(i) === key ? { ...i, qty: i.qty + 1 } : i));

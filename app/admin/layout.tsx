@@ -7,7 +7,7 @@ import { Logo } from '@/components/layout/Logo'
 import { logout } from '@/lib/auth'
 import { useAdminGuard } from '@/lib/useAuthGuard'
 import {
-  LayoutDashboard, ShoppingCart, Package, Sparkles, Boxes, Users, BarChart3, LogOut,
+  LayoutDashboard, ShoppingCart, Package, Sparkles, Boxes, Users, BarChart3, Settings, LogOut,
 } from 'lucide-react'
 
 const NAV = [
@@ -18,6 +18,7 @@ const NAV = [
   { label: 'Inventory', icon: Boxes,           href: '/admin/inventory' },
   { label: 'Customers', icon: Users,           href: '/admin/customers' },
   { label: 'Analytics', icon: BarChart3,       href: '/admin/analytics' },
+  { label: 'Settings',  icon: Settings,        href: '/admin/settings' },
 ]
 
 function ProtectedShell({ children }: { children: React.ReactNode }) {

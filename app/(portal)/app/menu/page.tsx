@@ -238,8 +238,8 @@ function MobileProductCard({ product }: { product: Product }) {
           </span>
 
           {!product.in_stock && !product.allow_backorder ? (
-            <span style={{ fontSize: "11px", fontWeight: 700, color: "#9E9083", padding: "4px 10px", borderRadius: "999px", backgroundColor: "#F5F0EB" }}>
-              Sold Out
+            <span style={{ fontSize: "11px", fontWeight: 700, color: product.hyperlocal_cutoff ? "#B91C1C" : "#9E9083", padding: "4px 10px", borderRadius: "999px", backgroundColor: product.hyperlocal_cutoff ? "#FEE2E2" : "#F5F0EB" }}>
+              {product.hyperlocal_cutoff ? "Sold out - Come back tomorrow!" : "Sold Out"}
             </span>
           ) : hasFlavours ? (
             (() => {

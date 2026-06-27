@@ -16,6 +16,7 @@ export type Product = {
   // Availability flags (DB-backed products).
   in_stock?: boolean;
   allow_backorder?: boolean;
+  hyperlocal_cutoff?: boolean;
   // Selectable flavours (empty for single-variant items).
   flavours?: string[];
 };

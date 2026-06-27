@@ -4,6 +4,7 @@ import { getUser, badRequest, serverError, unauthorized } from '@/lib/api'
 import { createOrderSchema } from '@/lib/validation'
 import { computeTotals } from '@/lib/pricing'
 import { isRazorpayConfigured, razorpay } from '@/lib/razorpay'
+import { orderDeliveryMode } from '@/lib/shipping'
 
 export async function GET(req: NextRequest) {
   const user = await getUser(req)
@@ -48,7 +49,7 @@ export async function POST(req: NextRequest) {
   const ids = input.items.map(i => i.id)
   const { data: products, error: prodErr } = await supabaseAdmin
     .from('products')
-    .select('id, name, price, in_stock, allow_backorder, delivery_type')
+    .select('id, name, price, in_stock, allow_backorder, delivery_type, net_weight_grams')
     .in('id', ids)
 
   if (prodErr) return serverError(prodErr, 'Failed to validate cart')
@@ -64,9 +65,21 @@ export async function POST(req: NextRequest) {
       name: p.name,
       qty: item.qty,
       price: p.price,
+      net_weight_grams: p.net_weight_grams ?? undefined,
       delivery_type: p.delivery_type,  // snapshot — drives hyperlocal no-cancel + courier routing
       ...(item.flavour ? { flavour: item.flavour } : {}),
     })
+  }
+
+  // Fulfilment routing: a cart is single-mode; hyperlocal must ship to a serviceable Mumbai pincode.
+  const delivery_mode = orderDeliveryMode(lineItems)
+  if (delivery_mode === 'mixed') {
+    return badRequest('Your cart mixes same-day and standard items — please order them separately')
+  }
+  if (delivery_mode === 'hyperlocal') {
+    const { data: pin } = await supabaseAdmin
+      .from('hyperlocal_pincodes').select('pincode').eq('pincode', input.address.pin).maybeSingle()
+    if (!pin) return badRequest('Same-day items deliver within Mumbai only — please use a serviceable pincode')
   }
 
   const subtotal = lineItems.reduce((a, i) => a + i.price * i.qty, 0)
@@ -88,6 +101,7 @@ export async function POST(req: NextRequest) {
       coupon_code: null,
       total,
       address: input.address,
+      delivery_mode,
       payment_method: 'razorpay',
       payment_status: 'pending',
       status: 'Pending',

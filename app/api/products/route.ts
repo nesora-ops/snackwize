@@ -8,12 +8,21 @@ export async function GET(req: NextRequest) {
   if (category && category !== 'All') {
     query = query.eq('category', category)
   }
-  const { data, error } = await query
-  if (error) return serverError(error, 'Failed to load products')
+  const [settingsRes, queryRes] = await Promise.all([
+    supabaseAdmin.from('app_settings').select('value').eq('key', 'accepting_hyperlocal_orders').maybeSingle(),
+    query
+  ])
 
-  // Public, cacheable data — serve from the edge for 60s and revalidate in the
-  // background so menu loads are fast without going stale for long.
-  return NextResponse.json(data, {
-    headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' },
+  if (queryRes.error) return serverError(queryRes.error, 'Failed to load products')
+
+  const isAccepting = settingsRes.data?.value !== 'false'
+  
+  const products = queryRes.data.map(p => {
+    if (p.delivery_type === 'hyperlocal' && !isAccepting) {
+      return { ...p, in_stock: false, allow_backorder: false, hyperlocal_cutoff: true }
+    }
+    return p
   })
+
+  return NextResponse.json(products)
 }
