@@ -272,82 +272,327 @@ export default function MenuPage() {
         </FlowSection>
 
 
-        {/* ══════════════════════════════════════
-            SECTION 5 — Homemade Cheeseburger
-            ══════════════════════════════════════ */}
-        <FlowSection
-          aria-label="Homemade Cheeseburger"
-          style={{ backgroundColor: '#1C1410' }}
-        >
-          {/* Warm dark background with soft glows */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-yellow-800/20 blur-3xl" />
-            <div className="absolute bottom-1/4 right-1/4 h-72 w-72 rounded-full bg-orange-900/20 blur-3xl" />
-          </div>
 
-          {/* Center spotlight layout */}
-          <div className="relative z-10 flex flex-col items-center justify-center flex-1 text-center gap-8">
-            {/* Giant emoji placeholder with glow */}
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full bg-yellow-500/10 blur-3xl scale-150" />
-              <div
-                className="relative flex h-48 w-48 md:h-64 md:w-64 items-center justify-center rounded-full text-[6rem] md:text-[8rem]"
-                style={{ background: 'radial-gradient(circle, rgba(251,191,36,0.15) 0%, rgba(28,20,16,0) 70%)' }}
-              >
-                🍔
+        {/* ══════════════════════════════════════
+            SECTION 5 — Swaad Fit Mathri
+            ══════════════════════════════════════ */}
+        <FlowSection aria-label="Swaad Fit Mathri" className="!p-0" style={{ backgroundColor: '#1A0F05' }}>
+          <div className="absolute inset-0">
+            <Image src="/Swaad fit mathri.png" alt="Swaad Fit Mathri" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">05 — Classic Mathri</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
+                <span style={{ color: '#D97706' }}>Swaad Fit</span><br />
+                <span className="italic text-white">Mathri</span>
+              </h2>
+              <p className="mt-6 max-w-[40ch] text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Crispy, healthy, all-time favourite mathri — baked to perfection in 4 bold flavours. Black Pepper, Hot n Spicy, Classic, and Traditional Sweet.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🫓 4 Flavours</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌿 Baked Not Fried</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#D97706', boxShadow: '0 4px 20px rgba(217,119,6,0.35)' }}>₹130 · 100g</span>
               </div>
             </div>
-
-            <div>
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/30 mb-4">
-                05 — Next Drop
-              </p>
-              <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-bold leading-[0.9] tracking-tight text-white">
-                Homemade<br />
-                <span className="italic" style={{ color: '#FBBF24' }}>Cheeseburger</span>
-              </h2>
-              <p className="mt-6 max-w-[40ch] mx-auto text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/50">
-                Nupur&apos;s kitchen is working on something extraordinary. A homemade cheeseburger experience — every element crafted from scratch, no shortcuts.
-              </p>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">100% Homemade · No Preservatives · Pan India Delivery</p>
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                Order on WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </a>
             </div>
-
-            {/* Teaser badges */}
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              {['🧀 House Cheese Sauce', '🥩 Signature Patty', '🍞 Brioche Bun', '🥗 Fresh Greens'].map((item) => (
-                <span
-                  key={item}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/60 backdrop-blur-sm"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-
-            {/* Notify CTA */}
-            <a
-              href={WHATSAPP}
-              target="_blank"
-              rel="noreferrer"
-              className="group inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold text-black transition hover:scale-105"
-              style={{ backgroundColor: '#FBBF24', boxShadow: '0 8px 30px rgba(251,191,36,0.3)' }}
-            >
-              <MessageCircle className="h-4 w-4" />
-              Notify me on WhatsApp
-              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-            </a>
-          </div>
-
-          <hr className="border-white/10 relative z-10" />
-
-          <div className="relative z-10 flex items-center justify-between">
-            <p className="font-mono-accent text-[10px] uppercase tracking-widest text-white/20">
-              Snackwize Kitchen · Mumbai
-            </p>
-            <p className="font-mono-accent text-[10px] uppercase tracking-widest text-yellow-500/50">
-              Drop Date: TBA
-            </p>
           </div>
         </FlowSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 6 — Beet Drop Mathri
+            ══════════════════════════════════════ */}
+        <FlowSection aria-label="Beet Drop Mathri" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
+          <div className="absolute inset-0">
+            <Image src="/Beet drop mathri.png" alt="Beet Drop Mathri" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">06 — New Arrival</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
+                Beet Drop<br /><span className="italic" style={{ color: '#BE185D' }}>Mathri</span>
+              </h2>
+              <p className="mt-6 text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Beetroot mathri — baked, bold, beautiful. A vibrant twist on the classic with deep earthy sweetness and zero guilt.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌸 Beetroot Goodness</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#BE185D', boxShadow: '0 4px 20px rgba(190,24,93,0.35)' }}>₹130 · 100g</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order on WhatsApp
+              </a>
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Baked · Colourful · Healthy</p>
+            </div>
+          </div>
+        </FlowSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 7 — Nachni Ninjas
+            ══════════════════════════════════════ */}
+        <FlowSection aria-label="Nachni Ninjas" className="!p-0" style={{ backgroundColor: '#0D1505' }}>
+          <div className="absolute inset-0">
+            <Image src="/Nachni Ninjas.png" alt="Nachni Ninjas" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">07 — Ragi Crispies</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
+                <span style={{ color: '#65A30D' }}>Nachni</span><br />
+                <span className="italic text-white">Ninjas!</span>
+              </h2>
+              <p className="mt-6 max-w-[40ch] text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Guilt-free ragi bites — the crunch king. Packed with calcium, loaded with flavour. 4 bold variants: Garlic Sesame, Chilli Garlic, Peri Peri & Onion Sesame.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌾 Ragi (Nachni) Base</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">💪 High Calcium</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#65A30D', boxShadow: '0 4px 20px rgba(101,163,13,0.35)' }}>₹130 · 100g</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Ragi · Baked · 4 Flavours</p>
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                Order on WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </a>
+            </div>
+          </div>
+        </FlowSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 8 — The Wheat Fix
+            ══════════════════════════════════════ */}
+        <FlowSection aria-label="The Wheat Fix" className="!p-0" style={{ backgroundColor: '#1A1005' }}>
+          <div className="absolute inset-0">
+            <Image src="/The Wheat Fix.png" alt="The Wheat Fix" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">08 — Wheat Crispies</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
+                The Wheat<br /><span className="italic" style={{ color: '#FBBF24' }}>Fix</span>
+              </h2>
+              <p className="mt-6 text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Golden wheat crunch — your all-day snack companion. Light, satisfying, and baked to a perfect crisp in 3 irresistible flavours.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌾 Whole Wheat</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🔥 Baked Not Fried</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#FBBF24', boxShadow: '0 4px 20px rgba(251,191,36,0.35)' }}>₹130 · 100g</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order on WhatsApp
+              </a>
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Wheat · 3 Flavours · Zero Guilt</p>
+            </div>
+          </div>
+        </FlowSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 9 — Beet it Crunch
+            ══════════════════════════════════════ */}
+        <FlowSection aria-label="Beet it Crunch" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
+          <div className="absolute inset-0">
+            <Image src="/Beet it crunch.png" alt="Beet it Crunch" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">09 — New Drop</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
+                <span style={{ color: '#EC4899' }}>Beet it</span><br />
+                <span className="italic text-white">Crunch</span>
+              </h2>
+              <p className="mt-6 max-w-[40ch] text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Baked, bold, beetroot goodness. The vibrant crispie that's as beautiful as it is delicious — earthy, wholesome, satisfyingly crunchy.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌸 Beetroot Powered</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#EC4899', boxShadow: '0 4px 20px rgba(236,72,153,0.35)' }}>₹150 · 100g</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Baked · Bold · Beautiful</p>
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                Order on WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </a>
+            </div>
+          </div>
+        </FlowSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 10 — Oats Bhel Blast
+            ══════════════════════════════════════ */}
+        <FlowSection aria-label="Oats Bhel Blast" className="!p-0" style={{ backgroundColor: '#051A0D' }}>
+          <div className="absolute inset-0">
+            <Image src="/OATS BHEL BLAST.jpg" alt="Oats Bhel Blast" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">10 — Bhel & Mixes</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
+                Oats Bhel<br /><span className="italic" style={{ color: '#22C55E' }}>Blast</span>
+              </h2>
+              <p className="mt-6 text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                All healthy grains, masala-packed. The bhel that punches above its weight — oats, spice, and everything nice in one satisfying bowl.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌾 Whole Oats</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌶 Masala-Packed</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#22C55E', boxShadow: '0 4px 20px rgba(34,197,94,0.35)' }}>₹130 · 100g</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order on WhatsApp
+              </a>
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Oats · Healthy · Bhel</p>
+            </div>
+          </div>
+        </FlowSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 11 — Roasty Bhel
+            ══════════════════════════════════════ */}
+        <FlowSection aria-label="Roasty Bhel" className="!p-0" style={{ backgroundColor: '#1A0D05' }}>
+          <div className="absolute inset-0">
+            <Image src="/ROASTY BHEL.webp" alt="Roasty Bhel" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">11 — Family Pack</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
+                <span style={{ color: '#F97316' }}>Roasty</span><br />
+                <span className="italic text-white">Bhel</span>
+              </h2>
+              <p className="mt-6 max-w-[40ch] text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                The craving queen. The snack for every occasion — a generous 1kg pack for the whole family. Easy snacking, maximum flavour, zero regrets.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🎉 Family Pack 1kg</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌿 Roasted Grains</span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30">₹550 · 1kg</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Family Size · Roasted · Homemade</p>
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                Order on WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </a>
+            </div>
+          </div>
+        </FlowSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 12 — Makhana Madness
+            ══════════════════════════════════════ */}
+        <FlowSection aria-label="Makhana Madness" className="!p-0" style={{ backgroundColor: '#0D0D1A' }}>
+          <div className="absolute inset-0">
+            <Image src="/Makhana madness.jpg" alt="Makhana Madness" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">12 — Premium Makhana</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
+                Makhana<br /><span className="italic" style={{ color: '#A78BFA' }}>Madness</span>
+              </h2>
+              <p className="mt-6 text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Fluffy foxnut bhel mix — premium grade makhana, roasted and seasoned in a generous 1kg pack. Light, protein-rich, utterly addictive.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">⭐ Foxnut (Makhana)</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">💎 Premium 1kg</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#7C3AED', boxShadow: '0 4px 20px rgba(124,58,237,0.35)' }}>₹1800 · 1kg</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order on WhatsApp
+              </a>
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Makhana · Premium · 1kg Pack</p>
+            </div>
+          </div>
+        </FlowSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 13 — Almond Cranberry Oat Cake
+            ══════════════════════════════════════ */}
+        <FlowSection aria-label="Almond Cranberry Oat Cake" className="!p-0" style={{ backgroundColor: '#1A0A05' }}>
+          <div className="absolute inset-0">
+            <Image src="/ALMOND CRANBERRY OAT CAKE.jpg" alt="Almond Cranberry Oat Cake" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">13 — Bakes · New</p>
+              <h2 className="font-display text-[clamp(2.8rem,8vw,7rem)] font-bold leading-[0.88] tracking-tight">
+                <span style={{ color: '#F59E0B' }}>Almond Cranberry</span><br />
+                <span className="italic text-white">Oat Cake</span>
+              </h2>
+              <p className="mt-6 max-w-[40ch] text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                No sugar, no butter, no maida — and absolutely no compromise on taste. A wholesome, celebration-worthy bake from Nupur's kitchen.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌰 Almond & Cranberry</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🍰 No Sugar · No Maida</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#F59E0B', boxShadow: '0 4px 20px rgba(245,158,11,0.35)' }}>₹650 · 250g</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">No Sugar · No Butter · No Maida</p>
+              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                Order on WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </a>
+            </div>
+          </div>
+        </FlowSection>
+
+
 
 
         {/* ══════════════════════════════════════

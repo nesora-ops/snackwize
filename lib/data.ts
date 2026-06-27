@@ -20,22 +20,19 @@ export type Product = {
   flavours?: string[];
 };
 
-const img = (q: string, i = 1) =>
-  `https://images.unsplash.com/photo-${q}?auto=format&fit=crop&w=800&q=80&sig=${i}`;
-
 export const PRODUCTS: Product[] = [
-  { id: "p1", name: "Choco Almond Granola Bar", category: "Granola Bars", description: "Dark cocoa, roasted almonds, jaggery-bound oats.", weight: "120g", price: 120, image: "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=800&q=80", badge: "Bestseller" },
-  { id: "p2", name: "Oats & Raisin Cookies", category: "Cookies", description: "Chewy oat cookies with golden raisins. 6 pieces.", weight: "180g", price: 180, image: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=800&q=80" },
-  { id: "p3", name: "Peanut Butter Energy Bites", category: "Energy Bites", description: "No-bake bites of peanut butter, oats & dates.", weight: "150g", price: 150, image: "https://images.unsplash.com/photo-1606471191009-63994c53433b?auto=format&fit=crop&w=800&q=80" },
-  { id: "p4", name: "Banana Walnut Muffins", category: "Muffins", description: "Ripe banana, toasted walnut, whole-wheat. 4 pcs.", weight: "260g", price: 220, image: "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&w=800&q=80" },
-  { id: "p5", name: "Trail Mix Jar", category: "Trail Mix", description: "Almonds, cashews, pumpkin seeds, cranberries.", weight: "250g", price: 280, image: "https://images.unsplash.com/photo-1612203985729-70726954388c?auto=format&fit=crop&w=800&q=80" },
-  { id: "p6", name: "Date & Nut Bar", category: "Energy Bites", description: "Medjool dates, almonds, pistachios. 4 pcs.", weight: "160g", price: 160, image: "https://images.unsplash.com/photo-1568051243851-f9b136146e97?auto=format&fit=crop&w=800&q=80" },
-  { id: "p7", name: "Coconut Jaggery Cookies", category: "Cookies", description: "Crisp coconut cookies sweetened with jaggery.", weight: "170g", price: 170, image: "https://images.unsplash.com/photo-1568051243851-f9b136146e97?auto=format&fit=crop&w=800&q=80" },
-  { id: "p8", name: "Mango Granola Clusters", category: "Granola Bars", description: "Sun-dried mango clusters, baked oat crunch.", weight: "200g", price: 200, image: "https://images.unsplash.com/photo-1565895405138-6c3a1555da6a?auto=format&fit=crop&w=800&q=80", badge: "Seasonal" },
-  { id: "p9", name: "Multigrain Crackers", category: "Seasonal Specials", description: "Five-grain savoury crackers, lightly salted.", weight: "130g", price: 130, image: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80" },
-  { id: "p10", name: "Almond Flax Ladoo", category: "Energy Bites", description: "Traditional ladoo with almond meal & flax. 6 pcs.", weight: "180g", price: 190, image: "https://images.unsplash.com/photo-1606471191009-63994c53433b?auto=format&fit=crop&w=800&q=80" },
-  { id: "p11", name: "Baked Mathri", category: "Seasonal Specials", description: "Crisp baked mathri — not fried, all the crunch.", weight: "100g", price: 110, image: "https://images.unsplash.com/photo-1606755962773-d324e1a4f5b6?auto=format&fit=crop&w=800&q=80" },
-  { id: "p12", name: "Seasonal Dry Fruit Mix", category: "Trail Mix", description: "Premium dry fruit blend, hand-packed jar.", weight: "300g", price: 350, image: "https://images.unsplash.com/photo-1612203985729-70726954388c?auto=format&fit=crop&w=800&q=80", badge: "Premium" },
+  { id: "swaad-fit-mathri",       name: "Swaad Fit Mathri",            category: "Mathri",       description: "Crispy, healthy, all-time favourite.",        price: 130, net_weight_grams: 100, image: "/Swaad fit mathri.png",          flavours: ['Black Pepper', 'Hot n Spicy', 'Classic', 'Traditional Sweet'] },
+  { id: "beet-drop-mathri",       name: "Beet Drop Mathri",            category: "Mathri",       description: "Beetroot mathri — baked, bold, beautiful.",   price: 130, net_weight_grams: 100, image: "/Beet drop mathri.png",          badge: "NEW" },
+  { id: "meethi-mathri",          name: "Meethi Mathri",               category: "Mathri",       description: "Sweet festive mathri, jaggery-kissed.",       price: 130, net_weight_grams: 100, image: "/Meethi Mathri.jpg" },
+  { id: "nachni-ninjas",          name: "Nachni Ninjas!",              category: "Crispies",     description: "Guilt-free ragi bites. Crunch king.",         price: 130, net_weight_grams: 100, image: "/Nachni Ninjas.png",            flavours: ['Garlic Sesame', 'Chilli Garlic', 'Peri Peri', 'Onion Sesame'] },
+  { id: "jowar-jhatka",           name: "Jowar Jhatka",                category: "Crispies",     description: "Airy crisp, pure grain, mindful munch.",      price: 130, net_weight_grams: 100, image: "/Jowar Jhatka.jpg",             flavours: ['Spicy Garlic', 'Italian', 'Mexican', 'Peri Peri', 'Onion Sesame'] },
+  { id: "the-wheat-fix",          name: "The Wheat Fix",               category: "Crispies",     description: "Golden wheat crunch, all-day snack.",         price: 130, net_weight_grams: 100, image: "/The Wheat Fix.png",            flavours: ['Onion Sesame', 'Schezwan', 'Peri Peri'] },
+  { id: "beet-it-crunch",         name: "Beet it Crunch",              category: "Crispies",     description: "Baked, bold, beetroot goodness.",             price: 150, net_weight_grams: 100, image: "/Beet it crunch.png",           badge: "NEW" },
+  { id: "thecha-curlies",         name: "Thecha Curlies",              category: "Crispies",     description: "Fiery Maharashtrian thecha meets baked curls.",price: 120, net_weight_grams: 120, image: "/Thecha Curlies .jpg" },
+  { id: "roasty-bhel",            name: "Roasty Bhel",                 category: "Bhel & Mixes", description: "Craving queen, easy snacking.",               price: 550, net_weight_grams: 1000,image: "/ROASTY BHEL.webp" },
+  { id: "oats-bhel-blast",        name: "Oats Bhel Blast",             category: "Bhel & Mixes", description: "All healthy grains, masala-packed.",          price: 130, net_weight_grams: 100, image: "/OATS BHEL BLAST.jpg" },
+  { id: "makhana-madness",        name: "Makhana Madness",             category: "Bhel & Mixes", description: "Fluffy foxnut bhel mix.",                     price: 1800,net_weight_grams: 1000,image: "/Makhana madness.jpg" },
+  { id: "almond-cranberry-oat-cake",name: "Almond Cranberry Oat Cake",  category: "Bakes",        description: "No sugar, no butter, no maida.",             price: 650, net_weight_grams: 250, image: "/ALMOND CRANBERRY OAT CAKE.jpg",badge: "NEW" },
 ];
 
 export const CATEGORIES = [

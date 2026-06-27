@@ -109,6 +109,17 @@ function MobileProductCard({ product }: { product: Product }) {
         >
           {product.description}
         </p>
+        {/* Net weight + nutrition */}
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" }}>
+          {product.net_weight_grams && (
+            <span style={{ fontSize: "10px", fontWeight: 700, color: "#fff", backgroundColor: "#9E9083", borderRadius: "999px", padding: "1px 7px" }}>
+              {product.net_weight_grams >= 1000 ? `${product.net_weight_grams / 1000}kg` : `${product.net_weight_grams}g`}
+            </span>
+          )}
+          {product.nutrition && (
+            <span style={{ fontSize: "10px", color: "#9E9083" }} title={product.nutrition}>ℹ️ {product.nutrition}</span>
+          )}
+        </div>
         <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "6px" }}>
           <Star size={11} style={{ fill: "#F97316", stroke: "#F97316" }} />
           <span style={{ fontSize: "11px", color: "#6B5E52", fontWeight: 600 }}>4.5</span>
