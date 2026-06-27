@@ -125,26 +125,94 @@ function MobileProductCard({ product }: { product: Product }) {
           <span style={{ fontSize: "11px", color: "#6B5E52", fontWeight: 600 }}>4.5</span>
           <span style={{ fontSize: "11px", color: "#C4B8AE" }}>· {product.category}</span>
         </div>
+        {/* Flavour chips — in-cart flavours show inline qty stepper; others are selectable chips */}
         {hasFlavours && (
           <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", marginBottom: "6px" }}>
-            {product.flavours!.map((f) => (
-              <button
-                key={f}
-                onClick={() => setSelFlavour(f)}
-                style={{
-                  fontSize: "10px",
-                  fontWeight: 600,
-                  padding: "3px 8px",
-                  borderRadius: "999px",
-                  border: selFlavour === f ? "1.5px solid #F97316" : "1px solid #E8E1DB",
-                  backgroundColor: selFlavour === f ? "#FFF3E9" : "#fff",
-                  color: selFlavour === f ? "#C2410C" : "#6B5E52",
-                  cursor: "pointer",
-                }}
-              >
-                {f}
-              </button>
-            ))}
+            {product.flavours!.map((f) => {
+              const flavLine = items.find((i) => i.id === product.id && i.flavour === f);
+              const flavQty = flavLine?.qty ?? 0;
+              if (flavQty > 0) {
+                // Flavour is in cart — show inline −qty+ stepper so user can adjust/remove without going to cart
+                return (
+                  <div
+                    key={f}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      borderRadius: "999px",
+                      border: "1.5px solid #F97316",
+                      backgroundColor: "#FFF3E9",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <button
+                      onClick={() => updateQty(lineKey({ id: product.id, flavour: f }), -1)}
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        backgroundColor: "#F97316",
+                        border: "none",
+                        color: "#fff",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Minus size={9} strokeWidth={3} />
+                    </button>
+                    <span
+                      style={{
+                        padding: "0 5px",
+                        color: "#C2410C",
+                        fontSize: "10px",
+                        fontWeight: 700,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {flavQty}× {f}
+                    </span>
+                    <button
+                      onClick={() => updateQty(lineKey({ id: product.id, flavour: f }), +1)}
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        backgroundColor: "#F97316",
+                        border: "none",
+                        color: "#fff",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Plus size={9} strokeWidth={3} />
+                    </button>
+                  </div>
+                );
+              }
+              // Flavour not yet in cart — regular selectable chip
+              return (
+                <button
+                  key={f}
+                  onClick={() => setSelFlavour(f)}
+                  style={{
+                    fontSize: "10px",
+                    fontWeight: 600,
+                    padding: "3px 8px",
+                    borderRadius: "999px",
+                    border: selFlavour === f ? "1.5px solid #F97316" : "1px solid #E8E1DB",
+                    backgroundColor: selFlavour === f ? "#FFF3E9" : "#fff",
+                    color: selFlavour === f ? "#C2410C" : "#6B5E52",
+                    cursor: "pointer",
+                  }}
+                >
+                  {f}
+                </button>
+              );
+            })}
           </div>
         )}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -169,28 +237,37 @@ function MobileProductCard({ product }: { product: Product }) {
               Sold Out
             </span>
           ) : hasFlavours ? (
-            <button
-              onClick={() => add(product, selFlavour)}
-              id={`app-add-${product.id}`}
-              style={{
-                height: "32px",
-                borderRadius: "999px",
-                backgroundColor: product.in_stock ? "#F97316" : "#D97706",
-                border: "none",
-                color: "#fff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                padding: "0 12px",
-                gap: "4px",
-                fontSize: "11px",
-                fontWeight: 700,
-                boxShadow: "0 2px 8px rgba(249,115,22,0.4)",
-              }}
-            >
-              {product.in_stock ? <>Add <Plus size={12} strokeWidth={2.5} /></> : <>Pre-order <Plus size={12} strokeWidth={2.5} /></>}
-            </button>
+            (() => {
+              // Show "Add" only for flavours not yet in cart. Prefer current selFlavour if it's not carted.
+              const cartedFlavours = new Set(items.filter(i => i.id === product.id).map(i => i.flavour));
+              const effectiveSel = !cartedFlavours.has(selFlavour) ? selFlavour
+                : (product.flavours ?? []).find(f => !cartedFlavours.has(f));
+              if (!effectiveSel) return null; // all flavours already in cart — steppers cover everything
+              return (
+                <button
+                  onClick={() => { add(product, effectiveSel); setSelFlavour(effectiveSel); }}
+                  id={`app-add-${product.id}`}
+                  style={{
+                    height: "32px",
+                    borderRadius: "999px",
+                    backgroundColor: product.in_stock ? "#F97316" : "#D97706",
+                    border: "none",
+                    color: "#fff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    padding: "0 12px",
+                    gap: "4px",
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    boxShadow: "0 2px 8px rgba(249,115,22,0.4)",
+                  }}
+                >
+                  {product.in_stock ? <>Add <Plus size={12} strokeWidth={2.5} /></> : <>Pre-order <Plus size={12} strokeWidth={2.5} /></>}
+                </button>
+              );
+            })()
           ) : qty === 0 ? (
             <button
               onClick={() => add(product)}
