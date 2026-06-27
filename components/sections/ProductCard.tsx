@@ -33,11 +33,18 @@ export function ProductCard({ product }: { product: Product }) {
         </button>
       </div>
       <div className="flex flex-1 flex-col p-4">
-        <div className="flex items-center gap-2">
-          <span className="grid h-4 w-4 place-items-center border border-accent">
-            <span className="h-2 w-2 rounded-full bg-accent" />
-          </span>
-          <span className="font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">{product.weight}</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="grid h-4 w-4 place-items-center border border-accent">
+              <span className="h-2 w-2 rounded-full bg-accent" />
+            </span>
+            <span className="font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">
+              {product.net_weight_grams ? (product.net_weight_grams >= 1000 ? `${product.net_weight_grams / 1000}kg` : `${product.net_weight_grams}g`) : product.weight}
+            </span>
+          </div>
+          {product.nutrition && (
+            <span className="text-[10px] text-muted-foreground" title={product.nutrition}>ℹ️ {product.nutrition}</span>
+          )}
         </div>
         <h3 className="mt-2 font-display text-lg font-semibold leading-tight">{product.name}</h3>
         <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{product.description}</p>

@@ -87,7 +87,7 @@ export default function Index() {
           <Link href="/menu" className="hidden text-sm font-semibold text-primary hover:text-primary-dark md:inline-flex">View full menu →</Link>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {PRODUCTS.slice(0, 6).map((p) => <ProductCard key={p.id} product={p} />)}
+          {PRODUCTS.slice(0, 9).map((p) => <ProductCard key={p.id} product={p} />)}
         </div>
       </section>
 
@@ -143,8 +143,8 @@ export default function Index() {
               <Instagram className="h-4 w-4" /> Follow
             </a>
           </div>
-          <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
-            {PRODUCTS.slice(0, 6).map((p) => (
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-9">
+            {PRODUCTS.slice(0, 9).map((p) => (
               <a key={p.id} href={INSTAGRAM} target="_blank" rel="noreferrer" className="group relative aspect-square overflow-hidden rounded-xl">
                 <Image width={800} height={600} src={p.image} alt="" className="h-full w-full object-cover transition group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#f09433]/0 via-[#dc2743]/0 to-[#bc1888]/0 opacity-0 transition group-hover:from-[#f09433]/60 group-hover:via-[#dc2743]/60 group-hover:to-[#bc1888]/60 group-hover:opacity-100" />
