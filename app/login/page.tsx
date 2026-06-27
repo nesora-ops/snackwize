@@ -41,7 +41,7 @@ export default function Login() {
     }
 
     if (hasCartItems()) {
-      nav.push("/cart");
+      nav.push("/app/cart");
     } else {
       nav.push("/app/menu");
     }

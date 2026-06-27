@@ -221,7 +221,7 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <Link href="/checkout" id="proceed-to-checkout">
+              <Link href="/app/checkout" id="proceed-to-checkout">
                 <Button className="mt-6 w-full bg-primary hover:bg-primary-dark rounded-xl py-6 text-base font-semibold gap-2">
                   Proceed to Checkout
                   <ArrowRight className="h-4 w-4" />

@@ -123,7 +123,7 @@ export function Navbar() {
           </a>
 
           <Link
-            href="/cart"
+            href="/app/cart"
             onClick={handleCartClick}
             className={`relative rounded-full p-2 transition inline-flex ${
               isWhiteText ? "text-white/70 hover:text-white" : isBlackText ? "text-black hover:text-primary" : "text-foreground/70 hover:bg-primary-light hover:text-primary-dark"

@@ -110,7 +110,7 @@ export function AppHeader({ title, showBack }: AppHeaderProps) {
             Install
           </button>
         </InstallAppButton>
-        <Link href="/cart" style={{ position: "relative", color: "#1C1917", display: "flex" }}>
+        <Link href="/app/cart" style={{ position: "relative", color: "#1C1917", display: "flex" }}>
           <ShoppingBag size={22} strokeWidth={1.8} />
           {count > 0 && (
             <span

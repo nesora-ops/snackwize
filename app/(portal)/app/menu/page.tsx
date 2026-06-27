@@ -427,7 +427,7 @@ export default function AppMenuPage() {
           }}
         >
           <a
-            href="/cart"
+            href="/app/cart"
             style={{
               display: "flex",
               alignItems: "center",

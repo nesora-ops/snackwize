@@ -49,7 +49,7 @@ export default function Signup() {
     if (data.session) {
       toast.success("Account created!");
       if (hasCartItems()) {
-        nav.push("/cart");
+        nav.push("/app/cart");
       } else {
         nav.push("/app/menu");
       }

@@ -111,7 +111,7 @@ export default function CheckoutPage() {
     return (
       <div className="min-h-screen bg-surface">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 py-8">
-          <Link href="/cart" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition">
+          <Link href="/app/cart" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition">
             <ArrowLeft className="h-4 w-4" />
             Back to Cart
           </Link>
