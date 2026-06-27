@@ -12,7 +12,7 @@ export type Product = {
   net_weight_grams?: number;
   shelf_life?: string;
   nutrition?: string;
-  delivery_type?: 'local' | 'hyperlocal';
+  delivery_type?: 'domestic' | 'hyperlocal';
   // Availability flags (DB-backed products).
   in_stock?: boolean;
   allow_backorder?: boolean;

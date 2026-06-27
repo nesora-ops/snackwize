@@ -20,7 +20,7 @@ import { ArrowRight, Pencil } from 'lucide-react'
 type Product = {
   id: string; name: string; category: string; description: string | null; price: number
   net_weight_grams: number | null; shelf_life: string | null
-  delivery_type: 'local' | 'hyperlocal'; nutrition: string | null; badge: string | null
+  delivery_type: 'domestic' | 'hyperlocal'; nutrition: string | null; badge: string | null
   image: string | null; in_stock: boolean; flavours: string[] | null
 }
 
@@ -150,10 +150,10 @@ export default function ProductsPage() {
                 </div>
                 <div>
                   <Label>Fulfillment</Label>
-                  <Select value={editing.delivery_type} onValueChange={v => set({ delivery_type: v as 'local' | 'hyperlocal' })}>
+                  <Select value={editing.delivery_type} onValueChange={v => set({ delivery_type: v as 'domestic' | 'hyperlocal' })}>
                     <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="local">Domestic (Shiprocket)</SelectItem>
+                      <SelectItem value="domestic">Domestic (Shiprocket)</SelectItem>
                       <SelectItem value="hyperlocal">Hyperlocal (Shiprocket Quick)</SelectItem>
                     </SelectContent>
                   </Select>

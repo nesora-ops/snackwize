@@ -48,7 +48,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
           let changed = false;
           const next = cur
             .filter((i) => {
-              if (!byId.has(i.id)) { changed = true; return false; }
+              const p = byId.get(i.id);
+              if (!p) { changed = true; return false; }
+              // Auto-drop items that are sold out and do not allow backorder
+              if (p.in_stock === false && p.allow_backorder !== true) { changed = true; return false; }
               return true;
             })
             .map((i) => {
