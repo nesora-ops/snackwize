@@ -117,7 +117,7 @@ export default function CheckoutPage() {
           </Link>
           <StepIndicator current="address" />
 
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_300px]">
+          <div className="grid grid-cols-1 gap-6">
             {/* Address Form */}
             <div className="rounded-2xl border border-border bg-card p-6">
               <div className="flex items-center gap-2 mb-5">
@@ -248,7 +248,7 @@ export default function CheckoutPage() {
           </button>
           <StepIndicator current="payment" />
 
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_300px]">
+          <div className="grid grid-cols-1 gap-6">
             <div className="rounded-2xl border border-border bg-card p-6">
               <div className="flex items-center gap-2 mb-5">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">

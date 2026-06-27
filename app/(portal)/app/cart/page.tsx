@@ -117,7 +117,7 @@ export default function CartPage() {
           <p className="text-sm text-muted-foreground mt-0.5">{count} item{count !== 1 ? 's' : ''}</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6">
+        <div className="grid grid-cols-1 gap-6">
 
           {/* Cart Items */}
           <div className="rounded-2xl border border-border bg-card overflow-hidden">
