@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Playfair_Display, DM_Sans } from 'next/font/google'
+import { Playfair_Display, DM_Sans, DM_Serif_Display } from 'next/font/google'
 import './globals.css'
 import { CartProvider } from '@/context/CartContext'
 import { ConditionalShell } from '@/components/layout/ConditionalShell'
@@ -14,6 +14,14 @@ const playfair = Playfair_Display({
 const dmSans = DM_Sans({ 
   subsets: ['latin'], 
   variable: '--font-dm-sans',
+  display: 'swap'
+})
+
+const dmSerifDisplay = DM_Serif_Display({
+  weight: ['400'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  variable: '--font-dm-serif',
   display: 'swap'
 })
 
@@ -42,7 +50,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmSerifDisplay.variable}`}>
       <head>
         <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

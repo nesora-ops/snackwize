@@ -101,29 +101,34 @@ function MobileProductCard({ product }: { product: Product }) {
         </h3>
         <p
           style={{
-            fontSize: "11px",
-            color: "#9E9083",
-            margin: "3px 0 4px",
-            lineHeight: 1.4,
+            fontSize: "12px",
+            color: "#7A5C42",
+            margin: "3px 0 6px",
+            lineHeight: 1.45,
+            fontFamily: "var(--font-dm-serif), serif",
+            fontStyle: "italic",
           }}
         >
           {product.description}
         </p>
-        {/* Net weight + nutrition */}
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" }}>
+        
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", flexWrap: "wrap" }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", backgroundColor: "#F5EFE6", border: "0.5px solid #D9C9B8", borderRadius: "6px", padding: "2px 6px", fontSize: "11px", color: "#8C6A4E", fontWeight: 600 }}>
+            <span style={{ display: "inline-block", width: "4px", height: "4px", borderRadius: "50%", backgroundColor: "#C4A882" }}></span>
+            {product.category}
+          </span>
           {product.net_weight_grams && (
-            <span style={{ fontSize: "10px", fontWeight: 700, color: "#fff", backgroundColor: "#9E9083", borderRadius: "999px", padding: "1px 7px" }}>
+            <span style={{ backgroundColor: "#1E1208", borderRadius: "6px", padding: "2px 6px", fontSize: "11px", color: "#F5EFE6", fontWeight: 600 }}>
               {product.net_weight_grams >= 1000 ? `${product.net_weight_grams / 1000}kg` : `${product.net_weight_grams}g`}
             </span>
           )}
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "2px", marginLeft: "2px" }}>
+            <Star size={10} style={{ fill: "#E8A020", stroke: "#E8A020" }} />
+            <span style={{ fontSize: "11.5px", color: "#B87A30", fontWeight: 600 }}>4.5</span>
+          </div>
           {product.nutrition && (
-            <span style={{ fontSize: "10px", color: "#9E9083" }} title={product.nutrition}>ℹ️ {product.nutrition}</span>
+            <span style={{ fontSize: "10px", color: "#9E9083", marginLeft: "2px" }} title={product.nutrition}>ℹ️ {product.nutrition}</span>
           )}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "6px" }}>
-          <Star size={11} style={{ fill: "#F97316", stroke: "#F97316" }} />
-          <span style={{ fontSize: "11px", color: "#6B5E52", fontWeight: 600 }}>4.5</span>
-          <span style={{ fontSize: "11px", color: "#C4B8AE" }}>· {product.category}</span>
         </div>
         {/* Flavour chips — in-cart flavours show inline qty stepper; others are selectable chips */}
         {hasFlavours && (
