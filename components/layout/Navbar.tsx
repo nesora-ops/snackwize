@@ -9,6 +9,7 @@ import { Logo } from "./Logo";
 import { InstallAppButton } from "./InstallAppButton";
 import { useCart } from "@/context/CartContext";
 import { getUser, logout, type MockUser } from "@/lib/auth";
+import { appHref } from "@/lib/portal";
 import { WHATSAPP, INSTAGRAM } from "@/lib/data";
 import { toast } from "sonner";
 
@@ -122,8 +123,8 @@ export function Navbar() {
             <MessageCircle className="h-4 w-4" />
           </a>
 
-          <Link
-            href="/app/cart"
+          <a
+            href={appHref("/app/cart")}
             onClick={handleCartClick}
             className={`relative rounded-full p-2 transition inline-flex ${
               isWhiteText ? "text-white/70 hover:text-white" : isBlackText ? "text-black hover:text-primary" : "text-foreground/70 hover:bg-primary-light hover:text-primary-dark"
@@ -136,35 +137,41 @@ export function Navbar() {
                 {count}
               </span>
             )}
-          </Link>
+          </a>
 
           {user ? (
             <>
               <InstallAppButton variant="outline" className={`hidden sm:inline-flex ${isMenuPage ? "text-black border-black/20 bg-white/90 hover:bg-white" : ""}`} />
-              <Link
-                href="/app/menu"
+              <a
+                href={appHref("/app/menu")}
                 className={`hidden text-sm font-medium transition sm:inline ${
                   isWhiteText ? "text-white/80 hover:text-white" : isBlackText ? "text-black hover:text-primary" : "text-foreground/80 hover:text-primary"
                 }`}
               >
                 Hi, {user.name.split(" ")[0]}
-              </Link>
+              </a>
+              <a href={appHref("/app/menu")} className="hidden sm:inline-flex">
+                <Button size="sm" className="bg-primary hover:bg-primary-dark border-none">Go to Portal</Button>
+              </a>
               <Button size="sm" variant="outline" onClick={() => logout()} className={`hidden sm:inline-flex ${isMenuPage ? "text-black border-black/20 bg-white/90 hover:bg-white" : ""}`}>Logout</Button>
             </>
           ) : (
             <>
               <InstallAppButton variant="outline" className={`hidden sm:inline-flex ${isMenuPage ? "text-black border-black/20 bg-white/90 hover:bg-white" : ""}`} />
-              <Link
-                href="/login"
+              <a href={appHref("/app/menu")} className="hidden sm:inline-flex">
+                <Button size="sm" className="bg-primary hover:bg-primary-dark border-none">Order Now</Button>
+              </a>
+              <a
+                href={appHref("/login")}
                 className={`hidden text-sm font-medium transition sm:inline ${
                   isWhiteText ? "text-white/80 hover:text-white" : isBlackText ? "text-black hover:text-primary" : "text-foreground/80 hover:text-primary"
                 }`}
               >
                 Login
-              </Link>
-              <Link href="/signup" className="hidden sm:inline-flex">
-                <Button size="sm" className="bg-primary hover:bg-primary-dark border-none">Sign up</Button>
-              </Link>
+              </a>
+              <a href={appHref("/signup")} className="hidden sm:inline-flex">
+                <Button size="sm" variant="outline" className={isMenuPage ? "text-black border-black/20 bg-white/90 hover:bg-white" : ""}>Sign up</Button>
+              </a>
             </>
           )}
 
@@ -189,14 +196,17 @@ export function Navbar() {
             <div className="mt-2 flex gap-2">
               {user ? (
                 <>
-                  <Link href="/dashboard" onClick={() => setOpen(false)} className="flex-1"><Button variant="outline" className="w-full"><User className="mr-2 h-4 w-4" />Dashboard</Button></Link>
+                  <a href={appHref("/app/menu")} onClick={() => setOpen(false)} className="flex-1"><Button variant="outline" className="w-full"><User className="mr-2 h-4 w-4" />Go to Portal</Button></a>
                   <Button onClick={() => { logout(); setOpen(false); }} className="flex-1 bg-primary hover:bg-primary-dark">Logout</Button>
                 </>
               ) : (
-                <>
-                  <Link href="/login" onClick={() => setOpen(false)} className="flex-1"><Button variant="outline" className="w-full">Login</Button></Link>
-                  <Link href="/signup" onClick={() => setOpen(false)} className="flex-1"><Button className="w-full bg-primary hover:bg-primary-dark">Sign up</Button></Link>
-                </>
+                <div className="flex w-full flex-col gap-2">
+                  <a href={appHref("/app/menu")} onClick={() => setOpen(false)}><Button className="w-full bg-primary hover:bg-primary-dark">Order Now</Button></a>
+                  <div className="flex gap-2">
+                    <a href={appHref("/login")} onClick={() => setOpen(false)} className="flex-1"><Button variant="outline" className="w-full">Login</Button></a>
+                    <a href={appHref("/signup")} onClick={() => setOpen(false)} className="flex-1"><Button className="w-full bg-primary hover:bg-primary-dark">Sign up</Button></a>
+                  </div>
+                </div>
               )}
             </div>
           </div>

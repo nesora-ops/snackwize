@@ -1,7 +1,8 @@
-import { supabase } from '@/lib/supabase'
+import { createServerUserClient } from '@/lib/supabase.server'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function PATCH(req: NextRequest) {
+  const supabase = createServerUserClient()
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

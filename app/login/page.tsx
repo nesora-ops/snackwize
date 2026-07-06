@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/layout/Logo";
+import { InstallAppButton } from "@/components/layout/InstallAppButton";
 import { supabase } from "@/lib/supabase";
+import { PORTAL_URL } from "@/lib/portal";
 
 const CART_KEY = "snackwize_cart";
 
@@ -40,11 +42,11 @@ export default function Login() {
       return;
     }
 
-    if (hasCartItems()) {
-      nav.push("/app/cart");
-    } else {
-      nav.push("/app/menu");
-    }
+    // Land in the app on the subdomain (prod). The shared cookie means the
+    // portal recognises this login instantly. Locally, stay same-origin.
+    const dest = hasCartItems() ? "/app/cart" : "/app/menu";
+    if (PORTAL_URL) window.location.assign(PORTAL_URL + dest);
+    else nav.push(dest);
   };
 
   return (
@@ -72,6 +74,10 @@ export default function Login() {
           <p className="mt-6 text-center text-sm text-muted-foreground">
             New here? <Link href="/signup" className="font-semibold text-primary hover:text-primary-dark">Create an account</Link>
           </p>
+
+          <div className="mt-6 border-t border-border pt-5">
+            <InstallAppButton variant="outline" className="w-full justify-center" />
+          </div>
           <p className="mt-4 text-center text-[10px] font-mono-accent uppercase tracking-wider text-muted-foreground">Auth powered by Supabase — coming soon</p>
         </div>
       </div>

@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/layout/Logo";
 import { supabase } from "@/lib/supabase";
+import { PORTAL_URL } from "@/lib/portal";
 
 const CART_KEY = "snackwize_cart";
 
@@ -48,11 +49,10 @@ export default function Signup() {
     // auth.users, so no client-side insert is needed here.
     if (data.session) {
       toast.success("Account created!");
-      if (hasCartItems()) {
-        nav.push("/app/cart");
-      } else {
-        nav.push("/app/menu");
-      }
+      // Land in the app on the subdomain (prod); stay same-origin locally.
+      const dest = hasCartItems() ? "/app/cart" : "/app/menu";
+      if (PORTAL_URL) window.location.assign(PORTAL_URL + dest);
+      else nav.push(dest);
     } else {
       toast.success("Check your email to confirm your account!");
     }

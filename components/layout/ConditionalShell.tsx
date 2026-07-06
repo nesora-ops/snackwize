@@ -15,6 +15,7 @@ export function ConditionalShell({ children }: { children: React.ReactNode }) {
   const isPortal = pathname.startsWith("/app/") || pathname === "/app";
   const isAdmin = pathname.startsWith("/admin");
   const isMenuPage = pathname === "/menu";
+  const isAuth = ["/login", "/signup", "/forgot-password", "/reset-password"].includes(pathname);
 
   if (isPortal || isAdmin) {
     return <>{children}</>;
@@ -24,7 +25,7 @@ export function ConditionalShell({ children }: { children: React.ReactNode }) {
     <>
       <Navbar />
       <main>{children}</main>
-      {!isMenuPage && <Footer />}
+      {!isMenuPage && !isAuth && <Footer />}
       <WhatsAppFab />
     </>
   );
