@@ -5,7 +5,9 @@
       "PowerShell(npm run build 2>&1)",
       "mcp__supabase__apply_migration",
       "mcp__supabase__execute_sql",
-      "PowerShell(npm install razorpay 2>&1)"
+      "PowerShell(npm install razorpay 2>&1)",
+      "Bash(npm install *)",
+      "Bash(npm run *)"
     ]
   },
   "enableAllProjectMcpServers": true,

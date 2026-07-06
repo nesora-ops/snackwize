@@ -9,9 +9,9 @@ Once the external services (Razorpay, Supabase SMTP, Shiprocket) are wired up, u
 **Goal:** Verify that the admin panel correctly manipulates what the customer sees.
 
 1. **Add a Product**: 
-   - Go to `/admin/products`. Add a new product (e.g., "Test Cookie").
-   - Give it a price, image, and mark it as `Local/Hyperlocal` or `Domestic`.
-   - Verify it appears on the customer `/app/menu`.
+   - Go to `/admin/new-drops` to **add** a new product (e.g., "Test Cookie"). *(The `/admin/products` page only edits existing products — new items are created from New Drops.)*
+   - Give it a price, image, and set **Fulfillment** to `Domestic (Shiprocket)` or `Hyperlocal (Shiprocket Quick)`.
+   - Verify it appears on the customer `/app/menu`. You can edit any detail afterwards from `/admin/products`.
 2. **Manage Stock**:
    - In the admin panel, toggle the "In Stock" switch for "Test Cookie" to OFF.
    - Go to `/app/menu` as a customer. Ensure the product shows as **Sold Out** and cannot be added to the cart.
@@ -41,14 +41,22 @@ Once the external services (Razorpay, Supabase SMTP, Shiprocket) are wired up, u
 
 ## 3. Delivery Workflows (Domestic vs Hyperlocal)
 
-**Goal:** Verify Shiprocket logic distinguishes between local and national orders.
+**Goal:** Verify the delivery mode is driven by the **product**, not the pincode, and that the serviceability gate works.
 
-1. **Hyperlocal Order (Mumbai)**:
-   - Create an order using a Mumbai PIN code that falls within your local delivery radius.
-   - Verify that the system assigns the delivery type as `Hyperlocal` and routes it to Shiprocket Quick.
-2. **Domestic Order (Outside Mumbai)**:
-   - Create an order using a non-Mumbai PIN code (e.g., Delhi `110001`).
-   - Verify that the system assigns the delivery type as `Domestic` and routes it to standard Shiprocket surface/air shipping.
+> **How it actually works:** Each product is either `Domestic` or `Hyperlocal`. The cart is **single-mode** — you cannot mix a Domestic and a Hyperlocal item in one bag (adding a mismatched item is blocked with a toast). The order's mode comes from its products. A Hyperlocal cart is allowed to check out **only** if the address pincode is in the Admin > Settings hyperlocal list; otherwise it is **rejected at checkout** (never silently converted to Domestic). Domestic carts ship anywhere in India.
+
+1. **Domestic Order (any Indian pincode)**:
+   - Add a `Domestic` product to the cart and check out with, e.g., Delhi `110001`.
+   - Verify the order is created and (with Shiprocket configured) auto-books a **standard Shiprocket** shipment — an AWB and tracking link appear in `/admin/orders` and on the customer Track page; status moves to `Confirmed`.
+2. **Hyperlocal Order — serviceable Mumbai pincode**:
+   - Add a `Hyperlocal` product (mark a test product as Hyperlocal first) and check out with a pincode that **is** in the Admin > Settings list (e.g., `400001`).
+   - Verify checkout proceeds and the order routes to **Shiprocket Quick** (`courier_name = Shiprocket Quick`).
+3. **Hyperlocal Order — non-serviceable pincode (negative test)**:
+   - With the same Hyperlocal cart, enter a non-Mumbai pincode (e.g., `110001`) or a Mumbai pincode not in the list.
+   - Verify the checkout **warns before payment** ("not serviceable") and the order POST is **rejected** — the customer is never charged and no Domestic shipment is created.
+4. **Mixed cart (negative test)**:
+   - With a Domestic item in the cart, try to add a Hyperlocal item (or vice-versa).
+   - Verify it is blocked with a toast and the cart stays single-mode.
 
 ---
 
@@ -61,7 +69,9 @@ Once the external services (Razorpay, Supabase SMTP, Shiprocket) are wired up, u
    - As a customer, refresh `/app/menu`.
    - Verify that all products marked as `Hyperlocal` are instantly shown as Sold Out with the message: *"Come back tomorrow!"*
    - Toggle it back ON, and verify products become available again.
-2. **Order Cancellation**:
-   - As an admin, go to `/admin/orders` and cancel an order.
-   - Verify that the order status updates to `Cancelled`.
-   - **Constraint Check**: Ensure that if an order is `Hyperlocal` and has already been dispatched via Shiprocket Quick, it *cannot* be cancelled (as requested: "No cancellation on hyperlocal orders").
+2. **Order Cancellation (Domestic)**:
+   - As an admin, go to `/admin/orders` and cancel a **paid Domestic** order that has **not** yet shipped.
+   - Verify: status → `Cancelled`, the Razorpay payment is **refunded**, consumed stock is **restocked**, and (if a shipment was booked) the **Shiprocket booking is cancelled** too.
+3. **Cancellation Constraint (Hyperlocal)**:
+   - Try to cancel **any** order that contains a Hyperlocal item — regardless of whether it has been dispatched.
+   - Verify it is **refused outright** (reason: `hyperlocal`). Per the rule "No cancellation on hyperlocal orders," hyperlocal orders can **never** be cancelled, not just after dispatch.
