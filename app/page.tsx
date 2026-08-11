@@ -7,6 +7,11 @@ import { ArrowRight, Cookie, Leaf, Truck, Flame, Instagram, Star } from "lucide-
 import { ProductCard } from "@/components/sections/ProductCard";
 import { SectionHeader } from "@/components/sections/SectionHeader";
 import { PRODUCTS, TESTIMONIALS, WHATSAPP, INSTAGRAM } from "@/lib/data";
+import { hasPhoto } from "@/components/sections/ProductImage";
+
+// Photo-led sections only ever pull from products that actually have one, so a
+// product awaiting photography can never render as an empty frame here.
+const SHOT = PRODUCTS.filter((p) => hasPhoto(p.image));
 
 
 
@@ -42,10 +47,10 @@ export default function Index() {
 
           <div className="relative h-[420px] md:h-[520px]">
             {[
-              { src: PRODUCTS[0].image, c: "top-0 left-6 w-56 rotate-[-6deg]", d: 0 },
-              { src: PRODUCTS[3].image, c: "top-24 right-0 w-52 rotate-[8deg]", d: 0.15 },
-              { src: PRODUCTS[4].image, c: "bottom-0 left-0 w-48 rotate-[5deg]", d: 0.3 },
-              { src: PRODUCTS[7].image, c: "bottom-8 right-8 w-44 rotate-[-9deg]", d: 0.45 },
+              { src: SHOT[0].image, c: "top-0 left-6 w-56 rotate-[-6deg]", d: 0 },
+              { src: SHOT[3].image, c: "top-24 right-0 w-52 rotate-[8deg]", d: 0.15 },
+              { src: SHOT[4].image, c: "bottom-0 left-0 w-48 rotate-[5deg]", d: 0.3 },
+              { src: SHOT[7].image, c: "bottom-8 right-8 w-44 rotate-[-9deg]", d: 0.45 },
             ].map((it, i) => (
               <motion.div
                 key={i}
@@ -95,7 +100,7 @@ export default function Index() {
       <section className="bg-surface">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-20 md:grid-cols-2 md:items-center">
           <div className="relative">
-            <Image width={800} height={600} src={PRODUCTS[2].image} alt="Snacks" className="aspect-[4/5] w-full rounded-3xl object-cover" />
+            <Image width={800} height={600} src={SHOT[2].image} alt="Snacks" className="aspect-[4/5] w-full rounded-3xl object-cover" />
             <div className="absolute -bottom-6 -right-6 hidden rounded-2xl bg-background px-5 py-4 shadow-xl md:block">
               <p className="font-mono-accent text-xs uppercase tracking-wider text-primary">Since 2023</p>
               <p className="mt-1 font-display text-xl font-bold">500+ happy bellies</p>
@@ -144,7 +149,7 @@ export default function Index() {
             </a>
           </div>
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-9">
-            {PRODUCTS.slice(0, 9).map((p) => (
+            {SHOT.slice(0, 9).map((p) => (
               <a key={p.id} href={INSTAGRAM} target="_blank" rel="noreferrer" className="group relative aspect-square overflow-hidden rounded-xl">
                 <Image width={800} height={600} src={p.image} alt="" className="h-full w-full object-cover transition group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#f09433]/0 via-[#dc2743]/0 to-[#bc1888]/0 opacity-0 transition group-hover:from-[#f09433]/60 group-hover:via-[#dc2743]/60 group-hover:to-[#bc1888]/60 group-hover:opacity-100" />

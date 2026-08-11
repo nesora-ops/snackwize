@@ -19,22 +19,26 @@ export type Product = {
   hyperlocal_cutoff?: boolean;
   // Selectable flavours (empty for single-variant items).
   flavours?: string[];
+  // Link to the Instagram reel behind this product, when there is one.
+  instagram_url?: string;
 };
 
 export const PRODUCTS: Product[] = [
   { id: "swaad-fit-mathri",       name: "Swaad Fit Mathri",            category: "Mathri",       description: "Crispy, healthy, all-time favourite.",        price: 130, net_weight_grams: 100, image: "/Swaad fit mathri.png",          flavours: ['Black Pepper', 'Hot n Spicy', 'Classic', 'Traditional Sweet'] },
   { id: "beet-drop-mathri",       name: "Beet Drop Mathri",            category: "Mathri",       description: "Beetroot mathri — baked, bold, beautiful.",   price: 130, net_weight_grams: 100, image: "/Beet drop mathri.png",          badge: "NEW" },
-  { id: "cheese-tease-stix",      name: "Cheese Tease Stix",           category: "Crispies",     description: "Cheesy crunch that you can't resist.",        price: 130, net_weight_grams: 100, image: "https://placehold.co/800x600/png?text=Cheese+Tease+Stix", badge: "NEW" },
+  { id: "cheese-tease-stix",      name: "Cheese Tease Stix",           category: "Crispies",     description: "Cheesy crunch that you can't resist.",        price: 190, net_weight_grams: 100, image: "",                              badge: "NEW", instagram_url: "https://www.instagram.com/snackwize_/reel/DBdTOoRyzOB/" },
   { id: "nachni-ninjas",          name: "Nachni Ninjas!",              category: "Crispies",     description: "Guilt-free ragi bites. Crunch king.",         price: 130, net_weight_grams: 100, image: "/Nachni Ninjas.png",            flavours: ['Garlic Sesame', 'Chilli Garlic', 'Peri Peri', 'Onion Sesame'] },
-  { id: "jowar-jhatka",           name: "Jowar Jhatka",                category: "Crispies",     description: "Airy crisp, pure grain, mindful munch.",      price: 130, net_weight_grams: 100, image: "/Jowar Jhatka.jpg",             flavours: ['Spicy Garlic', 'Italian', 'Mexican', 'Peri Peri', 'Onion Sesame'] },
+  { id: "jowar-jhatka",           name: "Jowar Jhatka",                category: "Crispies",     description: "Airy crisp, pure grain, mindful munch.",      price: 130, net_weight_grams: 100, image: "/Jowar Jhatka.jpg",             flavours: ['Spicy Garlic', 'Italian', 'Mexican', 'Peri Peri', 'Onion Sesame'], instagram_url: "https://www.instagram.com/snackwize_/reel/DX86dKhIunT/" },
   { id: "the-wheat-fix",          name: "The Wheat Fix",               category: "Crispies",     description: "Golden wheat crunch, all-day snack.",         price: 130, net_weight_grams: 100, image: "/The Wheat Fix.png",            flavours: ['Onion Sesame', 'Schezwan', 'Peri Peri'] },
   { id: "makhana-madness",        name: "Makhana Madness",             category: "Bhel & Mixes", description: "Fluffy foxnut bhel mix.",                     price: 1800,net_weight_grams: 1000,image: "/Makhana madness.jpg" },
   { id: "roasty-bhel",            name: "Roasty Bhel",                 category: "Bhel & Mixes", description: "Craving queen, easy snacking.",               price: 550, net_weight_grams: 1000,image: "/ROASTY BHEL.webp" },
-  { id: "almond-cranberry-oat-cake",name: "Almond Cranberry Oat Cake",  category: "Bakes",        description: "No sugar, no butter, no maida.",             price: 650, net_weight_grams: 250, image: "/ALMOND CRANBERRY OAT CAKE.jpg",badge: "NEW" },
-  { id: "meethi-mathri",          name: "Meethi Mathri",               category: "Mathri",       description: "Sweet festive mathri, jaggery-kissed.",       price: 130, net_weight_grams: 100, image: "/Meethi Mathri.jpg" },
+  { id: "almond-cranberry-oat-cake",name: "Almond Cranberry Oat Cake",  category: "Bakes",        description: "No sugar, no butter, no maida.",             price: 650, net_weight_grams: 250, image: "/ALMOND CRANBERRY OAT CAKE.jpg",badge: "NEW", instagram_url: "https://www.instagram.com/snackwize_/reel/DV3GhDWkZEE/" },
+  { id: "meethi-mathri",          name: "Meethi Mathri",               category: "Mathri",       description: "Sweet festive mathri, jaggery-kissed.",       price: 150, net_weight_grams: 100, image: "/Meethi Mathri.jpg",            instagram_url: "https://www.instagram.com/snackwize_/reel/DUP0VfckVmw/" },
   { id: "beet-it-crunch",         name: "Beet it Crunch",              category: "Crispies",     description: "Baked, bold, beetroot goodness.",             price: 150, net_weight_grams: 100, image: "/Beet it crunch.png",           badge: "NEW" },
-  { id: "thecha-curlies",         name: "Thecha Curlies",              category: "Crispies",     description: "Fiery Maharashtrian thecha meets baked curls.",price: 120, net_weight_grams: 120, image: "/Thecha Curlies .jpg" },
+  { id: "thecha-curlies",         name: "Thecha Curlies",              category: "Crispies",     description: "Fiery Maharashtrian thecha meets baked curls.",price: 150, net_weight_grams: 120, image: "/Thecha Curlies .jpg",          instagram_url: "https://www.instagram.com/snackwize_/reel/DXqx9GuiGKW/" },
   { id: "oats-bhel-blast",        name: "Oats Bhel Blast",             category: "Bhel & Mixes", description: "All healthy grains, masala-packed.",          price: 130, net_weight_grams: 100, image: "/OATS BHEL BLAST.jpg" },
+  { id: "coc-remix",              name: "COC Remix",                   category: "Crispies",     description: "A remixed crunch, freshly baked.",            price: 130, net_weight_grams: 100, image: "" },
+  { id: "bajre-da-sitta",         name: "Bajre Da Sitta",              category: "Crispies",     description: "Pearl millet, roasted rustic and hearty.",    price: 150, net_weight_grams: 100, image: "" },
 ];
 
 export const CATEGORIES = [
@@ -78,5 +82,7 @@ export const DEMO_CUSTOMERS: any[] = [];
 
 export const WHATSAPP = "https://wa.me/919930600993";
 export const INSTAGRAM = "https://instagram.com/snackwize_";
+// Instagram highlight of customer messages and unboxings, linked from About.
+export const CLIENT_STORIES = "https://www.instagram.com/stories/highlights/18155668120117900/";
 export const FACEBOOK = "https://www.facebook.com/Snackwize/";
 export const PHONE = "+91 99306 00993";

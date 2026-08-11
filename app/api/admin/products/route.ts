@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
     delivery_type: str(form.get('delivery_type')) || 'local',
     nutrition: str(form.get('nutrition')) || undefined,
     badge: str(form.get('badge')) || undefined,
+    instagram_url: str(form.get('instagram_url')) || undefined,
     flavours: csv(form.get('flavours')),
   })
   if (!parsed.success) return badRequest(parsed.error.issues[0]?.message ?? 'Invalid product')

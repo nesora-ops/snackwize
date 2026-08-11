@@ -22,6 +22,7 @@ type Product = {
   net_weight_grams: number | null; shelf_life: string | null
   delivery_type: 'domestic' | 'hyperlocal'; nutrition: string | null; badge: string | null
   image: string | null; in_stock: boolean; flavours: string[] | null
+  instagram_url: string | null
 }
 
 async function authHeaders(): Promise<Record<string, string>> {
@@ -63,6 +64,7 @@ export default function ProductsPage() {
     fd.set('delivery_type', editing.delivery_type)
     fd.set('nutrition', editing.nutrition ?? '')
     fd.set('badge', editing.badge ?? '')
+    fd.set('instagram_url', editing.instagram_url ?? '')
     fd.set('flavours', editFlavours)
     if (photo) fd.set('photo', photo)
 
@@ -181,6 +183,10 @@ export default function ProductsPage() {
                 <div className="col-span-2">
                   <Label>Nutrition</Label>
                   <Input value={editing.nutrition ?? ''} onChange={e => set({ nutrition: e.target.value })} className="mt-1" />
+                </div>
+                <div className="col-span-2">
+                  <Label>Instagram post URL</Label>
+                  <Input value={editing.instagram_url ?? ''} onChange={e => set({ instagram_url: e.target.value })} placeholder="https://www.instagram.com/snackwize_/reel/..." className="mt-1" />
                 </div>
                 <div className="col-span-2">
                   <Label>Flavours (comma-separated)</Label>

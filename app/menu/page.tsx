@@ -3,20 +3,45 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MessageCircle, Phone, Instagram, Facebook, MapPin } from 'lucide-react';
-import FlowArt, { FlowSection } from '@/components/ui/story-scroll';
-import { WHATSAPP, INSTAGRAM, FACEBOOK, PHONE } from '@/lib/data';
+import { ArrowRight, MessageCircle, Phone, Instagram, Facebook, MapPin, ShoppingBag } from 'lucide-react';
+import MenuFlow, { MenuSection } from '@/components/ui/menu-flow';
+import { WHATSAPP, INSTAGRAM, FACEBOOK, PHONE, PRODUCTS } from '@/lib/data';
 import { Logo } from '@/components/layout/Logo';
+import { InstagramIcon } from '@/components/layout/SocialIcons';
+
+// Bold "see the reel" CTA for the products that have a post behind them. Reads
+// the same instagram_url the /order page uses, so there is one list to update.
+function InstagramCTA({ productId, tone = 'dark' }: { productId: string; tone?: 'dark' | 'light' }) {
+  const url = PRODUCTS.find((p) => p.id === productId)?.instagram_url;
+  if (!url) return null;
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      className={`group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold backdrop-blur-sm transition hover:scale-105 ${
+        tone === 'dark'
+          ? 'border border-white/20 bg-white/10 text-white'
+          : 'border border-foreground/10 bg-white text-foreground shadow-sm'
+      }`}
+    >
+      <span className="grid h-5 w-5 place-items-center rounded-md bg-white">
+        <InstagramIcon size={15} />
+      </span>
+      View on Instagram
+    </a>
+  );
+}
 
 export default function MenuPage() {
   return (
     <div className="min-h-screen bg-background">
-      <FlowArt aria-label="Snackwize Menu Story">
+      <MenuFlow aria-label="Snackwize Menu Story">
 
         {/* ══════════════════════════════════════
             SECTION 1 — Menu Cover (menupage.png)
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="The Menu" className="!p-0" style={{ backgroundColor: '#FAF5EE' }}>
+        <MenuSection aria-label="The Menu" className="!p-0" style={{ backgroundColor: '#FAF5EE' }}>
           {/* Entire image fits the screen without being cropped */}
           <div className="absolute inset-0 p-[2vw] md:p-[4vw]">
             <div className="relative w-full h-full">
@@ -30,13 +55,13 @@ export default function MenuPage() {
               />
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
             SECTION 2 — Thecha Curlies
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="Thecha Curlies" className="!p-0" style={{ backgroundColor: '#0D1F0D' }}>
+        <MenuSection aria-label="Thecha Curlies" className="!p-0" style={{ backgroundColor: '#0D1F0D' }}>
           <div className="absolute inset-0">
             <Image
               src="/thecha curlies.png"
@@ -86,23 +111,24 @@ export default function MenuPage() {
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">
                 100% Homemade · No Preservatives · Pan India Delivery
               </p>
-              <a
-                href={WHATSAPP}
-                target="_blank"
-                rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary"
-              >
-                Order on WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-              </a>
+              <div className="flex flex-wrap items-center gap-3">
+                <InstagramCTA productId="thecha-curlies" />
+                <a
+                  href="/order"
+                  className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary"
+                >
+                  Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </a>
+              </div>
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
             SECTION 3 — Jowar Jhatka Sticks
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="Jowar Jhatka Sticks" className="!p-0" style={{ backgroundColor: '#1A1005' }}>
+        <MenuSection aria-label="Jowar Jhatka Sticks" className="!p-0" style={{ backgroundColor: '#1A1005' }}>
           <div className="absolute inset-0">
             <Image
               src="/jowar jhatka.png"
@@ -145,27 +171,28 @@ export default function MenuPage() {
             <hr className="border-white/20" />
 
             <div className="flex items-center justify-between">
-              <a
-                href={WHATSAPP}
-                target="_blank"
-                rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition"
-                style={{ ['--hover-bg' as string]: '#F5A623' }}
-              >
-                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order on WhatsApp
-              </a>
+              <div className="flex flex-wrap items-center gap-3">
+                <a
+                  href="/order"
+                  className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition"
+                  style={{ ['--hover-bg' as string]: '#F5A623' }}
+                >
+                  <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
+                </a>
+                <InstagramCTA productId="jowar-jhatka" />
+              </div>
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">
                 Made with Jowar · Zero Preservatives
               </p>
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
             SECTION 4 — Meethi Mathri
             ══════════════════════════════════════ */}
-        <FlowSection
+        <MenuSection
           aria-label="Meethi Mathri"
           style={{ backgroundColor: '#FDF3E3' }}
         >
@@ -215,7 +242,7 @@ export default function MenuPage() {
                   🌿 Fennel &amp; Cardamom
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30">
-                  Coming Soon
+                  ₹150 · 100g
                 </span>
               </div>
               <div className="mt-8 flex flex-wrap gap-8">
@@ -233,22 +260,18 @@ export default function MenuPage() {
               </div>
             </div>
 
-            {/* Right — visual placeholder */}
+            {/* Right — product photo */}
             <div className="flex-shrink-0 w-full max-w-[320px] md:max-w-[380px]">
               <div
-                className="aspect-square rounded-3xl flex flex-col items-center justify-center text-center p-8 relative overflow-hidden"
-                style={{ background: 'linear-gradient(135deg, #F5DEB3 0%, #FAEBD7 50%, #FFE4B5 100%)', boxShadow: '0 20px 60px rgba(196,135,58,0.25)' }}
+                className="aspect-square rounded-3xl relative overflow-hidden"
+                style={{ boxShadow: '0 20px 60px rgba(196,135,58,0.25)' }}
               >
-                <div className="text-7xl mb-4">🍪</div>
-                <p className="font-display text-2xl font-bold text-amber-900">Meethi Mathri</p>
-                <p className="mt-2 text-sm text-amber-700/70">Photography coming soon</p>
-                <div
-                  className="absolute -bottom-8 -right-8 h-32 w-32 rounded-full"
-                  style={{ backgroundColor: 'rgba(249,115,22,0.15)' }}
-                />
-                <div
-                  className="absolute -top-8 -left-8 h-24 w-24 rounded-full"
-                  style={{ backgroundColor: 'rgba(196,135,58,0.2)' }}
+                <Image
+                  src="/Meethi Mathri.jpg"
+                  alt="Meethi Mathri"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, 380px"
                 />
               </div>
             </div>
@@ -260,23 +283,24 @@ export default function MenuPage() {
             <p className="font-mono-accent text-[10px] uppercase tracking-widest text-foreground/30">
               Homemade · Small Batch · Festive Edition
             </p>
-            <a
-              href={WHATSAPP}
-              target="_blank"
-              rel="noreferrer"
-              className="group inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/30 px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary hover:text-white"
-            >
-              Notify me <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-            </a>
+            <div className="flex flex-wrap items-center gap-3">
+              <InstagramCTA productId="meethi-mathri" tone="light" />
+              <a
+                href="/order"
+                className="group inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/30 px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary hover:text-white"
+              >
+                Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </a>
+            </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
 
         {/* ══════════════════════════════════════
             SECTION 5 — Swaad Fit Mathri
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="Swaad Fit Mathri" className="!p-0" style={{ backgroundColor: '#1A0F05' }}>
+        <MenuSection aria-label="Swaad Fit Mathri" className="!p-0" style={{ backgroundColor: '#1A0F05' }}>
           <div className="absolute inset-0">
             <Image src="/Swaad fit mathri.png" alt="Swaad Fit Mathri" fill className="object-cover object-center" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
@@ -301,18 +325,18 @@ export default function MenuPage() {
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">100% Homemade · No Preservatives · Pan India Delivery</p>
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                Order on WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </a>
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
             SECTION 6 — Beet Drop Mathri
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="Beet Drop Mathri" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
+        <MenuSection aria-label="Beet Drop Mathri" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
           <div className="absolute inset-0">
             <Image src="/Beet drop mathri.png" alt="Beet Drop Mathri" fill className="object-cover object-center" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
@@ -335,19 +359,19 @@ export default function MenuPage() {
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order on WhatsApp
+              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
               </a>
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Baked · Colourful · Healthy</p>
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
             SECTION 7 — Nachni Ninjas
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="Nachni Ninjas" className="!p-0" style={{ backgroundColor: '#0D1505' }}>
+        <MenuSection aria-label="Nachni Ninjas" className="!p-0" style={{ backgroundColor: '#0D1505' }}>
           <div className="absolute inset-0">
             <Image src="/Nachni Ninjas.png" alt="Nachni Ninjas" fill className="object-cover object-center" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
@@ -372,18 +396,18 @@ export default function MenuPage() {
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Ragi · Baked · 4 Flavours</p>
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                Order on WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </a>
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
             SECTION 8 — The Wheat Fix
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="The Wheat Fix" className="!p-0" style={{ backgroundColor: '#1A1005' }}>
+        <MenuSection aria-label="The Wheat Fix" className="!p-0" style={{ backgroundColor: '#1A1005' }}>
           <div className="absolute inset-0">
             <Image src="/The Wheat Fix.png" alt="The Wheat Fix" fill className="object-cover object-center" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
@@ -406,19 +430,19 @@ export default function MenuPage() {
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order on WhatsApp
+              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
               </a>
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Wheat · 3 Flavours · Zero Guilt</p>
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
             SECTION 9 — Beet it Crunch
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="Beet it Crunch" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
+        <MenuSection aria-label="Beet it Crunch" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
           <div className="absolute inset-0">
             <Image src="/Beet it crunch.png" alt="Beet it Crunch" fill className="object-cover object-center" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
@@ -443,18 +467,18 @@ export default function MenuPage() {
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Baked · Bold · Beautiful</p>
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                Order on WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </a>
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
             SECTION 10 — Oats Bhel Blast
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="Oats Bhel Blast" className="!p-0" style={{ backgroundColor: '#051A0D' }}>
+        <MenuSection aria-label="Oats Bhel Blast" className="!p-0" style={{ backgroundColor: '#051A0D' }}>
           <div className="absolute inset-0">
             <Image src="/OATS BHEL BLAST.jpg" alt="Oats Bhel Blast" fill className="object-cover object-center" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
@@ -477,19 +501,19 @@ export default function MenuPage() {
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order on WhatsApp
+              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
               </a>
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Oats · Healthy · Bhel</p>
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
             SECTION 11 — Roasty Bhel
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="Roasty Bhel" className="!p-0" style={{ backgroundColor: '#1A0D05' }}>
+        <MenuSection aria-label="Roasty Bhel" className="!p-0" style={{ backgroundColor: '#1A0D05' }}>
           <div className="absolute inset-0">
             <Image src="/ROASTY BHEL.webp" alt="Roasty Bhel" fill className="object-cover object-center" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
@@ -514,18 +538,18 @@ export default function MenuPage() {
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Family Size · Roasted · Homemade</p>
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                Order on WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </a>
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
             SECTION 12 — Makhana Madness
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="Makhana Madness" className="!p-0" style={{ backgroundColor: '#0D0D1A' }}>
+        <MenuSection aria-label="Makhana Madness" className="!p-0" style={{ backgroundColor: '#0D0D1A' }}>
           <div className="absolute inset-0">
             <Image src="/Makhana madness.jpg" alt="Makhana Madness" fill className="object-cover object-center" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
@@ -548,19 +572,19 @@ export default function MenuPage() {
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order on WhatsApp
+              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
               </a>
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Makhana · Premium · 1kg Pack</p>
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
             SECTION 13 — Almond Cranberry Oat Cake
             ══════════════════════════════════════ */}
-        <FlowSection aria-label="Almond Cranberry Oat Cake" className="!p-0" style={{ backgroundColor: '#1A0A05' }}>
+        <MenuSection aria-label="Almond Cranberry Oat Cake" className="!p-0" style={{ backgroundColor: '#1A0A05' }}>
           <div className="absolute inset-0">
             <Image src="/ALMOND CRANBERRY OAT CAKE.jpg" alt="Almond Cranberry Oat Cake" fill className="object-cover object-center" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
@@ -585,12 +609,15 @@ export default function MenuPage() {
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">No Sugar · No Butter · No Maida</p>
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                Order on WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-              </a>
+              <div className="flex flex-wrap items-center gap-3">
+                <InstagramCTA productId="almond-cranberry-oat-cake" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                  Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </a>
+              </div>
             </div>
           </div>
-        </FlowSection>
+        </MenuSection>
 
 
 
@@ -598,7 +625,7 @@ export default function MenuPage() {
         {/* ══════════════════════════════════════
             SECTION 6 — Ready to Order + Footer
             ══════════════════════════════════════ */}
-        <FlowSection
+        <MenuSection
           aria-label="Ready to Order"
           style={{ backgroundColor: '#1C1917' }}
         >
@@ -624,13 +651,11 @@ export default function MenuPage() {
               </p>
               <div className="flex flex-wrap md:justify-end gap-3">
                 <a
-                  href={WHATSAPP}
-                  target="_blank"
-                  rel="noreferrer"
+                  href="/order"
                   className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-2xl shadow-primary/30 transition hover:bg-primary-dark hover:scale-105"
                 >
-                  <MessageCircle className="h-4 w-4" />
-                  Order on WhatsApp
+                  <ShoppingBag className="h-4 w-4" />
+                  Start your order
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </a>
                 <Link
@@ -713,9 +738,9 @@ export default function MenuPage() {
               Made with ❤️ in Mumbai
             </p>
           </div>
-        </FlowSection>
+        </MenuSection>
 
-      </FlowArt>
+      </MenuFlow>
     </div>
   );
 }

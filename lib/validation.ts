@@ -58,6 +58,7 @@ export const createProductSchema = z.object({
   delivery_type: z.enum(['local', 'hyperlocal']).default('local'),
   nutrition: z.string().max(280).optional(),
   badge: z.string().max(40).optional(),
+  instagram_url: z.string().url().max(300).optional(),
   flavours: z.array(z.string().max(60)).max(12).optional(),
 })
 

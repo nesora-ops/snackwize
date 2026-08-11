@@ -1,42 +1,36 @@
 'use client'
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Instagram, MessageCircle, Menu, X, ShoppingBag, User } from "lucide-react";
+import { Menu, X, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "./Logo";
-import { InstallAppButton } from "./InstallAppButton";
+import { WhatsAppIcon, InstagramIcon, FacebookIcon } from "./SocialIcons";
 import { useCart } from "@/context/CartContext";
-import { getUser, logout, type MockUser } from "@/lib/auth";
-import { appHref } from "@/lib/portal";
-import { WHATSAPP, INSTAGRAM } from "@/lib/data";
-import { toast } from "sonner";
+import { WHATSAPP, INSTAGRAM, FACEBOOK } from "@/lib/data";
 
+// Login, sign-up and the account portal are intentionally absent for the stall
+// event — the pages still work at their URLs, they are just not linked here.
 const NAV = [
   { href: "/", label: "Home" },
   { href: "/menu", label: "Menu" },
-  { href: "/about", label: "About" },
-  { href: "/testimonials", label: "Testimonials" },
-  { href: "/contact", label: "Contact" },
+  { href: "/order", label: "Order" },
+] as const;
+
+const SOCIALS = [
+  { href: INSTAGRAM, label: "Instagram", Icon: InstagramIcon },
+  { href: WHATSAPP,  label: "WhatsApp",  Icon: WhatsAppIcon  },
+  { href: FACEBOOK,  label: "Facebook",  Icon: FacebookIcon  },
 ] as const;
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
-  const [user, setU] = useState<MockUser | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const { count } = useCart();
   const pathname = usePathname();
-  const router = useRouter();
 
   const isMenuPage = pathname === "/menu";
-
-  useEffect(() => {
-    const sync = () => setU(getUser());
-    sync();
-    window.addEventListener("snackwize-auth", sync);
-    return () => window.removeEventListener("snackwize-auth", sync);
-  }, []);
 
   // Track scroll to transition navbar from transparent → opaque on /menu
   useEffect(() => {
@@ -45,17 +39,6 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [isMenuPage]);
-
-  const handleCartClick = (e: React.MouseEvent) => {
-    if (!user) {
-      e.preventDefault();
-      toast("Please login to view your cart 🛒", {
-        description: "Your items are saved — log in to checkout.",
-        action: { label: "Login", onClick: () => router.push("/login") },
-      });
-      router.push("/login");
-    }
-  };
 
   // On menu page: always transparent background
   const isTransparentBg = isMenuPage;
@@ -99,81 +82,38 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <a
-            href={INSTAGRAM}
-            target="_blank"
-            rel="noreferrer"
-            className={`hidden rounded-full p-2 transition sm:inline-flex ${
-              isWhiteText ? "text-white/70 hover:text-white" : isBlackText ? "text-black hover:text-primary" : "text-foreground/70 hover:bg-primary-light hover:text-primary-dark"
-            }`}
-            aria-label="Instagram"
-          >
-            <Instagram className="h-4 w-4" />
-          </a>
-          <a
-            href={WHATSAPP}
-            target="_blank"
-            rel="noreferrer"
-            className={`hidden rounded-full p-2 transition sm:inline-flex ${
-              isWhiteText ? "text-white/70 hover:text-white" : isBlackText ? "text-black hover:text-primary" : "text-foreground/70 hover:bg-primary-light hover:text-primary-dark"
-            }`}
-            aria-label="WhatsApp"
-          >
-            <MessageCircle className="h-4 w-4" />
-          </a>
+        <div className="flex items-center gap-1.5">
+          {SOCIALS.map(({ href, label, Icon }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={label}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-background/70 shadow-sm ring-1 ring-border/60 backdrop-blur transition hover:scale-105 hover:bg-background"
+            >
+              <Icon size={20} />
+            </a>
+          ))}
 
-          <a
-            href={appHref("/app/cart")}
-            onClick={handleCartClick}
-            className={`relative rounded-full p-2 transition inline-flex ${
+          <Link
+            href="/order"
+            className={`relative ml-1 rounded-full p-2 transition inline-flex ${
               isWhiteText ? "text-white/70 hover:text-white" : isBlackText ? "text-black hover:text-primary" : "text-foreground/70 hover:bg-primary-light hover:text-primary-dark"
             }`}
-            aria-label="Cart"
+            aria-label="Your bag"
           >
-            <ShoppingBag className="h-4 w-4" />
+            <ShoppingBag className="h-5 w-5" />
             {count > 0 && (
               <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 font-mono-accent text-[10px] font-bold text-primary-foreground">
                 {count}
               </span>
             )}
-          </a>
+          </Link>
 
-          {user ? (
-            <>
-              <InstallAppButton variant="outline" className={`hidden sm:inline-flex ${isMenuPage ? "text-black border-black/20 bg-white/90 hover:bg-white" : ""}`} />
-              <a
-                href={appHref("/app/menu")}
-                className={`hidden text-sm font-medium transition sm:inline ${
-                  isWhiteText ? "text-white/80 hover:text-white" : isBlackText ? "text-black hover:text-primary" : "text-foreground/80 hover:text-primary"
-                }`}
-              >
-                Hi, {user.name.split(" ")[0]}
-              </a>
-              <a href={appHref("/app/menu")} className="hidden sm:inline-flex">
-                <Button size="sm" className="bg-primary hover:bg-primary-dark border-none">Go to Portal</Button>
-              </a>
-              <Button size="sm" variant="outline" onClick={() => logout()} className={`hidden sm:inline-flex ${isMenuPage ? "text-black border-black/20 bg-white/90 hover:bg-white" : ""}`}>Logout</Button>
-            </>
-          ) : (
-            <>
-              <InstallAppButton variant="outline" className={`hidden sm:inline-flex ${isMenuPage ? "text-black border-black/20 bg-white/90 hover:bg-white" : ""}`} />
-              <a href={appHref("/app/menu")} className="hidden sm:inline-flex">
-                <Button size="sm" className="bg-primary hover:bg-primary-dark border-none">Order Now</Button>
-              </a>
-              <a
-                href={appHref("/login")}
-                className={`hidden text-sm font-medium transition sm:inline ${
-                  isWhiteText ? "text-white/80 hover:text-white" : isBlackText ? "text-black hover:text-primary" : "text-foreground/80 hover:text-primary"
-                }`}
-              >
-                Login
-              </a>
-              <a href={appHref("/signup")} className="hidden sm:inline-flex">
-                <Button size="sm" variant="outline" className={isMenuPage ? "text-black border-black/20 bg-white/90 hover:bg-white" : ""}>Sign up</Button>
-              </a>
-            </>
-          )}
+          <Link href="/order" className="hidden sm:inline-flex">
+            <Button size="sm" className="bg-primary hover:bg-primary-dark border-none">Order Now</Button>
+          </Link>
 
           <button
             className={`rounded-full p-2 md:hidden ${isWhiteText ? "text-white" : isBlackText ? "text-black" : ""}`}
@@ -193,22 +133,9 @@ export function Navbar() {
                 {n.label}
               </Link>
             ))}
-            <div className="mt-2 flex gap-2">
-              {user ? (
-                <>
-                  <a href={appHref("/app/menu")} onClick={() => setOpen(false)} className="flex-1"><Button variant="outline" className="w-full"><User className="mr-2 h-4 w-4" />Go to Portal</Button></a>
-                  <Button onClick={() => { logout(); setOpen(false); }} className="flex-1 bg-primary hover:bg-primary-dark">Logout</Button>
-                </>
-              ) : (
-                <div className="flex w-full flex-col gap-2">
-                  <a href={appHref("/app/menu")} onClick={() => setOpen(false)}><Button className="w-full bg-primary hover:bg-primary-dark">Order Now</Button></a>
-                  <div className="flex gap-2">
-                    <a href={appHref("/login")} onClick={() => setOpen(false)} className="flex-1"><Button variant="outline" className="w-full">Login</Button></a>
-                    <a href={appHref("/signup")} onClick={() => setOpen(false)} className="flex-1"><Button className="w-full bg-primary hover:bg-primary-dark">Sign up</Button></a>
-                  </div>
-                </div>
-              )}
-            </div>
+            <Link href="/order" onClick={() => setOpen(false)} className="mt-2">
+              <Button className="w-full bg-primary hover:bg-primary-dark">Order Now</Button>
+            </Link>
           </div>
         </div>
       )}

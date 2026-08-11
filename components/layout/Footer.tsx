@@ -178,19 +178,20 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 — Account */}
+          {/* Column 3 — Ordering. Account links are hidden for the stall event;
+              the pages still work at their URLs. */}
           <div>
-            <h4 
-              style={{ color: COLORS.textPrimary, fontFamily: "'DM Sans', sans-serif", letterSpacing: '0.15em' }} 
+            <h4
+              style={{ color: COLORS.textPrimary, fontFamily: "'DM Sans', sans-serif", letterSpacing: '0.15em' }}
               className="text-sm font-medium uppercase mb-6"
             >
-              Account
+              Order
             </h4>
             <ul className="space-y-3 flex flex-col">
               {[
-                { name: 'Login', href: '/login' },
-                { name: 'Sign Up', href: '/signup' },
-                { name: 'Dashboard', href: '/dashboard' }
+                { name: 'Order Now', href: '/order' },
+                { name: 'Browse Menu', href: '/menu' },
+                { name: 'Our Story', href: '/about' }
               ].map((link) => (
                 <Link
                   key={link.name}

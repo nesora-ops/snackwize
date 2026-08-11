@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import { motion } from "framer-motion";
+import { ProductImage } from "./ProductImage";
 import { Heart, Plus } from "lucide-react";
 import { toast } from "sonner";
 import type { Product } from "@/lib/data";
@@ -18,7 +18,7 @@ export function ProductCard({ product }: { product: Product }) {
       className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition hover:shadow-xl"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-surface">
-        <Image width={800} height={600} src={product.image} alt={product.name} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+        <ProductImage src={product.image} alt={product.name} sizes="(max-width: 768px) 50vw, 300px" className="transition duration-500 group-hover:scale-105" />
         {product.badge && (
           <span className="absolute left-3 top-3 rounded-full bg-primary px-2.5 py-1 font-mono-accent text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
             {product.badge}

@@ -1,12 +1,9 @@
 'use client'
 
 import Link from "next/link";
-import { ShoppingBag, ArrowLeft, Download, LogOut } from "lucide-react";
+import { ShoppingBag, ArrowLeft, Download } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { getUser, logout, type MockUser } from "@/lib/auth";
-import { supabase } from "@/lib/supabase";
 import { InstallAppButton } from "./InstallAppButton";
 
 interface AppHeaderProps {
@@ -17,23 +14,6 @@ interface AppHeaderProps {
 export function AppHeader({ title, showBack }: AppHeaderProps) {
   const { count } = useCart();
   const pathname = usePathname();
-  const [user, setU] = useState<MockUser | null>(null);
-
-  useEffect(() => {
-    // Force direct hydration of user session since the global listener might be delayed
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session?.user) {
-        setU({
-          name: data.session.user.user_metadata?.name || 'Admin',
-          email: data.session.user.email || '',
-        });
-      }
-    });
-    
-    const sync = () => setU(getUser());
-    window.addEventListener("snackwize-auth", sync);
-    return () => window.removeEventListener("snackwize-auth", sync);
-  }, []);
 
   // Derive a nice title from the route if none given
   const derivedTitle = title ?? (() => {
@@ -135,18 +115,8 @@ export function AppHeader({ title, showBack }: AppHeaderProps) {
             </span>
           )}
         </Link>
-        {user && (
-          <button 
-            onClick={() => {
-              logout();
-              window.location.href = "/login"; // Redirect to login on logout
-            }}
-            style={{ color: "#1C1917", display: "flex", background: "none", border: "none", padding: 0, cursor: "pointer" }}
-            aria-label="Logout"
-          >
-            <LogOut size={20} strokeWidth={1.8} />
-          </button>
-        )}
+        {/* Logout hidden for the stall event — auth still works, it is just not
+            surfaced to visitors who scan the poster. */}
       </div>
     </header>
   );

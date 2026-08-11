@@ -42,6 +42,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   if (form.has('delivery_type')) fields.delivery_type = str(form.get('delivery_type'))
   if (form.has('nutrition')) fields.nutrition = str(form.get('nutrition'))
   if (form.has('badge')) fields.badge = str(form.get('badge'))
+  if (form.has('instagram_url')) fields.instagram_url = str(form.get('instagram_url'))
   if (form.has('flavours')) fields.flavours = csv(form.get('flavours'))
 
   const parsed = updateProductSchema.safeParse(fields)

@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { SectionHeader } from "@/components/sections/SectionHeader";
 import { Heart, Leaf, Truck, Sparkles, ChefHat, Package, Search } from "lucide-react";
-import { PRODUCTS } from "@/lib/data";
+import { PRODUCTS, CLIENT_STORIES } from "@/lib/data";
+import { InstagramIcon } from "@/components/layout/SocialIcons";
 
 
 
@@ -21,7 +22,7 @@ export default function About() {
 
       <section className="mx-auto max-w-7xl px-6 py-20">
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
-          <Image width={800} height={600} src={PRODUCTS[7].image} alt="Snackwize kitchen" className="aspect-[4/5] w-full rounded-3xl object-cover" />
+          <Image width={800} height={600} src={PRODUCTS.find(p => p.id === "roasty-bhel")!.image} alt="Snackwize kitchen" className="aspect-[4/5] w-full rounded-3xl object-cover" />
           <div>
             <SectionHeader eyebrow="Our Mission" title="Let's Make India Healthy 🇮🇳" sub="We believe Indian snacking deserves better — rooted in real ingredients, traditional flavors, and a modern, honest standard of care." />
             <div className="mt-8 grid grid-cols-2 gap-4">
@@ -85,6 +86,25 @@ export default function About() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 pb-24">
+        <div className="rounded-3xl border border-border bg-card p-10 text-center md:p-14">
+          <p className="font-mono-accent text-xs uppercase tracking-[0.3em] text-primary">Client Stories</p>
+          <h3 className="mt-3 font-display text-3xl font-bold text-foreground">Straight from our customers</h3>
+          <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
+            Real messages, unboxings and repeat orders — saved to our Instagram highlights.
+          </p>
+          <a
+            href={CLIENT_STORIES}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-7 inline-flex items-center gap-2.5 rounded-full border border-border bg-background px-7 py-3.5 text-sm font-semibold text-foreground shadow-sm transition hover:scale-105 hover:border-primary"
+          >
+            <InstagramIcon size={20} />
+            View on Instagram
+          </a>
         </div>
       </section>
     </>

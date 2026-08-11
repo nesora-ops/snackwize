@@ -435,7 +435,7 @@ export default function AppMenuPage() {
           Craving something healthy?
         </h2>
         <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.85)", margin: 0 }}>
-          Order now &amp; get 15% off with code <strong>FRESH15</strong>
+          Small-batch baked snacks, made fresh by Nupur.
         </p>
       </div>
 
