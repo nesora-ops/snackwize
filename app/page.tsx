@@ -3,10 +3,10 @@
 import Image from 'next/image'
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Cookie, Leaf, Truck, Flame, Instagram, Star } from "lucide-react";
+import { ArrowRight, Cookie, Leaf, Truck, Flame, Instagram } from "lucide-react";
 import { ProductCard } from "@/components/sections/ProductCard";
 import { SectionHeader } from "@/components/sections/SectionHeader";
-import { PRODUCTS, TESTIMONIALS, WHATSAPP, INSTAGRAM } from "@/lib/data";
+import { PRODUCTS, WHATSAPP, INSTAGRAM } from "@/lib/data";
 import { hasPhoto } from "@/components/sections/ProductImage";
 
 // Photo-led sections only ever pull from products that actually have one, so a
@@ -85,6 +85,40 @@ export default function Index() {
         </div>
       </section>
 
+      {/* About Us — anchor target for the navbar */}
+      <section id="about" className="scroll-mt-20 bg-background">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 md:grid-cols-[auto,1fr] md:py-20">
+          <div className="mx-auto md:mx-0">
+            <div className="grid h-28 w-28 place-items-center rounded-full bg-primary-light text-5xl">👩‍🍳</div>
+          </div>
+          <div>
+            <p className="font-mono-accent text-xs uppercase tracking-[0.25em] text-primary">About Us</p>
+            <h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">
+              Snacks worth trusting, from Nupur's kitchen.
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
+              Snackwize started with a simple frustration: almost nothing on the shelf was worth
+              feeding a family every day. So Nupur began baking her own — whole grains like jowar,
+              bajra, ragi and oats, jaggery instead of refined sugar, real ghee, and not a single
+              preservative. Everything is baked, never fried, in batches small enough that she still
+              tastes them herself.
+            </p>
+            <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground">
+              The mission is unglamorous and stubborn — make the healthy option the tasty one, so
+              choosing better stops feeling like a sacrifice. One honest shelf at a time.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/order" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition hover:bg-primary-dark">
+                Order Now <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link href="/about" className="inline-flex items-center gap-2 rounded-full border border-foreground/15 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-primary hover:text-primary">
+                Read the full story
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Featured products */}
       <section className="mx-auto max-w-7xl px-6 py-20">
         <div className="mb-10 flex items-end justify-between gap-4">
@@ -117,22 +151,6 @@ export default function Index() {
               Read our story <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <SectionHeader eyebrow="Word of mouth" title="Loved across India" center />
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {TESTIMONIALS.slice(0, 3).map((t) => (
-            <div key={t.name} className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-              <div className="flex gap-1">
-                {Array.from({ length: t.rating }).map((_, i) => <Star key={i} className="h-4 w-4 fill-primary text-primary" />)}
-              </div>
-              <p className="mt-4 text-sm text-foreground/85">"{t.text}"</p>
-              <p className="mt-4 font-mono-accent text-xs uppercase tracking-wider text-muted-foreground">{t.name} · {t.city}</p>
-            </div>
-          ))}
         </div>
       </section>
 

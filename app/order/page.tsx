@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { X, Trash2, Minus, Plus } from 'lucide-react'
+import { X, Trash2, Minus, Plus, Menu } from 'lucide-react'
 import { CATEGORIES, type Product, INSTAGRAM, FACEBOOK, WHATSAPP } from '@/lib/data'
 import { useCart, lineKey } from '@/context/CartContext'
 import { OrderCard } from '@/components/order/OrderCard'
@@ -19,6 +19,14 @@ const CATEGORY_EMOJIS: Record<string, string> = {
 }
 
 const ORANGE = '#F97316'
+
+// /order has no site chrome, so it carries its own way back to the rest of the site.
+const NAV_LINKS = [
+  { href: '/', label: 'Home' },
+  { href: '/menu', label: 'Menu' },
+  { href: '/#about', label: 'About Us' },
+  { href: '/about', label: 'Our Story' },
+] as const
 
 function CheckoutSheet({ onClose }: { onClose: () => void }) {
   const { items, total, updateQty, remove } = useCart()
@@ -179,6 +187,7 @@ export default function OrderPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [activeCategory, setActiveCategory] = useState<string>('All')
   const [sheetOpen, setSheetOpen] = useState(false)
+  const [navOpen, setNavOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const { count, total } = useCart()
 
@@ -229,8 +238,39 @@ export default function OrderPage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <a href={INSTAGRAM} target="_blank" rel="noreferrer" aria-label="Instagram" style={{ display: 'flex' }}><InstagramIcon size={22} /></a>
           <a href={FACEBOOK} target="_blank" rel="noreferrer" aria-label="Facebook" style={{ display: 'flex' }}><FacebookIcon size={22} /></a>
+          <button
+            onClick={() => setNavOpen((o) => !o)}
+            aria-label={navOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={navOpen}
+            style={{ background: 'none', border: 'none', padding: '4px', cursor: 'pointer', color: '#1C1917', display: 'flex' }}
+          >
+            {navOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </header>
+
+      {navOpen && (
+        <nav style={{ position: 'sticky', top: '56px', zIndex: 39, backgroundColor: '#fff', borderBottom: '1px solid #F0ECE8', boxShadow: '0 6px 20px rgba(0,0,0,0.08)' }}>
+          {NAV_LINKS.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={() => setNavOpen(false)}
+              style={{ display: 'block', padding: '14px 20px', fontSize: '15px', fontWeight: 600, color: '#1C1917', textDecoration: 'none', borderBottom: '1px solid #F7F4F1' }}
+            >
+              {label}
+            </Link>
+          ))}
+          <a
+            href={WHATSAPP}
+            target="_blank"
+            rel="noreferrer"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '14px 20px', fontSize: '15px', fontWeight: 600, color: '#1C1917', textDecoration: 'none' }}
+          >
+            <WhatsAppIcon size={18} /> Chat on WhatsApp
+          </a>
+        </nav>
+      )}
 
       <div style={{ padding: '16px 16px 4px' }}>
         <h1 style={{ margin: 0, fontSize: '22px', fontWeight: 800, color: '#1C1917', fontFamily: "'Playfair Display', serif", lineHeight: 1.2 }}>

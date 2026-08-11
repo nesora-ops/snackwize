@@ -7,6 +7,8 @@ import { ArrowRight, MessageCircle, Phone, Instagram, Facebook, MapPin, Shopping
 import MenuFlow, { MenuSection } from '@/components/ui/menu-flow';
 import { WHATSAPP, INSTAGRAM, FACEBOOK, PHONE, PRODUCTS } from '@/lib/data';
 import { Logo } from '@/components/layout/Logo';
+import { MenuAddToCart } from '@/components/menu/MenuAddToCart';
+import { MenuCartBar } from '@/components/menu/MenuCartBar';
 import { InstagramIcon } from '@/components/layout/SocialIcons';
 
 // Bold "see the reel" CTA for the products that have a post behind them. Reads
@@ -100,7 +102,7 @@ export default function MenuPage() {
                   🌿 Baked Not Fried
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30">
-                  ₹120 · 120g
+                  ₹165 · 120g
                 </span>
               </div>
             </div>
@@ -113,8 +115,8 @@ export default function MenuPage() {
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <InstagramCTA productId="thecha-curlies" />
-                <a
-                  href="/order"
+                <MenuAddToCart productId="thecha-curlies" />
+                <a href="/order"
                   className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary"
                 >
                   Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -163,7 +165,7 @@ export default function MenuPage() {
                   🔥 Baked Not Fried
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#F5A623', boxShadow: '0 4px 20px rgba(245,166,35,0.35)' }}>
-                  ₹130 · 130g
+                  ₹145 · 100g
                 </span>
               </div>
             </div>
@@ -172,8 +174,8 @@ export default function MenuPage() {
 
             <div className="flex items-center justify-between">
               <div className="flex flex-wrap items-center gap-3">
-                <a
-                  href="/order"
+                <MenuAddToCart productId="jowar-jhatka" />
+                <a href="/order"
                   className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition"
                   style={{ ['--hover-bg' as string]: '#F5A623' }}
                 >
@@ -242,7 +244,7 @@ export default function MenuPage() {
                   🌿 Fennel &amp; Cardamom
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30">
-                  ₹150 · 100g
+                  ₹165 · 100g
                 </span>
               </div>
               <div className="mt-8 flex flex-wrap gap-8">
@@ -285,8 +287,8 @@ export default function MenuPage() {
             </p>
             <div className="flex flex-wrap items-center gap-3">
               <InstagramCTA productId="meethi-mathri" tone="light" />
-              <a
-                href="/order"
+              <MenuAddToCart productId="meethi-mathri" tone="light" />
+                <a href="/order"
                 className="group inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/30 px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary hover:text-white"
               >
                 Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -319,13 +321,14 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🫓 4 Flavours</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌿 Baked Not Fried</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#D97706', boxShadow: '0 4px 20px rgba(217,119,6,0.35)' }}>₹130 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#D97706', boxShadow: '0 4px 20px rgba(217,119,6,0.35)' }}>₹145 · 100g</span>
               </div>
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">100% Homemade · No Preservatives · Pan India Delivery</p>
-              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+              <MenuAddToCart productId="swaad-fit-mathri" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
                 Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </a>
             </div>
@@ -354,12 +357,13 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌸 Beetroot Goodness</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#BE185D', boxShadow: '0 4px 20px rgba(190,24,93,0.35)' }}>₹130 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#BE185D', boxShadow: '0 4px 20px rgba(190,24,93,0.35)' }}>₹145 · 100g</span>
               </div>
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
-              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+              <MenuAddToCart productId="beet-drop-mathri" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
                 <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
               </a>
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Baked · Colourful · Healthy</p>
@@ -390,13 +394,14 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌾 Ragi (Nachni) Base</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">💪 High Calcium</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#65A30D', boxShadow: '0 4px 20px rgba(101,163,13,0.35)' }}>₹130 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#65A30D', boxShadow: '0 4px 20px rgba(101,163,13,0.35)' }}>₹145 · 100g</span>
               </div>
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Ragi · Baked · 4 Flavours</p>
-              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+              <MenuAddToCart productId="nachni-ninjas" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
                 Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </a>
             </div>
@@ -425,12 +430,13 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌾 Whole Wheat</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🔥 Baked Not Fried</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#FBBF24', boxShadow: '0 4px 20px rgba(251,191,36,0.35)' }}>₹130 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#FBBF24', boxShadow: '0 4px 20px rgba(251,191,36,0.35)' }}>₹145 · 100g</span>
               </div>
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
-              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+              <MenuAddToCart productId="the-wheat-fix" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
                 <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
               </a>
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Wheat · 3 Flavours · Zero Guilt</p>
@@ -461,13 +467,14 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌸 Beetroot Powered</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#EC4899', boxShadow: '0 4px 20px rgba(236,72,153,0.35)' }}>₹150 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#EC4899', boxShadow: '0 4px 20px rgba(236,72,153,0.35)' }}>₹165 · 100g</span>
               </div>
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Baked · Bold · Beautiful</p>
-              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+              <MenuAddToCart productId="beet-it-crunch" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
                 Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </a>
             </div>
@@ -496,12 +503,13 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌾 Whole Oats</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌶 Masala-Packed</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#22C55E', boxShadow: '0 4px 20px rgba(34,197,94,0.35)' }}>₹130 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#22C55E', boxShadow: '0 4px 20px rgba(34,197,94,0.35)' }}>₹145 · 100g</span>
               </div>
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
-              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+              <MenuAddToCart productId="oats-bhel-blast" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
                 <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
               </a>
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Oats · Healthy · Bhel</p>
@@ -532,13 +540,14 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🎉 Family Pack 1kg</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌿 Roasted Grains</span>
-                <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30">₹550 · 1kg</span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30">₹600 · 1kg</span>
               </div>
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Family Size · Roasted · Homemade</p>
-              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+              <MenuAddToCart productId="roasty-bhel" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
                 Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </a>
             </div>
@@ -567,12 +576,13 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">⭐ Foxnut (Makhana)</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">💎 Premium 1kg</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#7C3AED', boxShadow: '0 4px 20px rgba(124,58,237,0.35)' }}>₹1800 · 1kg</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#7C3AED', boxShadow: '0 4px 20px rgba(124,58,237,0.35)' }}>₹1980 · 1kg</span>
               </div>
             </div>
             <hr className="border-white/20" />
             <div className="flex items-center justify-between">
-              <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+              <MenuAddToCart productId="makhana-madness" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
                 <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
               </a>
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Makhana · Premium · 1kg Pack</p>
@@ -603,7 +613,7 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌰 Almond & Cranberry</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🍰 No Sugar · No Maida</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#F59E0B', boxShadow: '0 4px 20px rgba(245,158,11,0.35)' }}>₹650 · 250g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#F59E0B', boxShadow: '0 4px 20px rgba(245,158,11,0.35)' }}>₹715 · 250g</span>
               </div>
             </div>
             <hr className="border-white/20" />
@@ -611,6 +621,7 @@ export default function MenuPage() {
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">No Sugar · No Butter · No Maida</p>
               <div className="flex flex-wrap items-center gap-3">
                 <InstagramCTA productId="almond-cranberry-oat-cake" />
+                <MenuAddToCart productId="almond-cranberry-oat-cake" />
                 <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
                   Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </a>
@@ -620,6 +631,44 @@ export default function MenuPage() {
         </MenuSection>
 
 
+        {/* ══════════════════════════════════════
+            SECTION 14 — Cheese Tease Stix
+            ══════════════════════════════════════ */}
+        <MenuSection aria-label="Cheese Tease Stix" className="!p-0" style={{ backgroundColor: '#1A1205' }}>
+          <div className="absolute inset-0">
+            <Image src="/cheese_tease_menu_flow.png" alt="Cheese Tease Stix" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">14 — Crispies · New</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
+                <span style={{ color: '#FBBF24' }}>Cheese Tease</span><br />
+                <span className="italic text-white">Stix</span>
+              </h2>
+              <p className="mt-6 max-w-[40ch] text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Real cheese, baked into a stick you cannot put down. Four ways to tease — Pepper, Peri Peri, Paprika and Classic Cheese.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🧀 4 Flavours</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌿 Baked Not Fried</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#FBBF24', boxShadow: '0 4px 20px rgba(251,191,36,0.35)' }}>₹210 · 100g</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Cheesy · Crunchy · Guilt-Free</p>
+              <div className="flex flex-wrap items-center gap-3">
+                <InstagramCTA productId="cheese-tease-stix" />
+                <MenuAddToCart productId="cheese-tease-stix" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                  Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </MenuSection>
 
 
         {/* ══════════════════════════════════════
@@ -741,6 +790,7 @@ export default function MenuPage() {
         </MenuSection>
 
       </MenuFlow>
+      <MenuCartBar />
     </div>
   );
 }

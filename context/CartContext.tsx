@@ -25,12 +25,17 @@ const KEY = "snackwize_cart";
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  // Guards the save effect below: without it, that effect fires on the very
+  // first commit — while `items` is still the empty initial state — and
+  // overwrites the stored cart before this one has read it back.
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem(KEY);
       if (raw) setItems(JSON.parse(raw));
     } catch {}
+    setHydrated(true);
   }, []);
 
   // Reconcile the locally-stored cart against live product data: drop items
@@ -68,8 +73,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (!hydrated) return;
     try { localStorage.setItem(KEY, JSON.stringify(items)); } catch {}
-  }, [items]);
+  }, [items, hydrated]);
 
   const add = (p: Product, flavour?: string) =>
     setItems((cur) => {
