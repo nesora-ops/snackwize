@@ -1,16 +1,21 @@
 'use client'
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ProductImage } from "./ProductImage";
-import { Heart, Plus } from "lucide-react";
+import { Heart, Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
 import type { Product } from "@/lib/data";
-import { useCart } from "@/context/CartContext";
+import { useCart, lineKey } from "@/context/CartContext";
 import { useState } from "react";
 
 export function ProductCard({ product }: { product: Product }) {
-  const { add } = useCart();
+  const { items, add, updateQty } = useCart();
   const [liked, setLiked] = useState(false);
+
+  // Same swap the /menu and /order cards do: once the line is in the bag the
+  // Add button becomes the stepper, so the card itself confirms the add.
+  const key = lineKey({ id: product.id });
+  const qty = items.find((i) => lineKey(i) === key)?.qty ?? 0;
 
   return (
     <motion.div
@@ -50,12 +55,53 @@ export function ProductCard({ product }: { product: Product }) {
         <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{product.description}</p>
         <div className="mt-4 flex items-center justify-between">
           <span className="font-mono-accent text-lg font-bold text-primary-dark">₹{product.price}</span>
-          <button
-            onClick={() => { add(product); toast.success(`${product.name} added to cart`); }}
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-1.5 text-xs font-semibold text-primary-foreground transition hover:bg-primary-dark"
-          >
-            <Plus className="h-3.5 w-3.5" /> Add
-          </button>
+          <AnimatePresence mode="wait" initial={false}>
+            {qty === 0 ? (
+              <motion.button
+                key="add"
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.85 }}
+                transition={{ duration: 0.15 }}
+                onClick={() => { add(product); toast.success(`${product.name} added to cart`); }}
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-1.5 text-xs font-semibold text-primary-foreground transition hover:bg-primary-dark"
+              >
+                <Plus className="h-3.5 w-3.5" /> Add
+              </motion.button>
+            ) : (
+              <motion.div
+                key="stepper"
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.85 }}
+                transition={{ duration: 0.15 }}
+                className="inline-flex items-center gap-2 rounded-full border-2 border-primary bg-primary/10 px-1 py-1"
+              >
+                <button
+                  onClick={() => updateQty(key, -1)}
+                  aria-label="Decrease quantity"
+                  className="grid h-6 w-6 place-items-center rounded-full bg-primary text-primary-foreground transition active:scale-90"
+                >
+                  <Minus className="h-3 w-3" />
+                </button>
+                <motion.span
+                  key={qty}
+                  initial={{ scale: 0.6 }}
+                  animate={{ scale: 1 }}
+                  className="min-w-[1.25rem] text-center text-xs font-bold text-primary-dark"
+                >
+                  {qty}
+                </motion.span>
+                <button
+                  onClick={() => updateQty(key, +1)}
+                  aria-label="Increase quantity"
+                  className="grid h-6 w-6 place-items-center rounded-full bg-primary text-primary-foreground transition active:scale-90"
+                >
+                  <Plus className="h-3 w-3" />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </motion.div>
