@@ -61,64 +61,37 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 2 — Thecha Curlies
+            SECTION 2 — Cheese Tease Stix
             ══════════════════════════════════════ */}
-        <MenuSection aria-label="Thecha Curlies" className="!p-0" style={{ backgroundColor: '#0D1F0D' }}>
+        <MenuSection aria-label="Cheese Tease Stix" className="!p-0" style={{ backgroundColor: '#1A1205' }}>
           <div className="absolute inset-0">
-            <Image
-              src="/thecha curlies.png"
-              alt="Thecha Curlies"
-              fill
-              className="object-cover object-center"
-              sizes="100vw"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+            <Image src="/cheese_tease_menu_flow.png" alt="Cheese Tease Stix" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
           </div>
-
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
-
-            {/* Product name */}
             <div className="mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">
-                02 — Featured Product
-              </p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">02 — Crispies · New</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
-                {/* Thecha = Bottle Green */}
-                <span style={{ color: '#1A5C1A' }}>Thecha</span>
-                <br />
-                {/* Curlies = White */}
-                <span className="italic text-white">Curlies</span>
+                <span style={{ color: '#FBBF24' }}>Cheese Tease</span><br />
+                <span className="italic text-white">Stix</span>
               </h2>
               <p className="mt-6 max-w-[40ch] text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
-                Fiery Maharashtrian thecha meets baked curly snacks. Bold, crunchy, dangerously addictive — with zero guilt.
+                Real cheese, baked into a stick you cannot put down. Four ways to tease — Pepper, Peri Peri, Paprika and Classic Cheese.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">
-                  🌶 Spicy &amp; Bold
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">
-                  🌿 Baked Not Fried
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30">
-                  ₹165 · 120g
-                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🧀 4 Flavours</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌿 Baked Not Fried</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#FBBF24', boxShadow: '0 4px 20px rgba(251,191,36,0.35)' }}>₹210 · 100g</span>
               </div>
             </div>
-
             <hr className="border-white/20" />
-
             <div className="flex items-center justify-between">
-              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">
-                100% Homemade · No Preservatives · Pan India Delivery
-              </p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Cheesy · Crunchy · Guilt-Free</p>
               <div className="flex flex-wrap items-center gap-3">
-                <InstagramCTA productId="thecha-curlies" />
-                <MenuAddToCart productId="thecha-curlies" />
-                <a href="/order"
-                  className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary"
-                >
+                <MenuAddToCart productId="cheese-tease-stix" />
+                <InstagramCTA productId="cheese-tease-stix" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
                   Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </a>
               </div>
@@ -161,9 +134,6 @@ export default function MenuPage() {
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">
                   🌾 Rich in Fiber
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">
-                  🔥 Baked Not Fried
-                </span>
                 <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#F5A623', boxShadow: '0 4px 20px rgba(245,166,35,0.35)' }}>
                   ₹145 · 100g
                 </span>
@@ -192,115 +162,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 4 — Meethi Mathri
-            ══════════════════════════════════════ */}
-        <MenuSection
-          aria-label="Meethi Mathri"
-          style={{ backgroundColor: '#FDF3E3' }}
-        >
-          {/* Decorative background pattern */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-amber-200/40 blur-3xl" />
-            <div className="absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-orange-200/30 blur-3xl" />
-            {/* Radial pattern decoration */}
-            {[...Array(5)].map((_, i) => (
-              <svg
-                key={i}
-                className="absolute opacity-10"
-                style={{
-                  width: `${80 + i * 20}px`,
-                  top: `${[10, 60, 30, 70, 15][i]}%`,
-                  left: `${[75, 82, 88, 70, 92][i]}%`,
-                }}
-                viewBox="0 0 80 80"
-              >
-                <circle cx="40" cy="40" r="38" stroke="#C4873A" strokeWidth="1.5" fill="none"/>
-                <circle cx="40" cy="40" r="26" stroke="#C4873A" strokeWidth="1.5" fill="none"/>
-                <circle cx="40" cy="40" r="14" stroke="#C4873A" strokeWidth="1.5" fill="none"/>
-                <circle cx="40" cy="40" r="4" fill="#C4873A" opacity="0.5"/>
-              </svg>
-            ))}
-          </div>
-
-          {/* Content */}
-          <div className="flex flex-col md:flex-row items-center gap-[4vw] flex-1">
-            {/* Left — product info */}
-            <div className="flex-1">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-foreground/40 mb-3">
-                04 — New Arrival
-              </p>
-              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-foreground">
-                Meethi<br />
-                <span className="italic text-primary">Mathri</span>
-              </h2>
-              <p className="mt-6 max-w-[42ch] text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-foreground/60">
-                The classic festive mathri — reimagined as a sweet, melt-in-your-mouth bake. Jaggery-kissed, fennel-scented, made in small batches for big occasions.
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-5 py-2 text-sm font-semibold text-amber-800">
-                  🍯 Jaggery Sweetened
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-full bg-orange-100 px-5 py-2 text-sm font-semibold text-orange-800">
-                  🌿 Fennel &amp; Cardamom
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30">
-                  ₹165 · 100g
-                </span>
-              </div>
-              <div className="mt-8 flex flex-wrap gap-8">
-                {[
-                  { label: 'Weight', value: '~200g' },
-                  { label: 'Pieces', value: '12 pcs' },
-                  { label: 'Shelf Life', value: '15 days' },
-                  { label: 'Contains', value: 'Wheat · Jaggery · Ghee' },
-                ].map(({ label, value }) => (
-                  <div key={label}>
-                    <p className="font-mono-accent text-[10px] uppercase tracking-widest text-foreground/40">{label}</p>
-                    <p className="mt-1 text-sm font-semibold text-foreground">{value}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right — product photo */}
-            <div className="flex-shrink-0 w-full max-w-[320px] md:max-w-[380px]">
-              <div
-                className="aspect-square rounded-3xl relative overflow-hidden"
-                style={{ boxShadow: '0 20px 60px rgba(196,135,58,0.25)' }}
-              >
-                <Image
-                  src="/Meethi Mathri.jpg"
-                  alt="Meethi Mathri"
-                  fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 768px) 100vw, 380px"
-                />
-              </div>
-            </div>
-          </div>
-
-          <hr style={{ borderColor: '#C4873A', opacity: 0.2 }} />
-
-          <div className="flex items-end justify-between">
-            <p className="font-mono-accent text-[10px] uppercase tracking-widest text-foreground/30">
-              Homemade · Small Batch · Festive Edition
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <InstagramCTA productId="meethi-mathri" tone="light" />
-              <MenuAddToCart productId="meethi-mathri" tone="light" />
-                <a href="/order"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/30 px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary hover:text-white"
-              >
-                Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-              </a>
-            </div>
-          </div>
-        </MenuSection>
-
-
-
-        {/* ══════════════════════════════════════
-            SECTION 5 — Swaad Fit Mathri
+            SECTION 4 — Swaad Fit Mathri
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Swaad Fit Mathri" className="!p-0" style={{ backgroundColor: '#1A0F05' }}>
           <div className="absolute inset-0">
@@ -310,7 +172,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">05 — Classic Mathri</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">04 — Classic Mathri</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
                 <span style={{ color: '#D97706' }}>Swaad Fit</span><br />
                 <span className="italic text-white">Mathri</span>
@@ -337,7 +199,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 6 — Beet Drop Mathri
+            SECTION 5 — Beet Drop Mathri
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Beet Drop Mathri" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
           <div className="absolute inset-0">
@@ -347,7 +209,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">06 — New Arrival</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">05 — New Arrival</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
                 Beet Drop<br /><span className="italic" style={{ color: '#BE185D' }}>Mathri</span>
               </h2>
@@ -373,7 +235,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 7 — Nachni Ninjas
+            SECTION 6 — Nachni Ninjas
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Nachni Ninjas" className="!p-0" style={{ backgroundColor: '#0D1505' }}>
           <div className="absolute inset-0">
@@ -383,7 +245,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">07 — Ragi Crispies</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">06 — Ragi Crispies</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
                 <span style={{ color: '#65A30D' }}>Nachni</span><br />
                 <span className="italic text-white">Ninjas!</span>
@@ -410,7 +272,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 8 — The Wheat Fix
+            SECTION 7 — The Wheat Fix
             ══════════════════════════════════════ */}
         <MenuSection aria-label="The Wheat Fix" className="!p-0" style={{ backgroundColor: '#1A1005' }}>
           <div className="absolute inset-0">
@@ -420,7 +282,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">08 — Wheat Crispies</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">07 — Wheat Crispies</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
                 The Wheat<br /><span className="italic" style={{ color: '#FBBF24' }}>Fix</span>
               </h2>
@@ -446,7 +308,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 9 — Beet it Crunch
+            SECTION 8 — Beet it Crunch
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Beet it Crunch" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
           <div className="absolute inset-0">
@@ -456,7 +318,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">09 — New Drop</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">08 — New Drop</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
                 <span style={{ color: '#EC4899' }}>Beet it</span><br />
                 <span className="italic text-white">Crunch</span>
@@ -483,7 +345,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 10 — Oats Bhel Blast
+            SECTION 9 — Oats Bhel Blast
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Oats Bhel Blast" className="!p-0" style={{ backgroundColor: '#051A0D' }}>
           <div className="absolute inset-0">
@@ -493,7 +355,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">10 — Bhel & Mixes</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">09 — Bhel & Mixes</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
                 Oats Bhel<br /><span className="italic" style={{ color: '#22C55E' }}>Blast</span>
               </h2>
@@ -519,7 +381,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 11 — Roasty Bhel
+            SECTION 10 — Roasty Bhel
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Roasty Bhel" className="!p-0" style={{ backgroundColor: '#1A0D05' }}>
           <div className="absolute inset-0">
@@ -529,7 +391,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">11 — Family Pack</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">10 — Family Pack</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
                 <span style={{ color: '#F97316' }}>Roasty</span><br />
                 <span className="italic text-white">Bhel</span>
@@ -556,7 +418,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 12 — Makhana Madness
+            SECTION 11 — Makhana Madness
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Makhana Madness" className="!p-0" style={{ backgroundColor: '#0D0D1A' }}>
           <div className="absolute inset-0">
@@ -566,7 +428,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">12 — Premium Makhana</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">11 — Premium Makhana</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
                 Makhana<br /><span className="italic" style={{ color: '#A78BFA' }}>Madness</span>
               </h2>
@@ -592,7 +454,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 13 — Almond Cranberry Oat Cake
+            SECTION 12 — Almond Cranberry Oat Cake
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Almond Cranberry Oat Cake" className="!p-0" style={{ backgroundColor: '#1A0A05' }}>
           <div className="absolute inset-0">
@@ -602,7 +464,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">13 — Bakes · New</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">12 — Bakes · New</p>
               <h2 className="font-display text-[clamp(2.8rem,8vw,7rem)] font-bold leading-[0.88] tracking-tight">
                 <span style={{ color: '#F59E0B' }}>Almond Cranberry</span><br />
                 <span className="italic text-white">Oat Cake</span>
@@ -620,8 +482,8 @@ export default function MenuPage() {
             <div className="flex items-center justify-between">
               <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">No Sugar · No Butter · No Maida</p>
               <div className="flex flex-wrap items-center gap-3">
-                <InstagramCTA productId="almond-cranberry-oat-cake" />
                 <MenuAddToCart productId="almond-cranberry-oat-cake" />
+                <InstagramCTA productId="almond-cranberry-oat-cake" />
                 <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
                   Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </a>
@@ -632,37 +494,64 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 14 — Cheese Tease Stix
+            SECTION 13 — Thecha Curlies
             ══════════════════════════════════════ */}
-        <MenuSection aria-label="Cheese Tease Stix" className="!p-0" style={{ backgroundColor: '#1A1205' }}>
+        <MenuSection aria-label="Thecha Curlies" className="!p-0" style={{ backgroundColor: '#0D1F0D' }}>
           <div className="absolute inset-0">
-            <Image src="/cheese_tease_menu_flow.png" alt="Cheese Tease Stix" fill className="object-cover object-center" sizes="100vw" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+            <Image
+              src="/thecha curlies.png"
+              alt="Thecha Curlies"
+              fill
+              className="object-cover object-center"
+              sizes="100vw"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
           </div>
+
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+
+            {/* Product name */}
             <div className="mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">14 — Crispies · New</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">
+                13 — Featured Product
+              </p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
-                <span style={{ color: '#FBBF24' }}>Cheese Tease</span><br />
-                <span className="italic text-white">Stix</span>
+                {/* Thecha = Bottle Green */}
+                <span style={{ color: '#1A5C1A' }}>Thecha</span>
+                <br />
+                {/* Curlies = White */}
+                <span className="italic text-white">Curlies</span>
               </h2>
               <p className="mt-6 max-w-[40ch] text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
-                Real cheese, baked into a stick you cannot put down. Four ways to tease — Pepper, Peri Peri, Paprika and Classic Cheese.
+                Fiery Maharashtrian thecha meets baked curly snacks. Bold, crunchy, dangerously addictive — with zero guilt.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🧀 4 Flavours</span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌿 Baked Not Fried</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#FBBF24', boxShadow: '0 4px 20px rgba(251,191,36,0.35)' }}>₹210 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">
+                  🌶 Spicy &amp; Bold
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">
+                  🌿 Baked Not Fried
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30">
+                  ₹165 · 120g
+                </span>
               </div>
             </div>
+
             <hr className="border-white/20" />
+
             <div className="flex items-center justify-between">
-              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Cheesy · Crunchy · Guilt-Free</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">
+                100% Homemade · No Preservatives · Pan India Delivery
+              </p>
               <div className="flex flex-wrap items-center gap-3">
-                <InstagramCTA productId="cheese-tease-stix" />
-                <MenuAddToCart productId="cheese-tease-stix" />
-                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                <MenuAddToCart productId="thecha-curlies" />
+                <InstagramCTA productId="thecha-curlies" />
+                <a href="/order"
+                  className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary"
+                >
                   Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </a>
               </div>
@@ -672,7 +561,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 6 — Ready to Order + Footer
+            SECTION 14 — Ready to Order + Footer
             ══════════════════════════════════════ */}
         <MenuSection
           aria-label="Ready to Order"
@@ -687,7 +576,7 @@ export default function MenuPage() {
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-8 flex-1">
             <div>
               <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/30 mb-4">
-                06 — Order Now
+                14 — Order Now
               </p>
               <h2 className="font-display text-[clamp(3rem,9vw,8rem)] font-bold leading-[0.88] tracking-tight text-white">
                 Ready<br />to<br />
