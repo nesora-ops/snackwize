@@ -4,6 +4,7 @@ import './globals.css'
 import { CartProvider } from '@/context/CartContext'
 import { ConditionalShell } from '@/components/layout/ConditionalShell'
 import { ServiceWorkerRegistrar } from '@/components/layout/ServiceWorkerRegistrar'
+import { Analytics } from '@vercel/analytics/next'
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'], 
@@ -64,6 +65,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </ConditionalShell>
         </CartProvider>
+        {/* Vercel Web Analytics — page views for every route, marketing site
+            and app subdomain alike. Still has to be switched on in the Vercel
+            project for the data to be collected. */}
+        <Analytics />
       </body>
     </html>
   )
