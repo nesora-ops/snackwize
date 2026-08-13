@@ -43,6 +43,11 @@ self.addEventListener('fetch', (event) => {
   // Only handle same-origin requests
   if (url.origin !== self.location.origin) return;
 
+  // Vercel's own endpoints (Web Analytics script + beacons) must reach the
+  // network untouched — caching the script would serve a stale copy and the
+  // beacon is a POST the cache cannot store.
+  if (url.pathname.startsWith('/_vercel/')) return;
+
   // Network-first strategy for API routes
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
