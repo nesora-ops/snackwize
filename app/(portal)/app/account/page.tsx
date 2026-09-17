@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { MapPin, Trash2, Star, LogOut, UserRound } from 'lucide-react'
+import { MapPin, Trash2, Star, LogOut, UserRound, Heart } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useSession } from '@/lib/useSession'
 import { EmailAuthForm } from '@/components/auth/EmailAuthForm'
@@ -52,6 +52,34 @@ const primaryBtn: React.CSSProperties = {
 }
 
 const BLANK = { label: '', line1: '', landmark: '', city: '', state: '', pin: '' }
+
+// The story lives on the marketing site; middleware bounces /about from the app
+// subdomain to the root origin, so a plain relative href is all this needs.
+function AboutLink() {
+  return (
+    <a
+      href="/about"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '7px',
+        width: '100%',
+        borderRadius: '12px',
+        border: '1px solid #E8E1DB',
+        backgroundColor: '#fff',
+        color: '#6B5E52',
+        fontSize: '13px',
+        fontWeight: 700,
+        padding: '13px',
+        textDecoration: 'none',
+        marginBottom: '10px',
+      }}
+    >
+      <Heart size={16} /> Meet Nupur · Our story
+    </a>
+  )
+}
 
 export default function AccountPage() {
   const { user, loading } = useSession()
@@ -158,6 +186,7 @@ export default function AccountPage() {
           </p>
           <EmailAuthForm />
         </div>
+        <AboutLink />
       </div>
     )
   }
@@ -271,6 +300,8 @@ export default function AccountPage() {
           </button>
         )}
       </div>
+
+      <AboutLink />
 
       <button
         onClick={async () => { await supabase.auth.signOut(); window.location.assign('/app/menu') }}

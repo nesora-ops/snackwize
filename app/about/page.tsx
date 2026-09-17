@@ -65,15 +65,31 @@ export default function About() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-10 rounded-3xl bg-primary p-10 text-primary-foreground md:grid-cols-2 md:items-center md:p-16">
-          <div>
-            <p className="font-mono-accent text-xs uppercase tracking-[0.3em] opacity-90">Founder</p>
-            <h3 className="mt-3 font-display text-4xl font-bold">Nupur</h3>
-            <blockquote className="mt-5 border-l-2 border-primary-foreground/40 pl-5 text-lg italic">
-              "Healthy doesn't have to mean boring. With Snackwize, I want every Indian household to have one shelf they don't have to think twice about."
-            </blockquote>
+        <div className="rounded-3xl bg-primary p-8 text-primary-foreground md:p-16">
+          {/* Track sizes are space-separated in CSS grid — a comma here silently
+              invalidates the whole template and the image blows out to full width. */}
+          <div className="grid gap-10 md:grid-cols-[20rem_1fr] md:items-center md:gap-14">
+            <Image
+              width={485}
+              height={596}
+              src="/founder_image.png"
+              alt="Nupur, founder of Snackwize, piping icing onto a cake in her kitchen"
+              sizes="(min-width: 768px) 20rem, 24rem"
+              className="mx-auto w-full max-w-sm rounded-3xl object-cover shadow-2xl md:mx-0"
+            />
+            <div>
+              <p className="font-mono-accent text-xs uppercase tracking-[0.3em] opacity-90">Founder</p>
+              <h3 className="mt-3 font-display text-4xl font-bold">Nupur</h3>
+              {/* Nupur's own words, kept exactly as she wrote them. */}
+              <blockquote className="mt-5 border-l-2 border-primary-foreground/40 pl-5 text-lg leading-relaxed">
+                Hi! Thats Me! Nupur and I am so glad you all LOVEE SNACKWIZE✨💕 All your love
+                motivates me to create so many new, healthy recipes and thats my biggest strength💪
+                New additions are coming up to the menu and I hope you all are as excited as I am ✨
+              </blockquote>
+            </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+
+          <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
             {[
               { n: "500+", l: "Happy Customers" },
               { n: "20+", l: "Snack Varieties" },
