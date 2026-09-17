@@ -15,6 +15,7 @@ import { useAuthGuard } from "@/lib/useAuthGuard";
 import type { Order, OrderStatus } from "@/lib/types";
 
 const STATUS_COLOR: Record<OrderStatus, string> = {
+  Sent:      "bg-amber-100 text-amber-700",
   Pending:   "bg-yellow-100 text-yellow-700",
   Confirmed: "bg-blue-100 text-blue-700",
   Packed:    "bg-orange-100 text-orange-700",

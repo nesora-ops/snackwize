@@ -26,9 +26,26 @@ export const createOrderSchema = z.object({
   coupon_code: z.string().max(40).optional(), // reserved for the future coupon feature
 })
 
+// ── WhatsApp orders ───────────────────────────────────────────────────────
+// Unlike createOrderSchema, the address is optional (it can be given in the
+// chat instead) and name + phone are required for everyone, guest or not —
+// they are what lets Nupur match an incoming chat to this row.
+export const whatsappOrderSchema = z.object({
+  items: z.array(orderItemInput).min(1, 'Cart is empty').max(40, 'Too many items'),
+  name: z.string().trim().min(1, 'Name is required').max(120),
+  phone: z.string().trim().regex(/^[6-9]\d{9}$/, 'Enter a 10-digit mobile number'),
+  address: addressSchema.optional(),
+  /** Free-text address for guests who don't have a saved one. */
+  address_text: z.string().trim().max(300).optional(),
+  ref: z.string().regex(/^[A-Z2-9]{5}$/, 'Invalid order reference'),
+})
+
 // ── Order status ──────────────────────────────────────────────────────────
+// 'Sent' means the customer opened WhatsApp with the order pre-filled. It is
+// NOT a placed order — they may never have hit send, or the details may not add
+// up. Nupur moves it to Confirmed or Cancelled once she has seen the chat.
 export const ORDER_STATUSES = [
-  'Pending', 'Confirmed', 'Packed', 'Shipped', 'Delivered', 'Cancelled',
+  'Sent', 'Pending', 'Confirmed', 'Packed', 'Shipped', 'Delivered', 'Cancelled',
 ] as const
 
 export const updateStatusSchema = z.object({

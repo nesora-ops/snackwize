@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Sparkles, Tag, MapPin } from "lucide-react";
+import { Home, Sparkles, Tag, Package } from "lucide-react";
 
 const TABS = [
   { href: "/app/menu",      label: "Menu",      Icon: Home      },
   { href: "/app/new-drops", label: "New Drops", Icon: Sparkles  },
   { href: "/app/offers",    label: "Offers",    Icon: Tag       },
-  { href: "/app/track",     label: "Track",     Icon: MapPin    },
+  { href: "/app/orders",    label: "Orders",    Icon: Package   },
 ] as const;
 
 export function AppBottomNav() {

@@ -1,6 +1,8 @@
 export type OrderItem = { id: string; name: string; qty: number; price: number; flavour?: string; net_weight_grams?: number; is_preorder?: boolean; preorder_qty?: number; delivery_type?: 'local' | 'hyperlocal' }
 export type OrderAddress = { line1: string; city: string; state: string; pin: string; landmark?: string }
-export type OrderStatus = 'Pending' | 'Confirmed' | 'Packed' | 'Shipped' | 'Delivered' | 'Cancelled'
+// 'Sent' = the customer opened WhatsApp with this order pre-filled; it is not
+// yet a placed order. Every other status is entered by Nupur from admin.
+export type OrderStatus = 'Sent' | 'Pending' | 'Confirmed' | 'Packed' | 'Shipped' | 'Delivered' | 'Cancelled'
 
 export type Order = {
   id: string
@@ -14,8 +16,11 @@ export type Order = {
   discount?: number
   coupon_code?: string | null
   total: number
-  address: OrderAddress
+  // WhatsApp orders may have no address at all — it is given in the chat.
+  address: OrderAddress | null
   payment_method: string
+  /** Short code printed in the WhatsApp message, for matching chat to row. */
+  client_ref?: string | null
   payment_status: string
   razorpay_order_id?: string | null
   razorpay_payment_id?: string | null

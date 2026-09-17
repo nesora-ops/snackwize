@@ -67,7 +67,9 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   // Run on all pages except API routes, Next internals, and static assets.
+  // auth/callback is excluded too: the OAuth return leg must reach its route
+  // handler and set the session cookie, never be bounced to another origin.
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|manifest.webmanifest|sw.js|robots.txt|sitemap.xml|.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico|txt)).*)',
+    '/((?!api|auth/callback|_next/static|_next/image|favicon.ico|manifest.webmanifest|sw.js|robots.txt|sitemap.xml|.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico|txt)).*)',
   ],
 }

@@ -1,11 +1,11 @@
 // Snackwize Service Worker — PWA offline support
-const CACHE_NAME = 'snackwize-v2';
+const CACHE_NAME = 'snackwize-v3';
 const STATIC_ASSETS = [
   '/order',
   '/app/menu',
   '/app/new-drops',
   '/app/offers',
-  '/app/track',
+  '/app/orders',
   '/manifest.webmanifest',
   '/icon-192.png',
   '/icon-512.png',

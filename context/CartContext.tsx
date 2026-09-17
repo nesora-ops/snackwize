@@ -13,6 +13,7 @@ export const lineKey = (i: { id: string; flavour?: string }) => `${i.id}|${i.fla
 type Ctx = {
   items: CartItem[];
   add: (p: Product, flavour?: string) => void;
+  addLine: (p: Product, flavour: string | undefined, qty: number) => void;
   remove: (key: string) => void;
   updateQty: (key: string, delta: number) => void;
   clear: () => void;
@@ -77,19 +78,36 @@ export function CartProvider({ children }: { children: ReactNode }) {
     try { localStorage.setItem(KEY, JSON.stringify(items)); } catch {}
   }, [items, hydrated]);
 
+  // Disallow mixing same-day (hyperlocal) and standard (local) items — they ship
+  // differently. Returns true (and warns) when `p` doesn't belong in this bag.
+  const wouldMixModes = (cur: CartItem[], p: Product) => {
+    const newMode = p.delivery_type === "hyperlocal" ? "hyperlocal" : "local";
+    const curMode = cur.some((i) => i.delivery_type === "hyperlocal") ? "hyperlocal" : "local";
+    if (cur.length > 0 && curMode !== newMode) {
+      toast(`Your bag has ${curMode === "hyperlocal" ? "same-day" : "standard"} items — check out or clear it first.`);
+      return true;
+    }
+    return false;
+  };
+
   const add = (p: Product, flavour?: string) =>
     setItems((cur) => {
-      // Disallow mixing same-day (hyperlocal) and standard (local) items — they ship differently.
-      const newMode = p.delivery_type === "hyperlocal" ? "hyperlocal" : "local";
-      const curMode = cur.some((i) => i.delivery_type === "hyperlocal") ? "hyperlocal" : "local";
-      if (cur.length > 0 && curMode !== newMode) {
-        toast(`Your bag has ${curMode === "hyperlocal" ? "same-day" : "standard"} items — check out or clear it first.`);
-        return cur;
-      }
+      if (wouldMixModes(cur, p)) return cur;
       const key = lineKey({ id: p.id, flavour });
       const existing = cur.find((i) => lineKey(i) === key);
       if (existing) return cur.map((i) => (lineKey(i) === key ? { ...i, qty: i.qty + 1 } : i));
       return [...cur, { ...p, flavour, qty: 1 }];
+    });
+
+  // Restores a whole line at once. "Order again" replays a past order, where
+  // calling add() per unit would fire a toast storm and N re-renders.
+  const addLine = (p: Product, flavour: string | undefined, qty: number) =>
+    setItems((cur) => {
+      if (qty < 1 || wouldMixModes(cur, p)) return cur;
+      const key = lineKey({ id: p.id, flavour });
+      const existing = cur.find((i) => lineKey(i) === key);
+      if (existing) return cur.map((i) => (lineKey(i) === key ? { ...i, qty: i.qty + qty } : i));
+      return [...cur, { ...p, flavour, qty }];
     });
 
   const remove = (key: string) => setItems((cur) => cur.filter((i) => lineKey(i) !== key));
@@ -106,7 +124,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const total = items.reduce((a, i) => a + i.qty * i.price, 0);
 
   return (
-    <CartCtx.Provider value={{ items, add, remove, updateQty, clear, count, total }}>
+    <CartCtx.Provider value={{ items, add, addLine, remove, updateQty, clear, count, total }}>
       {children}
     </CartCtx.Provider>
   );

@@ -97,6 +97,16 @@ export async function cancelOrder(orderId: string, opts?: { by?: string }): Prom
 
   const items: OrderItem[] = Array.isArray(order.items) ? order.items : []
 
+  // A WhatsApp order is only a record that the customer composed a message —
+  // nothing was paid, no stock was consumed and no courier was booked. Cancelling
+  // is a plain status change, and it must work for hyperlocal items too, since
+  // the usual refusal below protects a dispatched same-day delivery that does
+  // not exist here.
+  if (order.payment_method === 'whatsapp') {
+    await supabaseAdmin.from('orders').update({ status: 'Cancelled' }).eq('id', orderId)
+    return { ok: true }
+  }
+
   // Hyperlocal (Shiprocket Quick / Borzo, same-day) cannot be cancelled.
   if (items.some(i => i.delivery_type === 'hyperlocal')) {
     return { ok: false, reason: 'hyperlocal' }

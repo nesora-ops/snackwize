@@ -13,6 +13,7 @@ import {
 import type { OrderStatus } from '@/lib/types'
 
 const STATUS_COLOR: Record<OrderStatus, string> = {
+  Sent:      'bg-amber-500/15 text-amber-700 border-amber-500/30',
   Pending:   'bg-yellow-500/15 text-yellow-700 border-yellow-500/30',
   Confirmed: 'bg-blue-500/15 text-blue-700 border-blue-500/30',
   Packed:    'bg-orange-500/15 text-orange-700 border-orange-500/30',
@@ -128,7 +129,14 @@ export default function DashboardPage() {
                 </div>
                 <div className="rounded-xl bg-surface p-4">
                   <p className="font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">Address</p>
-                  <p>{openOrder.address.line1}, {openOrder.address.city} — {openOrder.address.pin}</p>
+                  {openOrder.address ? (
+                    <p>
+                      {[openOrder.address.line1, openOrder.address.city].filter(Boolean).join(', ')}
+                      {openOrder.address.pin ? ` — ${openOrder.address.pin}` : ''}
+                    </p>
+                  ) : (
+                    <p className="text-muted-foreground">Being shared on WhatsApp.</p>
+                  )}
                 </div>
                 <div>
                   <p className="mb-2 font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">Update Status</p>

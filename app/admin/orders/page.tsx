@@ -15,6 +15,9 @@ import {
 } from '@/components/ui/dialog'
 
 const STATUS_COLOR: Record<OrderStatus, string> = {
+  // Sent = the customer opened WhatsApp with this order pre-filled. Not yet a
+  // placed order — confirm or cancel it once the chat comes in.
+  Sent:      'bg-amber-500/15 text-amber-700 border-amber-500/30',
   Pending:   'bg-yellow-500/15 text-yellow-700 border-yellow-500/30',
   Confirmed: 'bg-blue-500/15 text-blue-700 border-blue-500/30',
   Packed:    'bg-orange-500/15 text-orange-700 border-orange-500/30',
@@ -23,8 +26,10 @@ const STATUS_COLOR: Record<OrderStatus, string> = {
   Cancelled: 'bg-red-500/15 text-red-700 border-red-500/30',
 }
 
-function orderCustomer(o: Order) { return o.profiles?.name ?? o.guest_name ?? 'Guest' }
-function orderPhone(o: Order) { return o.profiles?.phone ?? o.guest_phone ?? '—' }
+// guest_name/guest_phone hold what the customer typed on this order, so they
+// win over a profile that may since have changed.
+function orderCustomer(o: Order) { return o.guest_name ?? o.profiles?.name ?? 'Guest' }
+function orderPhone(o: Order) { return o.guest_phone ?? o.profiles?.phone ?? '—' }
 function orderItems(o: Order) { return o.items.map(i => `${i.name}${i.flavour ? ` (${i.flavour})` : ''} x${i.qty}`).join(', ') }
 function orderDate(o: Order) { return new Date(o.created_at).toLocaleDateString('en-IN') }
 
@@ -188,8 +193,25 @@ export default function OrdersPage() {
                 </div>
                 <div className="rounded-xl bg-surface p-4">
                   <p className="font-mono-accent text-[10px] uppercase tracking-wider text-muted-foreground">Address</p>
-                  <p>{openOrder.address.line1}, {openOrder.address.city} — {openOrder.address.pin}</p>
+                  {openOrder.address ? (
+                    <p>
+                      {[openOrder.address.line1, openOrder.address.city].filter(Boolean).join(', ')}
+                      {openOrder.address.pin ? ` — ${openOrder.address.pin}` : ''}
+                    </p>
+                  ) : (
+                    <p className="text-muted-foreground">Being shared on WhatsApp.</p>
+                  )}
                 </div>
+
+                {openOrder.payment_method === 'whatsapp' && (
+                  <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+                    <p className="font-mono-accent text-[10px] uppercase tracking-wider text-amber-700">WhatsApp order</p>
+                    <p className="text-muted-foreground">
+                      Reference <span className="font-mono-accent font-bold text-foreground">{openOrder.client_ref ?? '—'}</span> —
+                      quoted in the customer&apos;s message. Delivery is charged separately.
+                    </p>
+                  </div>
+                )}
 
                 <div className="rounded-xl bg-surface p-4">
                   <div className="flex items-center justify-between">

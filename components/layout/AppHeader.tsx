@@ -1,10 +1,11 @@
 'use client'
 
 import Link from "next/link";
-import { ShoppingBag, ArrowLeft, Download } from "lucide-react";
+import { ShoppingBag, ArrowLeft, Download, UserRound } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { usePathname } from "next/navigation";
 import { InstallAppButton } from "./InstallAppButton";
+import { useSession } from "@/lib/useSession";
 
 interface AppHeaderProps {
   title?: string;
@@ -14,13 +15,13 @@ interface AppHeaderProps {
 export function AppHeader({ title, showBack }: AppHeaderProps) {
   const { count } = useCart();
   const pathname = usePathname();
+  const { user } = useSession();
 
   // Derive a nice title from the route if none given
   const derivedTitle = title ?? (() => {
     if (pathname.includes("new-drops")) return "New Drops";
     if (pathname.includes("offers")) return "Offers";
-    if (pathname.includes("track")) return "Track Order";
-    if (pathname.includes("cart")) return "My Cart";
+    if (pathname.includes("orders")) return "Your Orders";
     if (pathname.includes("checkout")) return "Checkout";
     if (pathname.includes("account")) return "My Account";
     return "Menu";
@@ -90,7 +91,7 @@ export function AppHeader({ title, showBack }: AppHeaderProps) {
             Install
           </button>
         </InstallAppButton>
-        <Link href="/app/cart" style={{ position: "relative", color: "#1C1917", display: "flex" }}>
+        <Link href="/app/menu" aria-label="Your bag" style={{ position: "relative", color: "#1C1917", display: "flex" }}>
           <ShoppingBag size={22} strokeWidth={1.8} />
           {count > 0 && (
             <span
@@ -115,8 +116,15 @@ export function AppHeader({ title, showBack }: AppHeaderProps) {
             </span>
           )}
         </Link>
-        {/* Logout hidden for the stall event — auth still works, it is just not
-            surfaced to visitors who scan the poster. */}
+        {/* Signing in is optional: it unlocks saved details and order history,
+            and guests order without ever seeing this. */}
+        <Link
+          href="/app/account"
+          aria-label={user ? "Your account" : "Sign in"}
+          style={{ color: user ? "#F97316" : "#1C1917", display: "flex" }}
+        >
+          <UserRound size={22} strokeWidth={1.8} />
+        </Link>
       </div>
     </header>
   );

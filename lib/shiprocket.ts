@@ -53,6 +53,11 @@ function contact(order: Order) {
 
 function adhocPayload(order: Order, parcel: { weightKg: number; lengthCm: number; breadthCm: number; heightCm: number }) {
   const c = contact(order)
+  // WhatsApp orders can carry no address (it is agreed in the chat), and they
+  // are never shipped through here — fail loudly rather than posting blanks.
+  if (!order.address) {
+    throw new Error(`Order ${order.id} has no address — capture one before creating a shipment`)
+  }
   return {
     order_id: order.id,
     order_date: new Date(order.created_at).toISOString().slice(0, 10),
