@@ -17,8 +17,7 @@ const ORANGE = '#F97316'
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/menu', label: 'Menu' },
-  { href: '/#about', label: 'About Us' },
-  { href: '/about', label: 'Our Story' },
+  { href: '/about', label: 'About Us' },
 ] as const
 
 const navItemStyle: React.CSSProperties = {

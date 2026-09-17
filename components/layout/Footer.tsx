@@ -162,7 +162,7 @@ export function Footer() {
             <ul className="space-y-3 flex flex-col">
               {[
                 { name: 'Menu', href: '/menu' },
-                { name: 'Our Story', href: '/about' },
+                { name: 'About Us', href: '/about' },
                 { name: 'Testimonials', href: '/testimonials' },
                 { name: 'Contact', href: '/contact' }
               ].map((link) => (
@@ -191,7 +191,7 @@ export function Footer() {
               {[
                 { name: 'Order Now', href: '/order' },
                 { name: 'Browse Menu', href: '/menu' },
-                { name: 'Our Story', href: '/about' }
+                { name: 'About Us', href: '/about' }
               ].map((link) => (
                 <Link
                   key={link.name}

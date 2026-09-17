@@ -1,51 +1,17 @@
 import Image from 'next/image'
 import { SectionHeader } from "@/components/sections/SectionHeader";
+import { FounderSection } from "@/components/sections/FounderSection";
 import { Heart, Leaf, Truck, Sparkles, ChefHat, Package, Search } from "lucide-react";
 import { PRODUCTS, CLIENT_STORIES } from "@/lib/data";
 import { InstagramIcon } from "@/components/layout/SocialIcons";
 
-
-
 export default function About() {
   return (
     <>
-      <section className="relative overflow-hidden bg-surface">
-        <div className="pointer-events-none absolute inset-0 grain opacity-40" />
-        <div className="relative mx-auto max-w-4xl px-6 py-20 text-center">
-          <p className="font-mono-accent text-xs uppercase tracking-[0.3em] text-primary">Our Story</p>
-          <h1 className="mt-3 font-display text-5xl font-bold sm:text-6xl">Hi! I'm Nupur.</h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-            Snackwize began in my Mumbai kitchen with one rule — every snack we sell is one I'd happily feed my own family. No shortcuts, no nasties, no compromises.
-          </p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-12 md:grid-cols-2 md:items-center">
-          <Image width={800} height={600} src={PRODUCTS.find(p => p.id === "roasty-bhel")!.image} alt="Snackwize kitchen" className="aspect-[4/5] w-full rounded-3xl object-cover" />
-          <div>
-            <SectionHeader eyebrow="Our Mission" title="Let's Make India Healthy 🇮🇳" sub="We believe Indian snacking deserves better — rooted in real ingredients, traditional flavors, and a modern, honest standard of care." />
-            <div className="mt-8 grid grid-cols-2 gap-4">
-              {[
-                { icon: Heart, label: "Homemade", note: "Every batch, by hand." },
-                { icon: Leaf, label: "Clean Ingredients", note: "Whole grains, jaggery, ghee." },
-                { icon: Sparkles, label: "Love in Every Bite", note: "Small batches only." },
-                { icon: Truck, label: "Pan India Pride", note: "Mumbai to your door." },
-              ].map(v => (
-                <div key={v.label} className="rounded-2xl border border-border bg-card p-5">
-                  <div className="grid h-9 w-9 place-items-center rounded-full bg-primary-light text-primary-dark"><v.icon className="h-4 w-4" /></div>
-                  <p className="mt-3 font-display text-base font-bold">{v.label}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{v.note}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
+      {/* Our Process opens the page, so its heading carries the h1. */}
       <section className="bg-surface">
         <div className="mx-auto max-w-7xl px-6 py-20">
-          <SectionHeader eyebrow="Our Process" title="From source to your shelf" center />
+          <SectionHeader as="h1" eyebrow="Our Process" title="From source to your shelf" center />
           <div className="mt-12 grid gap-6 md:grid-cols-4">
             {[
               { icon: Search, t: "We Source", d: "Whole-grain flours, raw nuts, jaggery — directly from trusted suppliers." },
@@ -65,31 +31,8 @@ export default function About() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="rounded-3xl bg-primary p-8 text-primary-foreground md:p-16">
-          {/* Track sizes are space-separated in CSS grid — a comma here silently
-              invalidates the whole template and the image blows out to full width. */}
-          <div className="grid gap-10 md:grid-cols-[20rem_1fr] md:items-center md:gap-14">
-            <Image
-              width={485}
-              height={596}
-              src="/founder_image.png"
-              alt="Nupur, founder of Snackwize, piping icing onto a cake in her kitchen"
-              sizes="(min-width: 768px) 20rem, 24rem"
-              className="mx-auto w-full max-w-sm rounded-3xl object-cover shadow-2xl md:mx-0"
-            />
-            <div>
-              <p className="font-mono-accent text-xs uppercase tracking-[0.3em] opacity-90">Founder</p>
-              <h3 className="mt-3 font-display text-4xl font-bold">Nupur</h3>
-              {/* Nupur's own words, kept exactly as she wrote them. */}
-              <blockquote className="mt-5 border-l-2 border-primary-foreground/40 pl-5 text-lg leading-relaxed">
-                Hi! Thats Me! Nupur and I am so glad you all LOVEE SNACKWIZE✨💕 All your love
-                motivates me to create so many new, healthy recipes and thats my biggest strength💪
-                New additions are coming up to the menu and I hope you all are as excited as I am ✨
-              </blockquote>
-            </div>
-          </div>
-
-          <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
+        <FounderSection>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {[
               { n: "500+", l: "Happy Customers" },
               { n: "20+", l: "Snack Varieties" },
@@ -102,13 +45,13 @@ export default function About() {
               </div>
             ))}
           </div>
-        </div>
+        </FounderSection>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-24">
+      <section className="mx-auto max-w-7xl px-6 pb-20">
         <div className="rounded-3xl border border-border bg-card p-10 text-center md:p-14">
           <p className="font-mono-accent text-xs uppercase tracking-[0.3em] text-primary">Client Stories</p>
-          <h3 className="mt-3 font-display text-3xl font-bold text-foreground">Straight from our customers</h3>
+          <h2 className="mt-3 font-display text-3xl font-bold text-foreground">Straight from our customers</h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
             Real messages, unboxings and repeat orders — saved to our Instagram highlights.
           </p>
@@ -121,6 +64,31 @@ export default function About() {
             <InstagramIcon size={20} />
             View on Instagram
           </a>
+        </div>
+      </section>
+
+      <section className="bg-surface">
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <div className="grid gap-12 md:grid-cols-2 md:items-center">
+            <Image width={800} height={600} src={PRODUCTS.find(p => p.id === "roasty-bhel")!.image} alt="Snackwize kitchen" className="aspect-[4/5] w-full rounded-3xl object-cover" />
+            <div>
+              <SectionHeader eyebrow="Our Mission" title="Let's Make India Healthy 🇮🇳" sub="We believe Indian snacking deserves better — rooted in real ingredients, traditional flavors, and a modern, honest standard of care." />
+              <div className="mt-8 grid grid-cols-2 gap-4">
+                {[
+                  { icon: Heart, label: "Homemade", note: "Every batch, by hand." },
+                  { icon: Leaf, label: "Clean Ingredients", note: "Whole grains, jaggery, ghee." },
+                  { icon: Sparkles, label: "Love in Every Bite", note: "Small batches only." },
+                  { icon: Truck, label: "Pan India Pride", note: "Mumbai to your door." },
+                ].map(v => (
+                  <div key={v.label} className="rounded-2xl border border-border bg-card p-5">
+                    <div className="grid h-9 w-9 place-items-center rounded-full bg-primary-light text-primary-dark"><v.icon className="h-4 w-4" /></div>
+                    <p className="mt-3 font-display text-base font-bold">{v.label}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{v.note}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </>
