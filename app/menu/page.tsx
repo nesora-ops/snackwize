@@ -313,7 +313,7 @@ export default function MenuPage() {
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Roasty Bhel" className="!p-0" style={{ backgroundColor: '#1A0D05' }}>
           <div className="absolute inset-0">
-            <Image src="/ROASTY BHEL.webp" alt="Roasty Bhel" fill className="object-cover object-center" sizes="100vw" />
+            <Image src="/roasty-bhel.webp" alt="Roasty Bhel" fill className="object-cover object-center" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
           </div>
@@ -455,10 +455,10 @@ export default function MenuPage() {
         {/* ══════════════════════════════════════
             SECTION 11 — Sattu Power Bites
             ══════════════════════════════════════ */}
-        {/* Photo coming: swap the glow layer for an <Image> like the sections above. */}
         <MenuSection aria-label="Sattu Power Bites" className="!p-0" style={{ backgroundColor: '#1A1405' }}>
           <div className="absolute inset-0">
-            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 45%, #CA8A0455, transparent 60%)' }} />
+            <Image src="/sattu-power-bites.webp" alt="Sattu Power Bites" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
@@ -472,7 +472,6 @@ export default function MenuPage() {
               </p>
               <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">📸 Photo coming soon</span>
                 <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#CA8A04' }}>₹225 · 100g</span>
               </div>
             </div>
@@ -493,10 +492,10 @@ export default function MenuPage() {
         {/* ══════════════════════════════════════
             SECTION 12 — Oats Berry Blast
             ══════════════════════════════════════ */}
-        {/* Photo coming: swap the glow layer for an <Image> like the sections above. */}
         <MenuSection aria-label="Oats Berry Blast" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
           <div className="absolute inset-0">
-            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 70% 45%, #E11D4855, transparent 60%)' }} />
+            <Image src="/oats-berry-blast.webp" alt="Oats Berry Blast" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
@@ -511,7 +510,6 @@ export default function MenuPage() {
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">📸 Photo coming soon</span>
                 <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#E11D48' }}>₹225 · 100g</span>
                 <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#E11D48' }}>₹2000 · 1kg</span>
               </div>
@@ -536,10 +534,10 @@ export default function MenuPage() {
         {/* ══════════════════════════════════════
             SECTION 13 — Rosemary Rockers
             ══════════════════════════════════════ */}
-        {/* Photo coming: swap the glow layer for an <Image> like the sections above. */}
         <MenuSection aria-label="Rosemary Rockers" className="!p-0" style={{ backgroundColor: '#0D1A0D' }}>
           <div className="absolute inset-0">
-            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 45%, #65A30D55, transparent 60%)' }} />
+            <Image src="/rosemary-rockers.webp" alt="Rosemary Rockers" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
@@ -553,7 +551,6 @@ export default function MenuPage() {
               </p>
               <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">📸 Photo coming soon</span>
                 <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#65A30D' }}>₹190 · 100g</span>
               </div>
             </div>
@@ -574,10 +571,10 @@ export default function MenuPage() {
         {/* ══════════════════════════════════════
             SECTION 14 — Rosemary Cheese Rockers
             ══════════════════════════════════════ */}
-        {/* Photo coming: swap the glow layer for an <Image> like the sections above. */}
         <MenuSection aria-label="Rosemary Cheese Rockers" className="!p-0" style={{ backgroundColor: '#141A05' }}>
           <div className="absolute inset-0">
-            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 70% 45%, #CA8A0455, transparent 60%)' }} />
+            <Image src="/rosemary-cheese-rockers.webp" alt="Rosemary Cheese Rockers" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
@@ -592,7 +589,6 @@ export default function MenuPage() {
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">📸 Photo coming soon</span>
                 <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#CA8A04' }}>₹210 · 100g</span>
               </div>
             </div>
