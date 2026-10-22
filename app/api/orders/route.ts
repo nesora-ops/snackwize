@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
     .from('products')
     .select('id, name, price, in_stock, allow_backorder, delivery_type, net_weight_grams')
     .in('id', ids)
+    .eq('hidden', false)
 
   if (prodErr) return serverError(prodErr, 'Failed to validate cart')
 

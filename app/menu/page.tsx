@@ -82,7 +82,7 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🧀 4 Flavours</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌿 Baked Not Fried</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#FBBF24', boxShadow: '0 4px 20px rgba(251,191,36,0.35)' }}>₹210 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#FBBF24', boxShadow: '0 4px 20px rgba(251,191,36,0.35)' }}>₹220 · 100g</span>
               </div>
             </div>
             <hr className="border-white/20" />
@@ -199,43 +199,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 5 — Beet Drop Mathri
-            ══════════════════════════════════════ */}
-        <MenuSection aria-label="Beet Drop Mathri" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
-          <div className="absolute inset-0">
-            <Image src="/Beet drop mathri.png" alt="Beet Drop Mathri" fill className="object-cover object-center" sizes="100vw" />
-            <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-          </div>
-          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
-            <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">05 — New Arrival</p>
-              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
-                Beet Drop<br /><span className="italic" style={{ color: '#BE185D' }}>Mathri</span>
-              </h2>
-              <p className="mt-6 text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
-                Beetroot mathri — baked, bold, beautiful. A vibrant twist on the classic with deep earthy sweetness and zero guilt.
-              </p>
-              <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌸 Beetroot Goodness</span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#BE185D', boxShadow: '0 4px 20px rgba(190,24,93,0.35)' }}>₹145 · 100g</span>
-              </div>
-            </div>
-            <hr className="border-white/20" />
-            <div className="flex items-center justify-between">
-              <MenuAddToCart productId="beet-drop-mathri" />
-                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
-              </a>
-              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Baked · Colourful · Healthy</p>
-            </div>
-          </div>
-        </MenuSection>
-
-
-        {/* ══════════════════════════════════════
-            SECTION 6 — Nachni Ninjas
+            SECTION 5 — Nachni Ninjas
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Nachni Ninjas" className="!p-0" style={{ backgroundColor: '#0D1505' }}>
           <div className="absolute inset-0">
@@ -245,7 +209,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">06 — Ragi Crispies</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">05 — Ragi Crispies</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
                 <span style={{ color: '#65A30D' }}>Nachni</span><br />
                 <span className="italic text-white">Ninjas!</span>
@@ -256,7 +220,7 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌾 Ragi (Nachni) Base</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">💪 High Calcium</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#65A30D', boxShadow: '0 4px 20px rgba(101,163,13,0.35)' }}>₹145 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#65A30D', boxShadow: '0 4px 20px rgba(101,163,13,0.35)' }}>₹190 · 100g</span>
               </div>
             </div>
             <hr className="border-white/20" />
@@ -272,43 +236,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 7 — The Wheat Fix
-            ══════════════════════════════════════ */}
-        <MenuSection aria-label="The Wheat Fix" className="!p-0" style={{ backgroundColor: '#1A1005' }}>
-          <div className="absolute inset-0">
-            <Image src="/The Wheat Fix.png" alt="The Wheat Fix" fill className="object-cover object-center" sizes="100vw" />
-            <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-          </div>
-          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
-            <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">07 — Wheat Crispies</p>
-              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
-                The Wheat<br /><span className="italic" style={{ color: '#FBBF24' }}>Fix</span>
-              </h2>
-              <p className="mt-6 text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
-                Golden wheat crunch — your all-day snack companion. Light, satisfying, and baked to a perfect crisp in 3 irresistible flavours.
-              </p>
-              <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌾 Whole Wheat</span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🔥 Baked Not Fried</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-black" style={{ backgroundColor: '#FBBF24', boxShadow: '0 4px 20px rgba(251,191,36,0.35)' }}>₹145 · 100g</span>
-              </div>
-            </div>
-            <hr className="border-white/20" />
-            <div className="flex items-center justify-between">
-              <MenuAddToCart productId="the-wheat-fix" />
-                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
-              </a>
-              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Wheat · 3 Flavours · Zero Guilt</p>
-            </div>
-          </div>
-        </MenuSection>
-
-
-        {/* ══════════════════════════════════════
-            SECTION 8 — Beet it Crunch
+            SECTION 6 — Beet it Crunch
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Beet it Crunch" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
           <div className="absolute inset-0">
@@ -318,7 +246,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">08 — New Drop</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">06 — New Drop</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
                 <span style={{ color: '#EC4899' }}>Beet it</span><br />
                 <span className="italic text-white">Crunch</span>
@@ -329,7 +257,7 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌸 Beetroot Powered</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#EC4899', boxShadow: '0 4px 20px rgba(236,72,153,0.35)' }}>₹165 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#EC4899', boxShadow: '0 4px 20px rgba(236,72,153,0.35)' }}>₹180 · 100g</span>
               </div>
             </div>
             <hr className="border-white/20" />
@@ -345,7 +273,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 9 — Oats Bhel Blast
+            SECTION 7 — Oats Bhel Blast
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Oats Bhel Blast" className="!p-0" style={{ backgroundColor: '#051A0D' }}>
           <div className="absolute inset-0">
@@ -355,7 +283,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">09 — Bhel & Mixes</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">07 — Bhel & Mixes</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
                 Oats Bhel<br /><span className="italic" style={{ color: '#22C55E' }}>Blast</span>
               </h2>
@@ -381,7 +309,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 10 — Roasty Bhel
+            SECTION 8 — Roasty Bhel
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Roasty Bhel" className="!p-0" style={{ backgroundColor: '#1A0D05' }}>
           <div className="absolute inset-0">
@@ -391,7 +319,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">10 — Family Pack</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">08 — Family Pack</p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
                 <span style={{ color: '#F97316' }}>Roasty</span><br />
                 <span className="italic text-white">Bhel</span>
@@ -418,43 +346,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 11 — Makhana Madness
-            ══════════════════════════════════════ */}
-        <MenuSection aria-label="Makhana Madness" className="!p-0" style={{ backgroundColor: '#0D0D1A' }}>
-          <div className="absolute inset-0">
-            <Image src="/Makhana madness.jpg" alt="Makhana Madness" fill className="object-cover object-center" sizes="100vw" />
-            <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-          </div>
-          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
-            <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">11 — Premium Makhana</p>
-              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
-                Makhana<br /><span className="italic" style={{ color: '#A78BFA' }}>Madness</span>
-              </h2>
-              <p className="mt-6 text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
-                Fluffy foxnut bhel mix — premium grade makhana, roasted and seasoned in a generous 1kg pack. Light, protein-rich, utterly addictive.
-              </p>
-              <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">⭐ Foxnut (Makhana)</span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">💎 Premium 1kg</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#7C3AED', boxShadow: '0 4px 20px rgba(124,58,237,0.35)' }}>₹1980 · 1kg</span>
-              </div>
-            </div>
-            <hr className="border-white/20" />
-            <div className="flex items-center justify-between">
-              <MenuAddToCart productId="makhana-madness" />
-                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
-                <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
-              </a>
-              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Makhana · Premium · 1kg Pack</p>
-            </div>
-          </div>
-        </MenuSection>
-
-
-        {/* ══════════════════════════════════════
-            SECTION 12 — Almond Cranberry Oat Cake
+            SECTION 9 — Almond Cranberry Oat Cake
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Almond Cranberry Oat Cake" className="!p-0" style={{ backgroundColor: '#1A0A05' }}>
           <div className="absolute inset-0">
@@ -464,7 +356,7 @@ export default function MenuPage() {
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
             <div className="mt-[20vh]">
-              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">12 — Bakes · New</p>
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">09 — Bakes · New</p>
               <h2 className="font-display text-[clamp(2.8rem,8vw,7rem)] font-bold leading-[0.88] tracking-tight">
                 <span style={{ color: '#F59E0B' }}>Almond Cranberry</span><br />
                 <span className="italic text-white">Oat Cake</span>
@@ -494,7 +386,7 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 13 — Thecha Curlies
+            SECTION 10 — Thecha Curlies
             ══════════════════════════════════════ */}
         <MenuSection aria-label="Thecha Curlies" className="!p-0" style={{ backgroundColor: '#0D1F0D' }}>
           <div className="absolute inset-0">
@@ -515,7 +407,7 @@ export default function MenuPage() {
             {/* Product name */}
             <div className="mt-[20vh]">
               <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">
-                13 — Featured Product
+                10 — Featured Product
               </p>
               <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
                 {/* Thecha = Bottle Green */}
@@ -535,7 +427,7 @@ export default function MenuPage() {
                   🌿 Baked Not Fried
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30">
-                  ₹165 · 120g
+                  ₹190 · 100g
                 </span>
               </div>
             </div>
@@ -561,7 +453,203 @@ export default function MenuPage() {
 
 
         {/* ══════════════════════════════════════
-            SECTION 14 — Ready to Order + Footer
+            SECTION 11 — Sattu Power Bites
+            ══════════════════════════════════════ */}
+        {/* Photo coming: swap the glow layer for an <Image> like the sections above. */}
+        <MenuSection aria-label="Sattu Power Bites" className="!p-0" style={{ backgroundColor: '#1A1405' }}>
+          <div className="absolute inset-0">
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 45%, #CA8A0455, transparent 60%)' }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">11 — New Drop</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
+                Sattu Power<br /><span className="italic" style={{ color: '#CA8A04' }}>Bites</span>
+              </h2>
+              <p className="mt-6 text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Roasted sattu goodness in every bite. A fresh drop from Nupur's kitchen.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">📸 Photo coming soon</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#CA8A04' }}>₹225 · 100g</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <div className="flex flex-wrap items-center gap-3">
+                <MenuAddToCart productId="sattu-power-bites" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                  <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
+                </a>
+              </div>
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Sattu · Baked · New Drop</p>
+            </div>
+          </div>
+        </MenuSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 12 — Oats Berry Blast
+            ══════════════════════════════════════ */}
+        {/* Photo coming: swap the glow layer for an <Image> like the sections above. */}
+        <MenuSection aria-label="Oats Berry Blast" className="!p-0" style={{ backgroundColor: '#1A0510' }}>
+          <div className="absolute inset-0">
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 70% 45%, #E11D4855, transparent 60%)' }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">12 — New Drop</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
+                <span style={{ color: '#E11D48' }}>Oats Berry</span><br />
+                <span className="italic text-white">Blast</span>
+              </h2>
+              <p className="mt-6 max-w-[40ch] text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Wholesome oats with a burst of berry. Grab a 100g pack, or go big with 1kg.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">📸 Photo coming soon</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#E11D48' }}>₹225 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#E11D48' }}>₹2000 · 1kg</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Oats · Berry · New Drop</p>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="font-mono-accent text-[11px] uppercase tracking-widest text-white/50">100g</span>
+                <MenuAddToCart productId="oats-berry-blast" />
+                <span className="font-mono-accent text-[11px] uppercase tracking-widest text-white/50">1kg</span>
+                <MenuAddToCart productId="oats-berry-blast-1kg" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                  Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </MenuSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 13 — Rosemary Rockers
+            ══════════════════════════════════════ */}
+        {/* Photo coming: swap the glow layer for an <Image> like the sections above. */}
+        <MenuSection aria-label="Rosemary Rockers" className="!p-0" style={{ backgroundColor: '#0D1A0D' }}>
+          <div className="absolute inset-0">
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 45%, #65A30D55, transparent 60%)' }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">13 — New Drop</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
+                Rosemary<br /><span className="italic" style={{ color: '#65A30D' }}>Rockers</span>
+              </h2>
+              <p className="mt-6 text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Herby rosemary crunch, freshly baked.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">📸 Photo coming soon</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#65A30D' }}>₹190 · 100g</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <div className="flex flex-wrap items-center gap-3">
+                <MenuAddToCart productId="rosemary-rockers" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                  <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
+                </a>
+              </div>
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Rosemary · Baked · New Drop</p>
+            </div>
+          </div>
+        </MenuSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 14 — Rosemary Cheese Rockers
+            ══════════════════════════════════════ */}
+        {/* Photo coming: swap the glow layer for an <Image> like the sections above. */}
+        <MenuSection aria-label="Rosemary Cheese Rockers" className="!p-0" style={{ backgroundColor: '#141A05' }}>
+          <div className="absolute inset-0">
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 70% 45%, #CA8A0455, transparent 60%)' }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">14 — New Drop</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight">
+                <span style={{ color: '#CA8A04' }}>Rosemary Cheese</span><br />
+                <span className="italic text-white">Rockers</span>
+              </h2>
+              <p className="mt-6 max-w-[40ch] text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Rosemary and cheese in one baked crunch.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">📸 Photo coming soon</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#CA8A04' }}>₹210 · 100g</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Rosemary · Cheese · New Drop</p>
+              <div className="flex flex-wrap items-center gap-3">
+                <MenuAddToCart productId="rosemary-cheese-rockers" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                  Order Now <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </MenuSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 15 — Roasty Oats Bhel
+            ══════════════════════════════════════ */}
+        {/* Photo coming: swap the glow layer for an <Image> like the sections above. */}
+        <MenuSection aria-label="Roasty Oats Bhel" className="!p-0" style={{ backgroundColor: '#1A0D05' }}>
+          <div className="absolute inset-0">
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 45%, #F9731655, transparent 60%)' }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
+          <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
+            <div className="ml-auto max-w-[55ch] text-right mt-[20vh]">
+              <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/50 mb-3">15 — New Drop</p>
+              <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.88] tracking-tight text-white">
+                Roasty Oats<br /><span className="italic" style={{ color: '#F97316' }}>Bhel</span>
+              </h2>
+              <p className="mt-6 text-[clamp(1rem,1.8vw,1.3rem)] font-normal leading-relaxed text-white/70">
+                Roasted oats bhel, light and masala-packed.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">📸 Photo coming soon</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#F97316' }}>₹180 · 100g</span>
+              </div>
+            </div>
+            <hr className="border-white/20" />
+            <div className="flex items-center justify-between">
+              <div className="flex flex-wrap items-center gap-3">
+                <MenuAddToCart productId="roasty-oats-bhel" />
+                <a href="/order" className="group inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-primary hover:border-primary">
+                  <ArrowRight className="h-4 w-4 rotate-180 transition group-hover:-translate-x-1" /> Order Now
+                </a>
+              </div>
+              <p className="font-mono-accent text-[11px] uppercase tracking-widest text-white/35">Oats · Roasted · New Drop</p>
+            </div>
+          </div>
+        </MenuSection>
+
+
+        {/* ══════════════════════════════════════
+            SECTION 16 — Ready to Order + Footer
             ══════════════════════════════════════ */}
         <MenuSection
           aria-label="Ready to Order"
@@ -576,7 +664,7 @@ export default function MenuPage() {
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-8 flex-1">
             <div>
               <p className="font-mono-accent text-[11px] uppercase tracking-[0.2em] text-white/30 mb-4">
-                14 — Order Now
+                16 — Order Now
               </p>
               <h2 className="font-display text-[clamp(3rem,9vw,8rem)] font-bold leading-[0.88] tracking-tight text-white">
                 Ready<br />to<br />
