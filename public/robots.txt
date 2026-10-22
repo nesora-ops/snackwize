@@ -4,4 +4,4 @@ Disallow: /admin
 Disallow: /checkout
 Disallow: /dashboard
 
-Sitemap: https://snackwize.in/sitemap.xml
+Sitemap: https://www.snackwize.co.in/sitemap.xml
