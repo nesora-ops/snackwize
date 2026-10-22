@@ -609,10 +609,10 @@ export default function MenuPage() {
         {/* ══════════════════════════════════════
             SECTION 15 — Roasty Oats Bhel
             ══════════════════════════════════════ */}
-        {/* Photo coming: swap the glow layer for an <Image> like the sections above. */}
         <MenuSection aria-label="Roasty Oats Bhel" className="!p-0" style={{ backgroundColor: '#1A0D05' }}>
           <div className="absolute inset-0">
-            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 45%, #F9731655, transparent 60%)' }} />
+            <Image src="/roasty-bhel.webp" alt="Roasty Oats Bhel" fill className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
           </div>
           <div className="relative z-10 flex h-full min-h-screen flex-col justify-between px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw]">
@@ -626,7 +626,6 @@ export default function MenuPage() {
               </p>
               <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">✨ NEW</span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">📸 Photo coming soon</span>
                 <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#F97316' }}>₹180 · 100g</span>
               </div>
             </div>
