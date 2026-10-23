@@ -52,7 +52,7 @@ const PRODUCTS: Seed[] = [
   { id: 'jowar-jhatka', name: 'Jowar Jhatka', category: 'Crispies', description: 'Airy crisp, pure grain, mindful munch.', price: 190, net_weight_grams: 100, flavours: ['Spicy Garlic', 'Italian', 'Mexican', 'Peri Peri', 'Onion Sesame'], photoFile: 'Jowar Jhatka.jpg' },
   { id: 'beet-it-crunch', name: 'Beet it Crunch', category: 'Crispies', description: 'Baked, bold, beetroot goodness.', price: 180, net_weight_grams: 100, badge: 'NEW', photoFile: 'Beet it crunch.png' },
   { id: 'cheese-tease-stix', name: 'Cheese Tease Stix', category: 'Crispies', description: 'Irresistible — cheesy but healthy.', price: 220, net_weight_grams: 100, flavours: ['Pepper', 'Peri Peri', 'Paprika', 'Classic Cheese'], image: '/cheese_tease_item.png' },
-  { id: 'bajre-da-sitta', name: 'Bajre Da Sitta', category: 'Crispies', description: 'Bajra goodness, elite sweetness.', price: 180, net_weight_grams: 100, photoFile: 'bajre-da-sitta.webp' },
+  { id: 'bajre-da-sitta', name: 'Bajre Da Sitta', category: 'Crispies', description: 'Bajra goodness, elite sweetness.', price: 165, net_weight_grams: 100, photoFile: 'bajre-da-sitta.webp' },
   { id: 'roasty-bhel', name: 'Roasty Bhel', category: 'Bhel & Mixes', description: 'Craving queen, easy snacking.', price: 600, net_weight_grams: 1000, photoFile: 'roasty-bhel.webp' },
   { id: 'oats-bhel-blast', name: 'Oats Bhel Blast', category: 'Bhel & Mixes', description: 'All healthy grains, masala-packed.', price: 180, net_weight_grams: 100, photoFile: 'OATS BHEL BLAST.jpg' },
   { id: 'coc-remix', name: 'COC Remix', category: 'Bhel & Mixes', description: 'Corn, oats & chevda.', price: 145, net_weight_grams: 100, photoFile: 'coc-remix.webp' },
