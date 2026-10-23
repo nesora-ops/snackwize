@@ -135,7 +135,7 @@ export default function MenuPage() {
                   🌾 Rich in Fiber
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#F5A623', boxShadow: '0 4px 20px rgba(245,166,35,0.35)' }}>
-                  ₹180 · 100g
+                  ₹190 · 100g
                 </span>
               </div>
             </div>
@@ -183,7 +183,7 @@ export default function MenuPage() {
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🫓 4 Flavours</span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm">🌿 Baked Not Fried</span>
-                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#D97706', boxShadow: '0 4px 20px rgba(217,119,6,0.35)' }}>₹180 · 100g</span>
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#D97706', boxShadow: '0 4px 20px rgba(217,119,6,0.35)' }}>₹145 · 100g</span>
               </div>
             </div>
             <hr className="border-white/20" />

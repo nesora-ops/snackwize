@@ -47,17 +47,17 @@ type Seed = {
 }
 
 const PRODUCTS: Seed[] = [
-  { id: 'swaad-fit-mathri', name: 'Swaad Fit Mathri', category: 'Mathri', description: 'Crispy, healthy, all-time favourite.', price: 180, net_weight_grams: 100, flavours: ['Black Pepper', 'Hot n Spicy', 'Classic', 'Traditional Sweet'], photoFile: 'Swaad fit mathri.png' },
+  { id: 'swaad-fit-mathri', name: 'Swaad Fit Mathri', category: 'Mathri', description: 'Crispy, healthy, all-time favourite.', price: 145, net_weight_grams: 100, flavours: ['Black Pepper', 'Hot n Spicy', 'Classic', 'Traditional Sweet'], photoFile: 'Swaad fit mathri.png' },
   { id: 'nachni-ninjas', name: 'Nachni Ninjas!', category: 'Crispies', description: 'Guilt-free ragi bites. Crunch king.', price: 190, net_weight_grams: 100, flavours: ['Garlic Sesame', 'Chilli Garlic', 'Peri Peri', 'Onion Sesame'], photoFile: 'Nachni Ninjas.png' },
-  { id: 'jowar-jhatka', name: 'Jowar Jhatka', category: 'Crispies', description: 'Airy crisp, pure grain, mindful munch.', price: 180, net_weight_grams: 100, flavours: ['Spicy Garlic', 'Italian', 'Mexican', 'Peri Peri', 'Onion Sesame'], photoFile: 'Jowar Jhatka.jpg' },
+  { id: 'jowar-jhatka', name: 'Jowar Jhatka', category: 'Crispies', description: 'Airy crisp, pure grain, mindful munch.', price: 190, net_weight_grams: 100, flavours: ['Spicy Garlic', 'Italian', 'Mexican', 'Peri Peri', 'Onion Sesame'], photoFile: 'Jowar Jhatka.jpg' },
   { id: 'beet-it-crunch', name: 'Beet it Crunch', category: 'Crispies', description: 'Baked, bold, beetroot goodness.', price: 180, net_weight_grams: 100, badge: 'NEW', photoFile: 'Beet it crunch.png' },
   { id: 'cheese-tease-stix', name: 'Cheese Tease Stix', category: 'Crispies', description: 'Irresistible — cheesy but healthy.', price: 220, net_weight_grams: 100, flavours: ['Pepper', 'Peri Peri', 'Paprika', 'Classic Cheese'], image: '/cheese_tease_item.png' },
   { id: 'bajre-da-sitta', name: 'Bajre Da Sitta', category: 'Crispies', description: 'Bajra goodness, elite sweetness.', price: 180, net_weight_grams: 100, photoFile: 'bajre-da-sitta.webp' },
   { id: 'roasty-bhel', name: 'Roasty Bhel', category: 'Bhel & Mixes', description: 'Craving queen, easy snacking.', price: 600, net_weight_grams: 1000, photoFile: 'roasty-bhel.webp' },
   { id: 'oats-bhel-blast', name: 'Oats Bhel Blast', category: 'Bhel & Mixes', description: 'All healthy grains, masala-packed.', price: 180, net_weight_grams: 100, photoFile: 'OATS BHEL BLAST.jpg' },
-  { id: 'coc-remix', name: 'COC Remix', category: 'Bhel & Mixes', description: 'Corn, oats & chevda.', price: 180, net_weight_grams: 100, photoFile: 'coc-remix.webp' },
+  { id: 'coc-remix', name: 'COC Remix', category: 'Bhel & Mixes', description: 'Corn, oats & chevda.', price: 145, net_weight_grams: 100, photoFile: 'coc-remix.webp' },
   { id: 'almond-cranberry-oat-cake', name: 'Almond Cranberry Oat Cake', category: 'Bakes', description: 'No sugar, no butter, no maida.', price: 715, net_weight_grams: 250, badge: 'NEW', photoFile: 'ALMOND CRANBERRY OAT CAKE.jpg' },
-  { id: 'meethi-mathri', name: 'Meethi Mathri', category: 'Mathri', description: 'Sweet festive mathri, jaggery-kissed.', price: 180, net_weight_grams: 100, photoFile: 'Meethi Mathri.jpg' },
+  { id: 'meethi-mathri', name: 'Meethi Mathri', category: 'Mathri', description: 'Sweet festive mathri, jaggery-kissed.', price: 165, net_weight_grams: 100, photoFile: 'Meethi Mathri.jpg' },
   { id: 'thecha-curlies', name: 'Thecha Curlies', category: 'Crispies', description: 'Fiery Maharashtrian thecha meets baked curls.', price: 190, net_weight_grams: 100, photoFile: 'Thecha Curlies .jpg' },
   // New drops (October 2026) — photos to follow.
   { id: 'oats-berry-blast-1kg', name: 'Oats Berry Blast', category: 'Bhel & Mixes', description: 'Wholesome oats with a burst of berry.', price: 2000, net_weight_grams: 1000, badge: 'NEW', newDrop: true, photoFile: 'oats-berry-blast.webp' },
